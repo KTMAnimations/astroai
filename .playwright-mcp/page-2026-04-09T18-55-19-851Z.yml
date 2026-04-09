@@ -1,0 +1,225 @@
+- generic [ref=e2]:
+  - navigation "Quick Links" [ref=e3]:
+    - heading "Navigation" [level=1] [ref=e4]
+    - list [ref=e5]:
+      - listitem [ref=e6]:
+        - link "Skip to Content" [ref=e7] [cursor=pointer]:
+          - /url: "#main-content"
+  - generic [ref=e10]:
+    - banner:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - button [ref=e13] [cursor=pointer]:
+            - link [ref=e14]:
+              - /url: https://www.cosmos.esa.int
+          - button "ESA menu toggle" [ref=e17] [cursor=pointer]:
+            - button "ESA menu toggle" [ref=e18]:
+              - img "ESA menu toggle" [ref=e20]
+          - button "Sign in" [ref=e21] [cursor=pointer]:
+            - link "Sign in" [ref=e22]:
+              - /url: /c/portal/login
+              - generic [ref=e24]: Sign in
+          - button "Science Missions" [ref=e25] [cursor=pointer]:
+            - link "Science Missions" [ref=e26]:
+              - /url: /browse-all-missions
+              - img [ref=e27]
+              - text: Science Missions
+          - button "Explore ESA online" [ref=e29] [cursor=pointer]:
+            - img [ref=e30]
+            - text: Explore ESA online
+        - link "ESA logo" [ref=e32] [cursor=pointer]:
+          - /url: https://www.cosmos.esa.int
+          - img "ESA logo" [ref=e33]
+      - text: 
+      - generic [ref=e37]:
+        - link "thumbnail" [ref=e38] [cursor=pointer]:
+          - /url: https://www.cosmos.esa.int/web/gaia
+          - img "thumbnail" [ref=e41]
+        - heading "gaia" [level=3] [ref=e42]
+    - navigation [ref=e44]:
+      - checkbox "Navigation" [ref=e45] [cursor=pointer]
+      - generic [ref=e46] [cursor=pointer]: Navigation
+      - list [ref=e48]:
+        - listitem [ref=e49]:
+          - link "Home" [ref=e50] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/home
+        - listitem [ref=e51]:
+          - link "Data" [ref=e52] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/data
+            - text: Data
+        - listitem [ref=e54]:
+          - link "Mission" [ref=e55] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/the-mission
+            - text: Mission
+        - listitem [ref=e57]:
+          - link "People & Institutes" [ref=e58] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/who_is_who
+            - text: People & Institutes
+        - listitem [ref=e60]:
+          - link "News & stories" [ref=e61] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/news-calendars
+            - text: News & stories
+        - listitem [ref=e63]:
+          - link "Science Results" [ref=e64] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/science-results
+            - text: Science Results
+        - listitem [ref=e66]:
+          - link "Resources" [ref=e67] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/outreach
+            - text: Resources
+        - listitem [ref=e69]:
+          - link "Questions" [ref=e70] [cursor=pointer]:
+            - /url: https://www.cosmos.esa.int/web/gaia/questions
+            - text: Questions
+    - generic [ref=e72]:
+      - heading "You've found a broken link." [level=2] [ref=e73]
+      - generic [ref=e74]:
+        - img "empty-state-image" [ref=e77]
+        - generic [ref=e80]: Resource not found
+        - generic [ref=e81]:
+          - text: The following resource does not exist.
+          - code [ref=e82]: https://www.cosmos.esa.int/web/gaia/dr3-gaia-source-xp-continuous-mean-spectra
+        - generic [ref=e83]:
+          - button "Go back" [ref=e84] [cursor=pointer]
+          - link "Home" [ref=e85] [cursor=pointer]:
+            - /url: /
+    - contentinfo [ref=e86]:
+      - generic [ref=e89]:
+        - generic [ref=e91]:
+          - heading "SCI Directorate" [level=4] [ref=e92]
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Science Advisory Structure" [ref=e95] [cursor=pointer]:
+                - /url: /science-advisory-structure
+                - img [ref=e96]
+                - text: Science Advisory Structure
+            - listitem [ref=e97]:
+              - link "Announcements and Calls" [ref=e98] [cursor=pointer]:
+                - /url: /web/science-announcement-of-opportunities
+                - img [ref=e99]
+                - text: Announcements and Calls
+            - listitem [ref=e100]:
+              - link "Job Vacancies" [ref=e101] [cursor=pointer]:
+                - /url: http://www.esa.int/About_Us/Careers_at_ESA
+                - img [ref=e102]
+                - text: Job Vacancies
+            - listitem [ref=e106]:
+              - link "Contact our Directorate" [ref=e107] [cursor=pointer]:
+                - /url: /web/guest/contact-details
+                - img [ref=e108]
+                - text: Contact our Directorate
+            - listitem [ref=e109]:
+              - link "About SCI" [ref=e110] [cursor=pointer]:
+                - /url: /web/guest/about-sci
+                - img [ref=e111]
+                - text: About SCI
+        - generic [ref=e113]:
+          - heading "Science Resources" [level=4] [ref=e114]
+          - list [ref=e115]:
+            - listitem [ref=e116]:
+              - link "Science Archives" [ref=e117] [cursor=pointer]:
+                - /url: /web/esdc
+                - img [ref=e118]
+                - text: Science Archives
+            - listitem [ref=e119]:
+              - link "Document Portal" [ref=e120] [cursor=pointer]:
+                - /url: /web/guest/document-portal
+                - img [ref=e121]
+                - text: Document Portal
+            - listitem [ref=e122]:
+              - link "Mission Publications" [ref=e123] [cursor=pointer]:
+                - /url: /web/guest/mission-publications
+                - img [ref=e124]
+                - text: Mission Publications
+            - listitem [ref=e125]:
+              - link "Conferences & Workshops" [ref=e126] [cursor=pointer]:
+                - /url: /conferences
+                - img [ref=e127]
+                - text: Conferences & Workshops
+            - listitem [ref=e128]:
+              - link "Tech-Talks" [ref=e129] [cursor=pointer]:
+                - /url: /web/sci-s/tech-talks
+                - img [ref=e130]
+                - text: Tech-Talks
+            - listitem [ref=e131]:
+              - link "Mailing Lists" [ref=e132] [cursor=pointer]:
+                - /url: /web/guest/mailing-lists-overview
+                - img [ref=e133]
+                - text: Mailing Lists
+        - generic [ref=e135]:
+          - heading "Science Faculty" [level=4] [ref=e136]
+          - list [ref=e137]:
+            - listitem [ref=e138]:
+              - link "Space Science Faculty" [ref=e139] [cursor=pointer]:
+                - /url: /web/space-science-faculty
+                - img [ref=e140]
+                - text: Space Science Faculty
+            - listitem [ref=e141]:
+              - link "Research Fellowships" [ref=e142] [cursor=pointer]:
+                - /url: /web/space-science-faculty/opportunities/research-fellowships
+                - img [ref=e143]
+                - text: Research Fellowships
+            - listitem [ref=e144]:
+              - link "Science Seminars" [ref=e145] [cursor=pointer]:
+                - /url: /web/space-science-faculty/events/seminars
+                - img [ref=e146]
+                - text: Science Seminars
+        - generic [ref=e148]:
+          - heading "Visiting us" [level=4] [ref=e149]
+          - list [ref=e150]:
+            - listitem [ref=e151]:
+              - link "EDUROAM" [ref=e152] [cursor=pointer]:
+                - /url: /web/eduroam
+                - img [ref=e153]
+                - text: EDUROAM
+            - listitem [ref=e154]:
+              - link "ESTEC" [ref=e155] [cursor=pointer]:
+                - /url: /web/guest/visit-estec
+                - img [ref=e156]
+                - text: ESTEC
+            - listitem [ref=e157]:
+              - link "ESAC" [ref=e158] [cursor=pointer]:
+                - /url: /web/guest/visit-esac
+                - img [ref=e159]
+                - text: ESAC
+        - generic [ref=e161]:
+          - heading "Support" [level=4] [ref=e162]
+          - list [ref=e163]:
+            - listitem [ref=e164]:
+              - link "SciOps IT Services (SITU)" [ref=e165] [cursor=pointer]:
+                - /url: /web/situ
+                - img [ref=e166]
+                - text: SciOps IT Services (SITU)
+            - listitem [ref=e167]:
+              - link "SITU Service Desk" [ref=e168] [cursor=pointer]:
+                - /url: https://support.cosmos.esa.int/situ-service-desk/servicedesk/customer/portal/1
+                - img [ref=e169]
+                - text: SITU Service Desk
+            - listitem [ref=e170]:
+              - link "Cosmos Portal Help & FAQ" [ref=e171] [cursor=pointer]:
+                - /url: /web/cosmos-help
+                - img [ref=e172]
+                - text: Cosmos Portal Help & FAQ
+            - listitem [ref=e173]:
+              - link "Cross Mission Activities" [ref=e174] [cursor=pointer]:
+                - /url: /web/esac-csa
+                - img [ref=e175]
+                - text: Cross Mission Activities
+            - listitem [ref=e176]:
+              - link "SciOps Product Assurance" [ref=e177] [cursor=pointer]:
+                - /url: /web/esac-pa-qa
+                - img [ref=e178]
+                - text: SciOps Product Assurance
+            - listitem [ref=e179]:
+              - link "Privacy Policy" [ref=e180] [cursor=pointer]:
+                - /url: /web/cosmos-help/privacy-policy
+                - img [ref=e181]
+                - text: Privacy Policy
+      - generic [ref=e185]: European Space Agency
+    - generic: 
+  - generic [ref=e187]:
+    - text: ESA uses cookies to track visits to our website only, no personal information is collected. By continuing to use the site you are agreeing to our use of cookies.
+    - link "OK" [ref=e188] [cursor=pointer]:
+      - /url: "#"
+    - link "Find out more about our cookie policy." [ref=e189] [cursor=pointer]:
+      - /url: /cookie-policy
