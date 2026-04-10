@@ -1,0 +1,63 @@
+{
+  "constrained": {
+    "best_equation": "sqrt(sqrt(age ^ 1.2425779) + 3.857512) + (((age * 4.5415914e-7) * (color * age)) ^ 1.3818488)",
+    "best_rmse": 8.747790932963719,
+    "best_complexity": 19,
+    "n_pareto": 15,
+    "representatives": {
+      "cx_5": {
+        "equation": "age * (color * 0.0062260577)",
+        "unweighted_rmse": 9.50587389209899,
+        "complexity": 5
+      },
+      "cx_10": {
+        "equation": "((color * (age * age)) * 1.3766629e-6) + log(age)",
+        "unweighted_rmse": 8.816048902426038,
+        "complexity": 10
+      },
+      "cx_15": {
+        "equation": "(log(age) * 1.1802236) + (((age * 5.0866316e-7) * (age * color)) ^ 1.356736)",
+        "unweighted_rmse": 8.779958848180978,
+        "complexity": 15
+      },
+      "cx_19": {
+        "equation": "sqrt(sqrt(age ^ 1.2425779) + 3.857512) + (((age * 4.5415914e-7) * (color * age)) ^ 1.3818488)",
+        "unweighted_rmse": 8.747790932963719,
+        "complexity": 19
+      }
+    }
+  },
+  "unconstrained": {
+    "best_equation": "(color + -0.3710689) * (color + ((0.74344707 - ((color + -2.0761647) * (log(age - -0.906436) - 0.25539288))) + (age * 0.00710824)))",
+    "best_rmse": 8.30579193652505,
+    "best_complexity": 22,
+    "n_pareto": 14,
+    "representatives": {
+      "cx_5": {
+        "equation": "age * (color * 0.0064198705)",
+        "unweighted_rmse": 9.50484802265958,
+        "complexity": 5
+      },
+      "cx_9": {
+        "equation": "color * ((age * 0.0059524924) + (3.495588 - color))",
+        "unweighted_rmse": 8.931077242331398,
+        "complexity": 9
+      },
+      "cx_14": {
+        "equation": "(((12.832691 / color) + (age * 0.008476264)) - log(age)) * (color + -0.38061562)",
+        "unweighted_rmse": 8.60227565789569,
+        "complexity": 14
+      },
+      "cx_20": {
+        "equation": "(color + -0.2772799) * (((age * 0.0073696985) - ((color * 0.28641832) * (log(age - color) - -7.014777))) + 9.517889)",
+        "unweighted_rmse": 8.368639109499625,
+        "complexity": 20
+      }
+    }
+  },
+  "analysis_notes": {
+    "barnes_form_not_recovered": "Neither search recovered the Barnes form a*(color-c0)^b*age^n despite pow being in the operator set. PySR consistently preferred additive structures. This could mean the power-law form is suboptimal for age-weighted data, or the search needs more iterations. Either way, this is an informative finding for the paper.",
+    "constrained_vs_unconstrained": "The constrained search performed worse than unconstrained. The monotonicity penalty pushed PySR toward (age^2*color)^n forms which satisfy monotonicity trivially via steep growth (~age^2.76) but don't correspond to known spin-down physics and extrapolate poorly. The unconstrained search found more physically interpretable equations with better RMSE. The constrained loss penalized toward 'monotonically increasing' but not toward 'physically realistic growth rate,' so PySR gamed the constraint.",
+    "best_candidate_for_bootstrap": "Unconstrained cx=14: (color - 0.38) * (0.0085*age - log(age) + 12.83/color). RMSE=8.60 d, beats Barnes (9.17), compact, interpretable, has a natural age-transition structure (linear age term vs log(age) term). Recommended as primary candidate for Phase 7 bootstrap stability analysis."
+  }
+}
