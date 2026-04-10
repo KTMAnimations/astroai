@@ -1,63 +1,58 @@
 {
   "constrained": {
-    "best_equation": "sqrt(sqrt(age ^ 1.2425779) + 3.857512) + (((age * 4.5415914e-7) * (color * age)) ^ 1.3818488)",
-    "best_rmse": 8.747790932963719,
-    "best_complexity": 19,
-    "n_pareto": 15,
-    "representatives": {
-      "cx_5": {
-        "equation": "age * (color * 0.0062260577)",
-        "unweighted_rmse": 9.50587389209899,
-        "complexity": 5
-      },
-      "cx_10": {
-        "equation": "((color * (age * age)) * 1.3766629e-6) + log(age)",
-        "unweighted_rmse": 8.816048902426038,
-        "complexity": 10
-      },
-      "cx_15": {
-        "equation": "(log(age) * 1.1802236) + (((age * 5.0866316e-7) * (age * color)) ^ 1.356736)",
-        "unweighted_rmse": 8.779958848180978,
-        "complexity": 15
-      },
-      "cx_19": {
-        "equation": "sqrt(sqrt(age ^ 1.2425779) + 3.857512) + (((age * 4.5415914e-7) * (color * age)) ^ 1.3818488)",
-        "unweighted_rmse": 8.747790932963719,
-        "complexity": 19
-      }
-    }
-  },
-  "unconstrained": {
-    "best_equation": "(color + -0.3710689) * (color + ((0.74344707 - ((color + -2.0761647) * (log(age - -0.906436) - 0.25539288))) + (age * 0.00710824)))",
-    "best_rmse": 8.30579193652505,
+    "best_equation": "((age * 0.007316762) + ((8.5889015 / color) + ((((color + -2.0319872) * -0.116679996) * sqrt(age)) + -1.6697483))) * (color + -0.42589724)",
+    "best_rmse": 8.361333598738714,
     "best_complexity": 22,
-    "n_pareto": 14,
+    "n_pareto": 13,
     "representatives": {
       "cx_5": {
-        "equation": "age * (color * 0.0064198705)",
-        "unweighted_rmse": 9.50484802265958,
+        "equation": "(color * age) / 153.1682",
+        "unweighted_rmse": 9.510928873860284,
         "complexity": 5
       },
       "cx_9": {
-        "equation": "color * ((age * 0.0059524924) + (3.495588 - color))",
-        "unweighted_rmse": 8.931077242331398,
+        "equation": "(((-0.009172484 / color) - -0.01628263) * age) + 3.0876238",
+        "unweighted_rmse": 8.866858342218409,
         "complexity": 9
       },
       "cx_14": {
-        "equation": "(((12.832691 / color) + (age * 0.008476264)) - log(age)) * (color + -0.38061562)",
-        "unweighted_rmse": 8.60227565789569,
+        "equation": "((color * -2.5036871) + ((age * 0.0076351706) + 8.008479)) * (log(color) + 0.7789216)",
+        "unweighted_rmse": 8.559827428010937,
         "complexity": 14
       },
       "cx_20": {
-        "equation": "(color + -0.2772799) * (((age * 0.0073696985) - ((color * 0.28641832) * (log(age - color) - -7.014777))) + 9.517889)",
-        "unweighted_rmse": 8.368639109499625,
+        "equation": "(color + -0.42054522) * (((age * 0.007996418) + ((sqrt(age) * (color + -1.7251261)) * -0.14716539)) + (6.1259713 / color))",
+        "unweighted_rmse": 8.370696164489768,
         "complexity": 20
       }
     }
   },
-  "analysis_notes": {
-    "barnes_form_not_recovered": "Neither search recovered Barnes form a*(color-c0)^b*age^n. Control experiment: refitting Barnes with the same age weights gives n=0.88 (even steeper than unweighted n=0.84). The weighting scheme is the cause, not PySR. Star-level inverse-frequency weighting overrepresents M67 (284 stars at one age, each upweighted ~4x = ~1100 effective stars). PySR's additive structures are its best response to the conflicting demands of weighted young and old data, not a discovery about spin-down physics. The cluster-median analysis (Phase 3) correctly recovers n=0.49 because it gives each cluster equal weight. Fix for Phase 7: use cluster-level weighting (equal weight per cluster) rather than star-level weighting.",
-    "constrained_vs_unconstrained": "The constrained search performed worse than unconstrained. The monotonicity penalty pushed PySR toward (age^2*color)^n forms which satisfy monotonicity trivially via steep growth (~age^2.76) but don't correspond to known spin-down physics and extrapolate poorly. The unconstrained search found more physically interpretable equations with better RMSE. The constrained loss penalized toward 'monotonically increasing' but not toward 'physically realistic growth rate,' so PySR gamed the constraint.",
-    "best_candidate_for_bootstrap": "Unconstrained cx=14: (color - 0.38) * (0.0085*age - log(age) + 12.83/color). RMSE=8.60 d, beats Barnes (9.17), compact, interpretable, has a natural age-transition structure (linear age term vs log(age) term). Recommended as primary candidate for Phase 7 bootstrap stability analysis."
+  "unconstrained": {
+    "best_equation": "(color * ((((age * 0.005661519) - (color * 4.105229)) + 13.053621) + (exp(color) / age))) + -4.7590995",
+    "best_rmse": 8.392999584935671,
+    "best_complexity": 18,
+    "n_pareto": 17,
+    "representatives": {
+      "cx_5": {
+        "equation": "(age * 0.006522526) * color",
+        "unweighted_rmse": 9.510450889448743,
+        "complexity": 5
+      },
+      "cx_10": {
+        "equation": "(((age * 0.005785422) - sqrt(color)) * color) + 5.38084",
+        "unweighted_rmse": 8.814597604150622,
+        "complexity": 10
+      },
+      "cx_15": {
+        "equation": "((((age * 0.0024085024) + ((7.003058 / age) - color)) * 2.3744774) + 6.605753) * color",
+        "unweighted_rmse": 8.504293924743507,
+        "complexity": 15
+      },
+      "cx_20": {
+        "equation": "(-2.2162418 / color) + (((((0.005564937 * age) - (color * 3.5963738)) + 10.215846) + (exp(color) / age)) * color)",
+        "unweighted_rmse": 8.393066413831846,
+        "complexity": 20
+      }
+    }
   }
 }

@@ -64,13 +64,15 @@ ages = df["fiducial_age_Myr"].values
 colors = df["BPRP_0"].values
 periods = df["Prot"].values
 
-# ── Compute inverse-frequency age weights ───────────────────────────────────
+# ── Compute cluster-level weights ───────────────────────────────────────────
+# Equal total weight per cluster, divided among members. This gives each
+# cluster age one effective vote regardless of membership count. Star-level
+# age-bin weighting was tried first but overrepresented large clusters like
+# M67 (284 stars at one age, each upweighted ~4x = ~1100 effective stars),
+# inflating the age exponent from 0.84 to 0.88 instead of fixing it.
 
-log_ages = np.log10(ages)
-age_bins = np.arange(log_ages.min(), log_ages.max() + 0.5, 0.5)  # 0.5-dex bins
-bin_indices = np.digitize(log_ages, age_bins)
-bin_counts = np.bincount(bin_indices, minlength=len(age_bins) + 1)
-sample_weights = 1.0 / bin_counts[bin_indices]
+cluster_counts = df.groupby("cluster")["Prot"].transform("count").values.astype(float)
+sample_weights = 1.0 / cluster_counts
 sample_weights = sample_weights * len(sample_weights) / sample_weights.sum()
 
 print(f"Age weight range: {sample_weights.min():.3f} – {sample_weights.max():.3f}")
@@ -80,6 +82,27 @@ y = periods
 
 # ── Physics-constrained loss function (Julia) ───────────────────────────────
 
+# Pre-construct the monotonicity grid in Julia (allocated once, reused per call).
+# 6 ages × 5 colors = 30 grid points, ordered so that within each color block
+# the ages are increasing. eval_tree_array on this small matrix is cheap.
+mono_grid_setup = """
+const MONO_GRID = let
+    grid_ages = Float32[100.0, 200.0, 350.0, 500.0, 700.0, 1000.0]
+    grid_colors = Float32[0.65, 0.75, 0.85, 0.95, 1.05]
+    n_grid = length(grid_ages) * length(grid_colors)
+    grid = Matrix{Float32}(undef, 2, n_grid)
+    k = 1
+    for c in grid_colors
+        for a in grid_ages
+            grid[1, k] = a
+            grid[2, k] = c
+            k += 1
+        end
+    end
+    Ref(grid)
+end
+"""
+
 physics_loss = """
 function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
     prediction, flag = eval_tree_array(tree, dataset.X, options)
@@ -87,7 +110,9 @@ function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
         return L(Inf)
     end
 
-    # Weighted MSE — custom loss_function does NOT auto-apply dataset.weights
+    # Weighted MSE — custom loss_function does NOT auto-apply dataset.weights.
+    # Weights are cluster-level: equal total weight per cluster, so each
+    # cluster age gets one effective vote regardless of membership count.
     diffs = prediction .- dataset.y
     if dataset.weights !== nothing
         mse = sum(dataset.weights .* diffs .^ 2) / sum(dataset.weights)
@@ -98,23 +123,26 @@ function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
     # Penalty: negative periods
     neg_penalty = sum(max.(0, -prediction)) / length(prediction)
 
-    # Penalty: non-monotonic with age, checked within 0.1-mag color bins.
-    # Only applied in the regime where monotonic spin-down is expected:
-    #   ages 100–1000 Myr, colors 0.6–1.1 (late F through early K).
-    ages = dataset.X[1, :]
-    colors = dataset.X[2, :]
+    # Smooth monotonicity penalty on a FIXED GRID.
+    #
+    # Previous version used sortperm on data points, which created a
+    # non-differentiable loss landscape that broke BFGS constant
+    # optimization (constrained run did 100x less work per iteration).
+    #
+    # Fix: evaluate the equation on 30 pre-ordered grid points (6 ages ×
+    # 5 colors). Grid is allocated once as a Julia const Ref. The penalty
+    # is smooth because grid points are in fixed order — no sorting.
+    # The extra eval_tree_array call on 30 points adds ~2-3x overhead
+    # compared to unconstrained, which is acceptable.
+    grid_pred, grid_flag = eval_tree_array(tree, MONO_GRID[], options)
     mono_violations = zero(L)
-    for color_lo in 0.6:0.1:1.0
-        color_hi = color_lo + L(0.1)
-        mask = (ages .> 100.0) .& (ages .< 1000.0) .& (colors .>= color_lo) .& (colors .< color_hi)
-        if sum(mask) < 5
-            continue
+    if grid_flag
+        for ci in 1:5  # 5 color bins
+            offset = (ci - 1) * 6  # 6 age steps per color
+            for ai in 1:5  # 5 adjacent pairs per color
+                mono_violations += max(zero(L), grid_pred[offset + ai] - grid_pred[offset + ai + 1])
+            end
         end
-        bin_ages = ages[mask]
-        bin_pred = prediction[mask]
-        sorted_idx = sortperm(bin_ages)
-        sorted_pred = bin_pred[sorted_idx]
-        mono_violations += sum(max.(0, sorted_pred[1:end-1] .- sorted_pred[2:end]))
     end
 
     return mse + 10.0 * neg_penalty + 1.0 * mono_violations
@@ -165,6 +193,12 @@ shared_kwargs = dict(
 # ── Run PySR ────────────────────────────────────────────────────────────────
 
 from pysr import PySRRegressor
+
+# Initialize Julia and define the monotonicity grid constant
+from juliacall import Main as jl
+jl.seval("using SymbolicRegression: eval_tree_array, Dataset")
+jl.seval(mono_grid_setup)
+print("Monotonicity grid initialized in Julia")
 
 results_summary = {}
 

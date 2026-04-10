@@ -159,14 +159,17 @@ The key modification from a naive PySR run: a custom loss function written in Ju
 import pysr
 import numpy as np
 
-# Compute inverse-frequency age weights so each log-age decade has equal
-# influence on the loss. Without this, 73% of stars at <500 Myr dominate
-# the fit and inflate the age exponent from ~0.5 to ~0.83.
-log_ages = np.log10(ages_myr)
-age_bins = np.arange(log_ages.min(), log_ages.max() + 0.5, 0.5)  # 0.5-dex bins
-bin_indices = np.digitize(log_ages, age_bins)
-bin_counts = np.bincount(bin_indices, minlength=len(age_bins) + 1)
-sample_weights = 1.0 / bin_counts[bin_indices]
+# Cluster-level weighting: equal total weight per cluster, divided among
+# members. Each cluster age gets one effective vote regardless of membership
+# count. This is correct because all stars in a cluster share the same age —
+# 284 M67 stars provide one constraint on the age-period slope, not 284.
+#
+# Star-level age-bin weighting was tried first but made the problem worse:
+# Barnes fit with star-level weights gave n=0.88 (vs unweighted n=0.84),
+# because upweighting individual M67 stars overrepresented a single old age
+# point without adding independent age constraints.
+cluster_counts = df.groupby("cluster")["Prot"].transform("count")
+sample_weights = 1.0 / cluster_counts
 sample_weights = sample_weights * len(sample_weights) / sample_weights.sum()  # normalize so sum = N
 
 X = np.column_stack([ages_myr, colors_bprp0])  # shape (N, 2)
