@@ -1,12 +1,14 @@
-# Five Undergraduate Research Proposals — Astronomy + AI
+# Undergraduate Research Proposals — Astronomy + AI
 
-**Last updated: 2026-04-08**
+**Last updated: 2026-04-09**
 
-This document contains five research proposals for undergraduate work at the intersection of astronomy and machine learning. The five were selected from an initial pool of ~30 candidates using two criteria: **publishability** (is the specific combination of method and dataset likely to land at a recognized venue?) and **feasibility** (can a competent undergraduate execute the project in one semester on a Colab T4 or a single modest GPU?).
+**Status:** Originally five proposals. After independent literature review, scope calibration against published papers, and scrutiny through community best-practices frameworks (Huppenkothen et al. 2023, Peiris 2026 Nature Astronomy, Cranmer blog), the portfolio has been revised:
 
-To ensure the selected ideas are of the same caliber as recent papers accepted at NeurIPS, ML4PS, A&A, MNRAS, ApJL, and AJ, each proposal is anchored to prior work that validates either the method, the dataset, or a closely-adjacent combination — while leaving the specific method × dataset pairing untouched.
+- **Proposal 5 (GNN-Cluster) — CULLED.** Fundamental signal-to-noise problem (per-star XP errors ~0.15 dex vs intra-cluster spread ~0.03 dex), weak methodological novelty (inverse-variance weighting), and the Spina et al. (A&A 2025) GNN chemical tagging paper narrowed the gap. High execution cost with uncertain payoff.
+- **Proposal 1 (SIREN-LC) — DEMOTED to RNAAS-only.** 200 stars is an order of magnitude below what MNRAS/AJ currently publishes for this type of paper. The core (SIREN vs GP curve fitting) lacks scientific depth — it's an interpolation comparison, not a physics result. Fine as a 4-week RNAAS note; not viable as a full journal paper without a working hypernetwork.
+- **Proposals 2, 3, 4 — RETAINED and REFRAMED.** Each has been restructured to lead with a scientific question (not an architecture), include simple baselines per the Huppenkothen checklist, add interpretability analysis, and include explicit failure-mode characterization.
 
-Every one of the five ideas meets the bar of **stark novelty**: the exact combination of technique and target has not been published as of April 2026. The proposals are ranked 1 through 5 in my overall recommendation order, considering risk, reward, and how interesting the result would be to a reviewer.
+The three retained proposals are ranked by overall recommendation priority, trading off publishability, feasibility, novelty, and reviewer interest.
 
 ---
 
@@ -232,25 +234,36 @@ The training target is the APOGEE high-resolution ground truth for clusters that
 
 ---
 
-## Summary ranking
+## Summary ranking (revised 2026-04-09)
 
-The five proposals are ordered by my overall recommendation priority. The ordering trades off four factors: publishability, feasibility, starkness of the novelty, and the reviewer-interest of a positive result. An undergraduate should start at rank 1 unless a specific reason (subfield match, existing code base, advisor preference) favors a different one.
+Three retained proposals, ranked by overall recommendation priority. The ordering trades off publishability, feasibility, caliber match to target venue (benchmarked against recent published papers), and robustness to negative results.
 
-| # | Name | GPU | Time | Safety | Stretch |
-| --- | --- | --- | --- | --- | --- |
-| 1 | SIREN-LC | no | 6-8w | RNAAS | AJ |
-| 2 | Mamba-RG | 1 | 8-12w | RNAAS | A&A L |
-| 3 | FMPE-FRB | 1 | 10-14w | ML4PS | ApJL |
-| 4 | PySR-Gyro | no | 4-6w | RNAAS | ApJL |
-| 5 | GNN-Cluster | 1 | 10-12w | A&A | MNRAS |
+| # | Name | GPU | Time | Safety | Stretch | Survives negative result? |
+| --- | --- | --- | --- | --- | --- | --- |
+| 1 | Mamba-RG | 1 | 8-12w | ML4PS | MNRAS | Yes — scaling law is useful regardless of which architecture wins |
+| 2 | PySR-Gyro | no | 5-7w | RNAAS | MNRAS / ApJL | Yes — bootstrap stability is a finding even if Barnes is confirmed |
+| 3 | FMPE-FRB | 1 | 12-16w | ML4PS | ApJ / MNRAS | Partially — forward model is useful even if posteriors are miscalibrated |
+| (side) | SIREN-LC | no | 4w | RNAAS | — | N/A — RNAAS only, no stretch target |
 
-Legend: **SIREN-LC** = Proposal 1 (light curves). **Mamba-RG** = Proposal 2 (red giants). **FMPE-FRB** = Proposal 3 (fast radio bursts). **PySR-Gyro** = Proposal 4 (gyrochronology). **GNN-Cluster** = Proposal 5 (open clusters). **GPU**: compute required. **Time**: weeks. **Safety**: the near-guaranteed venue. **Stretch**: the best reachable high-prestige venue. **A&A L** = A&A Letter.
+Legend: **Mamba-RG** = Proposal 2 (red giants, reframed as observation-duration scaling law). **PySR-Gyro** = Proposal 4 (gyrochronology, reframed around stalled spin-down). **FMPE-FRB** = Proposal 3 (fast radio bursts, reframed around forward model). **SIREN-LC** = Proposal 1 (light curves, RNAAS-only side project). **GPU**: compute required. **Time**: weeks. **Safety**: the near-guaranteed venue. **Stretch**: the best reachable high-prestige venue.
 
-**The single recommended project for a first-time undergraduate, no GPU access:** Proposal 1 (SIREN for light curves). Everything runs on a laptop. The baselines are well-documented. The result is easy to visualize and report.
+**The single recommended project for a first-time undergraduate:** Proposal 2 (observation-duration scaling law). Clear scientific question, robust to negative results, scope matches Astroconformer (MNRAS 2024). Requires one GPU.
 
-**The single recommended project for a student with one GPU who wants a high-prestige target:** Proposal 3 (flow-matching SBI for FRB dispersion measures). Hardest of the five, but the only one with a realistic ApJL shot if the calibration results are clean.
+**The single recommended project with no GPU and shortest timeline:** Proposal 4 (PySR for gyrochronology). Runs on a laptop. 5-7 weeks. Bootstrap stability and out-of-distribution test provide independent contributions even if the equation itself is Barnes 2007.
 
-**The single recommended project if the student wants a guaranteed closed-form physics result:** Proposal 4 (PySR for gyrochronology). Lowest variance, shortest timeline.
+**The single recommended project for highest ceiling:** Proposal 3 (FMPE for FRB DMs). Hardest and longest, but produces two independent contributions (forward model + catalog). Requires one GPU and radio astronomy domain knowledge.
+
+**Quick side project for early publication:** Proposal 1 (SIREN-LC RNAAS). 4 weeks, no GPU, guaranteed RNAAS publication. Do this first as a warm-up, then switch to a main project.
+
+### Recommended publication strategy (applies to all proposals)
+
+Following community best practices and the non-archival policies of ML workshops:
+
+1. **Week 4-6:** Submit an RNAAS note with preliminary results (stakes the claim, ADS-indexed in 72 hours).
+2. **Week 8-10:** Submit a 4-page extended abstract to NeurIPS ML4PS (deadline ~September 2026) or ICML ML4Astro (deadline ~May 2026). These are non-archival and explicitly accept work submitted elsewhere.
+3. **Week 10-14:** Submit the full journal paper to MNRAS, A&A, or ApJ with complete baselines, ablations, failure modes, interpretability, and code release.
+
+This is NOT salami slicing — each venue serves a different purpose (rapid dissemination, ML community feedback, full scientific contribution) and the venues explicitly allow overlap.
 
 ---
 

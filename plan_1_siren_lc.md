@@ -8,9 +8,15 @@ This document is a step-by-step guide from an empty folder to a completed paper.
 
 ## What is being created that is new
 
-No one has used an implicit neural representation — specifically SIREN, a neural network with sine-wave activation functions — to reconstruct astronomical light curves. Every existing deep-learning method for irregular time-series in astronomy (ASTROMER, AstroCo, ATAT, ATCAT, Astroconformer) treats observations as a sequence and processes them with attention or convolution. SIREN is fundamentally different: it treats time as a continuous coordinate and learns a function from that coordinate to brightness. The network IS the light curve — you can query it at any time, including times with no observation.
+The naive version of this project — "fit SIREN to 200 stars, compare RMSE to GP" — is not publishable beyond RNAAS. Fitting an off-the-shelf architecture to a new dataset is not a scientific contribution.
 
-The novel artifact is: a trained SIREN network per star that acts as a continuous, differentiable reconstruction of the light curve from sparse irregular data, plus a systematic benchmark showing how SIREN compares to Gaussian process regression and Fourier decomposition across a range of data sparsity levels.
+The novel contribution has two parts that elevate this from an application note to a methods paper:
+
+1. **A hypernetwork for amortized light-curve reconstruction.** Instead of training a separate SIREN per star (which takes seconds per star but does not scale or generalize), train a second network — the hypernetwork — that takes a handful of sparse observations as input and predicts the SIREN weights in a single forward pass. This is architecturally new: no existing astronomical time-series method produces a continuous reconstruction from a variable-size observation set in one forward pass without per-target optimization. The hypernetwork is the primary contribution.
+
+2. **Learned period discovery.** SIREN's sine activations naturally encode periodicity. After training, analyze the first-layer weights of the SIREN to extract the dominant frequency the network learned. Compare this to the known period from the OGLE catalog. If SIREN can recover the period without being told it — while GP regression requires a hand-specified periodic kernel and Fourier decomposition requires the period as input — that is a scientific result about information extraction, not just a methods comparison.
+
+The per-star SIREN vs GP comparison is STILL done, but it is the baseline experiment, not the main result. The hypernetwork and period discovery are the main results.
 
 ---
 
@@ -238,18 +244,40 @@ dmag_dt = torch.autograd.grad(mag_pred.sum(), t, create_graph=True)[0]
 
 Compare the rate of brightness change (dmag/dt) at maximum and minimum brightness to the values astronomers measure from Fourier fits. This is a bonus result — if SIREN derivatives are physically sensible, it adds scientific value to the paper.
 
-### Experiment D (optional, for the long paper): Hypernetwork
+### Experiment D (MANDATORY — this is the main contribution): Hypernetwork
 
-Instead of training a separate SIREN per star, train a second network (the "hypernetwork") that takes a few observations as input and outputs the weights of the SIREN. This lets you reconstruct a new light curve in a single forward pass without per-star optimization. This is the extension that upgrades the project from an RNAAS note to a full AJ/MNRAS paper.
+Instead of training a separate SIREN per star, train a second network (the "hypernetwork") that takes a few observations as input and outputs the weights of the SIREN. This lets you reconstruct a new light curve in a single forward pass without per-star optimization. This is NOT optional — it is the primary contribution that makes the paper publishable at AJ/MNRAS/ML4PS.
 
 The hypernetwork architecture:
 ```
-Input:  A set of (time, magnitude) pairs, encoded as a fixed-length vector
-        using a small set-encoder (e.g., DeepSets: mean-pool over per-point MLPs)
-Output: All weights and biases of the SIREN network, flattened into a single vector
+Input:  A set of (time, magnitude) pairs of variable size
+        → Per-point MLP: Linear(2 → 64) → ReLU → Linear(64 → 64) → ReLU
+        → DeepSets aggregation: mean-pool across all observation points → 64-dim vector
+        → Hypernetwork MLP: Linear(64 → 256) → ReLU → Linear(256 → W)
+Output: W = total number of weights+biases in the SIREN (for a 3-layer, 256-unit SIREN, W ≈ 132,000)
 ```
 
-This is more complex and is optional for the first paper.
+For a SIREN this large, predicting all weights directly is expensive. Use a **low-rank factorization**: instead of predicting W numbers, predict two smaller matrices A (256 × r) and B (r × W/256) where r ≈ 16, and reconstruct the weight matrix as A × B. This reduces the hypernetwork output from ~132K to ~8K numbers.
+
+Training the hypernetwork:
+1. For each training star, sample a random subset of 5-20 observations (the "context set")
+2. Feed the context set through the hypernetwork to predict SIREN weights
+3. Use the predicted SIREN to reconstruct the light curve at ALL observation times (including those not in the context set)
+4. Loss = RMSE on the held-out observations
+5. Train with Adam, lr=1e-4, batch size = 16 stars
+
+After training, the hypernetwork can reconstruct any new light curve from 5-20 observations in ~10 milliseconds — no per-star optimization needed.
+
+### Experiment E (MANDATORY): Period discovery from SIREN weights
+
+After fitting per-star SIRENs (Phase 5), analyze the learned first-layer weights to extract the dominant frequency:
+1. The first SIREN layer computes sin(ω₀ × W × t + b) where W is the weight matrix. Each row of W encodes a frequency.
+2. Compute the effective frequency for each neuron: f_k = ω₀ × |W[k, 0]| / (2π)
+3. The dominant frequency should correspond to 1/period of the star
+4. Plot (SIREN-discovered frequency) vs (OGLE catalog frequency) for all 200 stars
+5. Compute the fraction of stars where the SIREN-discovered period is within 1% of the true period
+
+This period-discovery analysis costs zero additional compute — you just read the weights of already-trained networks. If SIREN recovers the period without being told it (while GP needs a periodic kernel and Fourier needs the period as input), that is the scientific punchline of the paper.
 
 ---
 
