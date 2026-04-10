@@ -10,13 +10,15 @@ This document is a step-by-step guide from an empty folder to a completed paper.
 
 The naive version of this project — "install PySR, call model.fit(), report the best equation" — is not publishable. Running a turnkey tool on someone else's dataset is not a contribution. Miles Cranmer, PySR's creator, explicitly warns on his blog that "many ML applications in astrophysics aren't necessary" and that "a simpler algorithm will often do just as well." This project must pass Cranmer's own test.
 
+**Critical prior work that this project must position against:** Lu & Angus 2024 (AJ 167, 159, arXiv:2310.14990) published a Gaussian Process-based gyrochronology calibration valid from 0.67 to 14 Gyr that already captures the weakened magnetic braking transition and ages ~100,000 stars. Their GP is flexible and data-driven — conceptually the same motivation as this project. **This project does NOT claim to replace the GP.** Note: Lu & Angus explicitly exclude stars with Rossby number > 1.866 (the critical WMB onset value) from their model's validity domain, so their GP does NOT capture the weakened magnetic braking transition itself — it covers the age range but avoids the regime. The contribution here is different: a **closed-form, interpretable equation** that can be written on a whiteboard, inspected for physical meaning, and tested for uniqueness via bootstrap stability analysis. The GP is a black box; PySR produces an equation. A reviewer will ask "why not just use the GP?" — the answer is interpretability and the ability to test whether the data uniquely constrains the functional form.
+
 The novel contribution has three parts. Crucially, the **scientific question** comes first: **Does the functional form of gyrochronology change at old ages, and can data-driven equation discovery detect the transition to weakened magnetic braking?** The PySR machinery is the tool used to answer this question, not the contribution itself.
 
-1. **Physics-constrained symbolic regression.** Instead of letting PySR search freely, define a custom loss function that penalizes physically impossible equations: negative periods, non-monotonic age dependence (period must increase with age for main-sequence stars past ~100 Myr), and singularities at valid input values. PySR supports custom Julia loss functions — you write one that encodes gyrochronology physics. This transforms the project from "I ran PySR" to "I developed a physics-constrained symbolic regression framework for stellar age-dating." No existing PySR application in astronomy uses physics constraints.
+1. **Physics-constrained symbolic regression.** Instead of letting PySR search freely, define a custom loss function that penalizes physically impossible equations: negative periods, non-monotonic age dependence (period must increase with age for main-sequence stars in the 100 Myr–3 Gyr range where standard magnetic braking applies), and singularities at valid input values. PySR supports custom Julia loss functions — you write one that encodes gyrochronology physics. This transforms the project from "I ran PySR" to "I developed a physics-constrained symbolic regression framework for stellar age-dating." **Note on prior work:** PhySO (Tenachi et al. 2023, ApJ 959, 99, arXiv:2303.03192) is a separate symbolic regression framework that uses dimensional analysis as physics constraints and was published in ApJ. This project's approach is different (penalty-based soft constraints on physical behavior rather than hard dimensional-analysis constraints) and uses PySR rather than PhySO. Custom physics-penalty loss functions in PySR are now established practice: Salim et al. (2025, arXiv:2505.04681, co-authored by Cranmer) used a custom Julia loss for star formation parameterization. The novelty here is the **application domain** (stellar rotation / gyrochronology), not the technique of custom losses itself. **Note:** PySR has been applied to many astronomy problems beyond neutron stars — including galaxy-halo connection (Cranmer et al. NeurIPS 2020), cluster SZ flux-mass relations (Wadekar et al. PNAS 2023), black hole mass scaling relations, star/galaxy/quasar classification (arXiv:2602.24022), Sersic profile emulation (arXiv:2508.20266), and more. See the PySR papers page (ai.damtp.cam.ac.uk/pysr/papers/) for the full list. The novelty claim here is specifically: **no PySR application to stellar rotation or age-dating with physics-constrained loss functions.**
 
-2. **Bootstrap stability of the functional form.** Run PySR 100 times on bootstrap resamples of the training data. For each run, record the top-5 Pareto-optimal equations. Count how often each functional FORM appears across the 100 runs (ignoring exact coefficient values). If the same form appears 80+ times, it is robust. If 10 different forms appear, the data does not uniquely constrain the functional form — and that itself is a publishable finding about the information content of the data. No PySR paper in any domain has reported this kind of functional-form stability analysis. This methodology is reusable by every future PySR study in any scientific domain.
+2. **Bootstrap stability of the functional form.** Run PySR 100 times on bootstrap resamples of the training data. For each run, record the top-5 Pareto-optimal equations. Count how often each functional FORM appears across the 100 runs (ignoring exact coefficient values). If the same form appears 80+ times, it is robust. If 10 different forms appear, the data does not uniquely constrain the functional form — and that itself is a publishable finding about the information content of the data. To our knowledge, no PySR paper has reported systematic functional-form stability analysis at this scale (100 resamples with canonicalization). Related concepts exist in the broader SR literature (ARGOS uses bootstrapped confidence intervals; a 2023 ACS Omega paper introduced a stability metric), but the specific combination of PySR + bootstrap + canonical form counting appears novel. This methodology would be reusable by future PySR studies.
 
-3. **Out-of-distribution extrapolation to the stalled-spin-down regime.** The ChronoFlow training set only goes up to ~4 Gyr. Use 20-30 well-characterized old stars (the Sun, 16 Cyg A/B, and asteroseismically-dated Kepler stars from van Saders et al. 2016 and Metcalfe et al. 2023) to test whether the PySR equation extrapolates correctly into the regime where magnetic braking weakens. If PySR's equation — discovered from young-star data alone — naturally captures or fails to capture the stalled spin-down, that is a genuine astrophysical finding about what the young-star rotation data implies about old-star physics. This connects the project to an active debate in stellar physics, not just a methods demonstration.
+3. **Out-of-distribution extrapolation to the stalled-spin-down regime.** The ChronoFlow training set only goes up to ~4 Gyr. Use 15-25 well-characterized old stars with *surface* rotation periods AND asteroseismic ages to test whether the PySR equation extrapolates correctly into the regime where magnetic braking weakens. The existence of weakened magnetic braking (WMB) is now well-established (Hall et al. 2021 found WMB 98.4% more likely than standard braking; Metcalfe et al. 2025 ApJ 991 L17 confirmed it "unambiguously"). What remains debated is the mechanism, mass dependence, and critical Rossby number. If PySR's equation — discovered from young-star data alone — naturally captures or fails to capture the braking transition, that is a genuine astrophysical finding about what the young-star rotation data implies about old-star physics.
 
 The ChronoFlow residual analysis is still done, but it is a secondary experiment with explicit physical interpretation (not just RMSE reporting).
 
@@ -34,10 +36,9 @@ The ChronoFlow residual analysis is still done, but it is a secondary experiment
 
 2. Install PySR (this also installs Julia automatically):
    ```
-   pip install pysr numpy pandas matplotlib scipy
-   python -c "import pysr; pysr.install()"
+   pip install pysr numpy pandas matplotlib scipy sympy
    ```
-   The `pysr.install()` step downloads Julia and the SymbolicRegression.jl backend. It takes 2-5 minutes on first run.
+   Current PySR versions install Julia dependencies automatically on first import (`import pysr`). The older `pysr.install()` call may still work but is not the canonical setup path. Verify against the current README at github.com/MilesCranmer/PySR. First import takes 2-5 minutes.
 
 3. Install ChronoFlow dependencies (to run the neural model for comparison):
    ```
@@ -65,7 +66,7 @@ The ChronoFlow residual analysis is still done, but it is a secondary experiment
    cp -r chronoflow/data/* project/data/
    ```
 
-2. Open the data in a notebook and inspect it. The dataset contains approximately 8,000 stars from 30 open clusters and associations. Each star has:
+2. Open the data in a notebook and inspect it. The dataset contains **7,615** unique Gaia DR3 main-sequence sources from 30 open clusters and associations (Van-Lane et al. 2025, ApJ, arXiv:2412.12244). Each star has:
    - **Rotation period** (days) — measured from photometric variability
    - **De-reddened Gaia DR3 color** (BP-RP)_0 — a proxy for mass/temperature (redder = cooler = lower mass)
    - **Cluster membership** — which cluster the star belongs to
@@ -76,9 +77,22 @@ The ChronoFlow residual analysis is still done, but it is a secondary experiment
    - **Target for PySR:** rotation period (days)
    - You are searching for an equation: `P_rot = f(age, color)`
 
-4. **Quality check:** Make a scatter plot of rotation period vs (BP-RP)_0, colored by cluster age. You should see that younger clusters (blue dots) have shorter periods and older clusters (red dots) have longer periods, with a clear color-dependence. If this pattern is not visible, something is wrong with the data loading.
+4. **Filter to slow-sequence rotators (MANDATORY before running PySR).**
 
-5. **Unit decisions:** Convert age to Myr (not log). PySR works better with numbers in a reasonable range (1-4000) than with log-transformed values, because it can discover logarithmic relationships on its own.
+   Young open clusters (<500 Myr) show a bimodal period distribution: a "fast sequence" (C sequence, disk-locked/rapid rotators) and a "slow sequence" (I sequence, the converged spin-down sequence that gyrochronology targets). The slow sequence doesn't fully converge until ~500-700 Myr for G dwarfs and ~2-3 Gyr for K dwarfs (Spada & Lanzafame 2020). PySR fits a single deterministic function P = f(age, color) and **cannot represent bimodality**. If fast rotators dominate the young data (81% of training stars are <500 Myr), PySR will either find a compromise equation that fits neither sequence, or fit the dominant fast rotators and fail on the slow sequence.
+
+   **Fix:** ChronoFlow models the full bimodal distribution using the normalizing flow — it does NOT perform explicit slow/fast sequence separation or provide per-star slow-sequence labels. The student must implement slow-sequence filtering independently using published slow-sequence fits from Curtis et al. (2019, 2020), Dungee et al. (2022), or Bouma et al. (2023). Practically: for each cluster, plot period vs color and visually identify the slow-sequence ridge, or apply sigma-clipping to remove outlier fast rotators above the ridge. **Allocate 2-3 days in Week 1 for this curation.** Also run PySR on the unfiltered data and compare — this ablation shows whether filtering matters.
+
+5. **Understand the training data skew.** The age distribution is severely unbalanced:
+   - Clusters >2 Gyr: 3 clusters (NGC 6819, Ruprecht 147, M67) — ~483 stars (~6%)
+   - Clusters >1 Gyr: 6 clusters — ~833 stars (~11%)
+   - Clusters <500 Myr: 24 clusters — ~6,152 stars (~81%)
+   - M67 (3.87 Gyr) is the ONLY cluster above 3 Gyr
+   PySR's equation will be well-constrained below 500 Myr and poorly constrained above 1 Gyr. Any exponent-level claim is driven almost entirely by young clusters. **Acknowledge this in the paper and interpret results accordingly.** The statement "ages 1.5 Myr to ~4 Gyr" is literally true but seriously misleading about sampling density.
+
+5. **Quality check:** Make a scatter plot of rotation period vs (BP-RP)_0, colored by cluster age. You should see that younger clusters (blue dots) have shorter periods and older clusters (red dots) have longer periods, with a clear color-dependence. If this pattern is not visible, something is wrong with the data loading.
+
+5. **Unit decisions:** Convert age to Myr (not log). Using linear age values (1–4000) rather than log-transformed values allows PySR to choose between `log(age)`, `age^n`, `sqrt(age)`, and other functional forms. Note: PySR can only discover logarithmic relationships if `log` is included in the operator set (Phase 4 includes it). Transcendental functions like `log` cannot be exactly composed from algebraic operators (+, ×, ^). In practice, PySR struggles to approximate log-like relationships without `log` in the operator set (see PySR GitHub issue #7 for an example). The practical recommendation: always include `log` in the operator set when log relationships are plausible.
 
 ---
 
@@ -107,13 +121,21 @@ Similar form to Barnes but with slightly different constants and a different zer
 
 ### Angus et al. 2019
 
-Uses a more flexible functional form with additional terms. Check their `stardate` package for the exact parameterization.
+Uses a significantly different functional form from Barnes — additive in log-space with a polynomial color dependence:
+```
+log₁₀(P_rot) = c_A × log₁₀(t) + Σ(c_n × [log₁₀(BP-RP)]^n, n=0..4)
+```
+where c_A ≈ 0.65 (approximately Skumanich-like but not forced to 0.5) and the 5th-order polynomial captures the complex color dependence. This has more free parameters than Barnes but is more flexible. Extract the coefficients from the paper (AJ 158, 173) directly. **Do NOT use the `stardate` package** — it has had no release since September 2019, is not pip-installable from PyPI (the `stardate` on PyPI is a different package for date formatting), and has a complex dependency chain.
 
-### The dead-simple baseline (MANDATORY — required by Huppenkothen et al. 2023)
+### The dead-simple baseline (MANDATORY — recommended by Huppenkothen et al. 2023 white paper)
 
 The Huppenkothen best-practices checklist requires comparison to "the simplest model possible without sacrificing performance." Before running PySR, fit the Barnes functional form `P = a × (color - c0)^b × age^c` using `scipy.optimize.curve_fit`. This is a 4-parameter nonlinear least-squares fit that takes less than 1 second.
 
-If PySR's best equation has the same functional form as Barnes (a power law in age and color), the PySR contribution is NOT the equation — it is the bootstrap stability analysis proving that this form is uniquely optimal. If PySR finds a structurally different equation (e.g., with a logarithmic age term or a color-age interaction), compare its RMSE and cross-validation performance to the refitted Barnes. The improvement must exceed the uncertainty from cross-validation to be meaningful. A 0.1% RMSE gain does not justify added complexity (per the Nature Reviews Physics 2025 guidance on ML in astronomy).
+If PySR's best equation has the same functional form as Barnes (a power law in age and color), the PySR contribution is NOT the equation — it is the bootstrap stability analysis proving that this form is uniquely optimal. If PySR finds a structurally different equation (e.g., with a logarithmic age term or a color-age interaction), compare its RMSE and cross-validation performance to the refitted Barnes. The improvement must exceed the uncertainty from cross-validation to be meaningful. A 0.1% RMSE gain does not justify added complexity (per the Buchner & Fotopoulou, Nature Reviews Physics 6, 535-545, 2024 guidance on ML in astronomy).
+
+### Lu & Angus 2024 GP baseline
+
+Lu & Angus 2024 (AJ 167, 159) is the current state-of-the-art data-driven gyrochronology model. It uses a GP calibrated on cluster data from 0.67 to 14 Gyr. If their trained GP or code is publicly available, include it as a baseline. If not, note in the paper that the GP exists and outperforms parametric relations at old ages — PySR's value proposition is interpretability, not accuracy.
 
 ### For each baseline:
 1. Fit the free parameters to the training data using `scipy.optimize.curve_fit`
@@ -155,12 +177,35 @@ function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
     # Penalty: negative periods
     neg_penalty = sum(max.(0, -prediction)) / length(prediction)
 
-    # Penalty: non-monotonic with age (column 1)
-    # Check that increasing age → increasing period for fixed color
+    # Penalty: non-monotonic with age — HEAVILY RESTRICTED.
+    #
+    # IMPORTANT: Standard magnetic braking (monotonic spin-down) applies ONLY to:
+    #   - Ages 100 Myr to ~1 Gyr (before stalled spin-down in K dwarfs)
+    #   - Colors (BP-RP)_0 ~ 0.6 to 1.1 (late F through early K dwarfs)
+    #
+    # It does NOT apply to:
+    #   - Ages < 100 Myr: PMS spin-up during contraction
+    #   - Ages > ~1 Gyr for K dwarfs: stalled spin-down (Curtis et al. 2019, ApJ 879, 49
+    #     showed K dwarfs in NGC 6811 at 1 Gyr rotate at same rate as Praesepe at 670 Myr)
+    #   - Colors < 0.6: above the Kraft break, weak/absent magnetic braking
+    #   - Colors > 1.1: late K/M dwarfs with extended stalled phases
+    #
+    # RECOMMENDED: Run PySR TWICE — once with this restricted penalty, once WITHOUT
+    # any monotonicity penalty. Compare the Pareto frontiers. If the unconstrained
+    # search finds physically sensible equations, the penalty is unnecessary.
+    # If it finds pathological equations, the penalty is justified.
     ages = dataset.X[1, :]
-    sorted_idx = sortperm(ages)
-    sorted_pred = prediction[sorted_idx]
-    mono_violations = sum(max.(0, sorted_pred[1:end-1] .- sorted_pred[2:end]))
+    colors = dataset.X[2, :]
+    mask = (ages .> 100.0) .& (ages .< 1000.0) .& (colors .> 0.6) .& (colors .< 1.1)
+    if sum(mask) > 10
+        masked_ages = ages[mask]
+        masked_pred = prediction[mask]
+        sorted_idx = sortperm(masked_ages)
+        sorted_pred = masked_pred[sorted_idx]
+        mono_violations = sum(max.(0, sorted_pred[1:end-1] .- sorted_pred[2:end]))
+    else
+        mono_violations = zero(L)
+    end
 
     return mse + 10.0 * neg_penalty + 1.0 * mono_violations
 end
@@ -169,20 +214,19 @@ end
 model = pysr.PySRRegressor(
     niterations=200,
     binary_operators=["+", "-", "*", "/", "pow"],
-    unary_operators=["log", "exp", "sqrt", "abs"],
+    unary_operators=["log", "exp", "sqrt"],  # abs REMOVED: creates non-differentiable points, no known physical mechanism produces |x| dependence in rotation
     populations=30,
     population_size=50,
     maxsize=25,
     batching=True,
     batch_size=500,
-    loss_function=physics_loss,
+    loss_function=physics_loss,  # NOTE: Both 'loss_function' and 'full_objective' may work as aliases depending on PySR version. Verify against your installed version: `python -c "import pysr; help(pysr.PySRRegressor)"`. Current docs (v1.5.9) list 'loss_function'.
     complexity_of_operators={
         "pow": 2, "log": 1, "exp": 1, "sqrt": 1
     },
-    select_k_features=2,
+    # select_k_features removed — with exactly 2 input features, selecting top 2 of 2 is a no-op
     progress=True,
-    temp_equation_file=True,
-    tempdir="project/results/pysr_constrained",
+    output_directory="project/results/pysr_constrained",  # saves results to this permanent path
 )
 
 model.fit(X, y, variable_names=["age", "color"])
@@ -226,10 +270,11 @@ With 8,000 data points, 200 iterations, and 30 populations, this takes approxima
 
 1. Follow the ChronoFlow tutorials in `chronoflow/tutorials/` to load the pre-trained model and generate age predictions for each star in the training set.
 
-2. For each star, compute the ChronoFlow-predicted rotation period at the known cluster age and color:
+2. For each star, compute the ChronoFlow-predicted rotation period at the known cluster age and color. **NOTE:** ChronoFlow is a normalizing flow that models P(log P_rot | log age, (BP-RP)₀) — it returns probability distributions, not deterministic point predictions. The `predict_period()` function shown below may not exist as written. **Examine the ChronoFlow tutorials in `chronoflow/tutorials/` for the actual API** (likely `calcProbsAtAge()` or similar). Extract the median or mode of the conditional distribution as the point prediction:
    ```python
-   # Using ChronoFlow's forward model
-   P_chronoflow = chronoflow_model.predict_period(age=age, color=color)
+   # PSEUDO-CODE — verify against actual ChronoFlow API
+   # The flow returns a distribution; extract the median as the point estimate
+   P_chronoflow_median = np.median(chronoflow_model.sample(age=age, color=color, n=1000))
    ```
 
 3. Compute the residual for each star:
@@ -276,6 +321,8 @@ Before running PySR on residuals, first LOOK at the residuals:
 
 Even if the best residual equation has a large RMSE (meaning ChronoFlow's errors are mostly random, not systematic), that is a publishable finding — it means ChronoFlow has captured the deterministic component of the rotation-age-mass relationship and the remaining scatter is intrinsic.
 
+**CIRCULARITY WARNING:** The residual analysis above uses ChronoFlow's predictions on its OWN training data. Residual patterns may reflect ChronoFlow's finite capacity/inductive bias rather than genuine systematic errors on unseen stars. **To make the physical interpretation honest, run Phase 6 on leave-one-cluster-out (LOO) residuals instead:** for each cluster, use the ChronoFlow prediction from the model that was NOT trained on that cluster (from Phase 9's LOO runs). This requires running ChronoFlow LOO first (adds compute), but makes the residual analysis genuinely out-of-sample.
+
 ---
 
 ## Phase 7: Bootstrap stability analysis (MANDATORY)
@@ -284,14 +331,45 @@ Even if the best residual equation has a large RMSE (meaning ChronoFlow's errors
 
 This experiment answers: "Is the functional form PySR finds robust, or does it change every time you resample the data?"
 
-1. Generate 100 bootstrap samples of the training data (sample N stars with replacement from the N-star dataset).
-2. Run PySR on each bootstrap sample with the physics-constrained loss, using 50 iterations (shorter than the main run, to keep compute feasible — 100 runs × 50 iterations ≈ 50 hours on 8 cores).
+**IMPORTANT METHODOLOGICAL NOTE:** PySR is inherently stochastic (multi-population evolutionary algorithm with separate islands on different cores). The bootstrap analysis will capture BOTH data sampling uncertainty AND PySR's algorithmic randomness, conflated into a single measure. To properly claim "the data uniquely supports form X," you must disentangle these two sources of variability:
+
+**Step A — Isolate algorithmic noise (MANDATORY, do FIRST):** Run PySR 10 times on the SAME full dataset with different random seeds. If the same functional form appears in 8+/10 runs, PySR's algorithmic noise is low and the bootstrap analysis will primarily reflect data uncertainty. If different forms appear each time, PySR has not converged and more iterations or a larger population are needed before the bootstrap is meaningful. Use `deterministic=False` (default) but log the random seed for each run.
+
+**Step B — Bootstrap for data uncertainty:** Only after Step A confirms algorithmic convergence:
+
+1. Generate 100 bootstrap samples of the training data (sample N stars with replacement from the N-star dataset). **If compute is tight, reduce to 50 resamples** — still unprecedented in the PySR literature.
+2. Run PySR on each bootstrap sample with the physics-constrained loss, using 50 iterations (shorter than the main run). **Realistic compute estimate — CORRECTED:** PySR uses ALL available CPU cores for its multi-population island model by default. This means bootstrap runs must be **sequential** (each using all cores), NOT parallel across cores. 100 sequential runs × 6-12 hours each = **600-1200 hours wall-clock on a single machine (25-50 days)**. This is far longer than previously estimated.
+
+   **Mitigations (pick one):**
+   - Reduce to **50 resamples** (still unprecedented) → 12-25 days
+   - Use `procs=2` to limit PySR to 2 cores, then run 4 jobs in parallel on an 8-core machine → ~6-12 days (but each run takes longer with fewer cores — test timing first)
+   - Use a university computing cluster to run jobs truly in parallel across nodes
+   - Reduce to **30 iterations** per run (check Step A first to verify convergence at 30 iterations)
+
+   **Allocate 2-4 weeks for this phase, not "2-3 days."** This is the largest computational phase and the timeline has no slack if runs take longer than expected.
 3. For each run, record the top-3 equations on the Pareto frontier.
-4. Across all 100 runs, identify the unique functional FORMS that appear (ignore exact coefficient values — two equations are "the same form" if they have the same operator tree structure).
-5. Report:
+4. **Canonicalize functional forms before counting.** This is harder than it sounds — budget 50-100 lines, not 20. Three issues must be handled:
+
+   **(a) Commutativity:** PySR can produce `a * age^0.5 * color^0.6` and `color^0.6 * age^0.5 * a`. Use PySR's built-in `model.equations_['sympy_format']` column (already-parsed SymPy objects) rather than calling `sympy.sympify()` on string representations — this avoids parsing failures on custom operators. Then call `sympy.simplify()`.
+
+   **(b) Algebraic equivalence and coefficient variation — use the PLACEHOLDER approach ONLY.** Previous versions of this plan suggested `sympy.powsimp(force=True)` and "round to 1 decimal place." Testing reveals powsimp does NOT combine `a * x^0.5 * y^0.5` into `a * (x*y)^0.5` even with `force=True` and `positive=True` symbols. And rounding creates sharp boundaries (age^0.54 rounds to 0.5 but age^0.55 rounds to 0.6).
+
+   **The correct approach:** Replace ALL numerical constants (both coefficients and exponents) with ordered placeholder symbols (`C0, C1, C2, ...`), ordered by first appearance in a depth-first traversal of the expression tree. Then call `sympy.simplify()` on the placeholder expression and hash the result. This cleanly separates "functional form" (the operator tree with variable names and placeholder constants) from "coefficient values" (the actual numbers). Two equations with the same operator structure but different coefficients hash to the same form.
+
+   Example: `0.78 * age^0.51 * color^0.62` and `0.83 * age^0.49 * color^0.58` both become `C0 * age^C1 * color^C2` → same hash.
+
+   This is ~50-80 lines of careful Python. Test on toy examples before running 100 bootstrap jobs.
+
+   Test the canonicalization pipeline on toy examples before running 100 bootstrap jobs. If `a * age^0.5 * color^0.6` and `b * color^0.6 * age^0.5` don't hash to the same value, the pipeline is broken.
+
+   **Also consider:** Run Step A (10 same-data runs) both WITH and WITHOUT batching (`batching=True` vs `batching=False`). Batching adds noise (evaluating fitness on random 500-point subsets). If Step A variability is high, you won't know if it's PySR's evolutionary algorithm or the batching. This diagnostic costs only 10 extra runs.
+5. **Check whether different forms have distinguishable loss.** If forms A, B, and C all appear with training MSEs within 0.1% of each other, they are functionally equivalent and the bootstrap is measuring PySR's stochastic search, not data information content. Report the loss distribution per canonical form. Only claim "the data uniquely supports form X" if form X has statistically lower loss than alternatives.
+
+6. Report:
    - The most common functional form and how often it appeared
    - The second and third most common forms
    - Whether the constrained and unconstrained searches converge to the same form
+   - Whether the top forms have distinguishable or indistinguishable loss
 
 This analysis is the methodological contribution that no other PySR paper has done. If the same form appears 80+ times out of 100, you can claim the data strongly supports that functional form. If many forms appear, that is equally interesting — it means the data does not uniquely determine how rotation, age, and color are related.
 
@@ -299,17 +377,19 @@ This analysis is the methodological contribution that no other PySR paper has do
 
 **Time: 2-3 days**
 
-This experiment is what connects the project to an active astrophysical debate and elevates it beyond a methods demonstration. The ChronoFlow training data spans ages 1.5 Myr to ~4 Gyr. Stars older than ~4 Gyr show "weakened magnetic braking" — their rotation periods stop increasing as fast as the classical power-law relations predict (van Saders et al. 2016, Nature 529, 181; Metcalfe et al. 2016, ApJL 826, L2). This is one of the most active debates in stellar physics.
+This experiment is what connects the project to a major question in stellar physics and elevates it beyond a methods demonstration. The ChronoFlow training data spans ages 1.5 Myr to ~4 Gyr. Stars older than ~4 Gyr show "weakened magnetic braking" (WMB) — their rotation periods stop increasing as fast as the classical power-law relations predict. The existence of WMB is now well-established (van Saders et al. 2016, Nature 529, 181; Hall et al. 2021, Nature Astronomy 5, 707, who found WMB 98.4% more likely; Metcalfe et al. 2025, ApJ 991, L17, who confirmed it "unambiguously"). What remains debated is the physical mechanism — Metcalfe et al. (2025) propose dynamo collapse, but Levesque & Charbonneau (2025, arXiv:2510.14164) argue the coronal wind collapse hypothesis requires physically unrealistic parameters. The mass dependence and abruptness of the transition are also debated (Yang et al. 2025, A&A, propose a four-segment model).
 
-### Assemble a systematic old-star test sample (target: 20-30 stars)
+### Assemble a systematic old-star test sample (realistic target: 15-25 stars)
 
-Do NOT use just 3-5 test points. Assemble a proper sample:
+Do NOT use just 3-5 test points. Assemble a proper sample. **Critical distinction:** use only stars with **surface** rotation periods (from spot modulation or chromospheric activity), not asteroseismic rotation rates (from rotational splitting of oscillation modes). Asteroseismic rotation measures a depth-averaged or core rotation rate that differs from the surface period gyrochronology uses. Mixing the two is a methodological error.
 
 - **The Sun:** age = 4567 Myr, P_rot = 25.4 days, (BP-RP)_0 ≈ 0.82. The most precisely known calibration point.
-- **16 Cyg A and B:** asteroseismic age ~6.8 Gyr, P_rot ~23 and ~24 days. Well-studied binary with precise parameters.
-- **van Saders et al. (2016) sample:** ~20 Kepler asteroseismic targets with ages 4-10 Gyr and measured rotation periods from McQuillan et al. (2014) or García et al. (2014). These are the stars that first revealed the stalled-spin-down phenomenon. Download from the van Saders et al. supplementary tables.
-- **Metcalfe et al. (2023) sample:** Updated asteroseismic ages and rotation periods for evolved solar analogs. Cross-reference with the van Saders sample to avoid duplicates.
-- **Hall et al. (2021) chromospheric activity sample:** Stars with activity-derived rotation periods and asteroseismic ages, providing an independent rotation-period measurement method.
+- **~~16 Cyg A and B~~ — REMOVED.** Davies et al. (2015) explicitly state "we cannot detect surface rotation with the current Kepler data" for these stars. García et al. (2014) found no photometric variability. Their rotation periods (~23 and ~24 days) are from asteroseismic rotational splitting only. Including them violates this plan's own stated methodology. Their asteroseismic age (7.0 ± 0.3 Gyr, Metcalfe et al. 2015 ApJ 811 L37) can be noted for context but they cannot serve as gyrochronology test points.
+- **van Saders et al. (2016, Nature 529, 181) sample:** 21 total Kepler stars with asteroseismic properties and rotation periods. **Carefully verify which stars have photometric surface periods** from McQuillan et al. (2014) or García et al. (2014) vs. only asteroseismic rotation rates. Only include stars with surface period measurements. NOT all have ages >4 Gyr — the sample spans a range. Expect ~8-12 stars genuinely in the stalled-braking regime (ages >4 Gyr) with confirmed surface rotation periods. Download from the van Saders et al. supplementary tables and cross-match with McQuillan.
+- **Metcalfe et al. (2023, ApJL 948, L6):** This paper contains only **2 stars** (61 UMa at ~1.4 Gyr and tau Cet at ~9 Gyr). It is NOT a large sample. Tau Cet is valuable as an old calibration point; 61 UMa is within the training range and less useful.
+- **Hall et al. (2021, Nature Astronomy 5, 707):** 91 main-sequence Kepler stars. **WARNING:** These have *asteroseismic* rotation rates (from rotational splitting), NOT photometric surface rotation periods. Use these for comparison/discussion ONLY, not as primary test points for gyrochronology. If used, clearly note the methodological difference. A subset may have independently measured surface periods from McQuillan et al. — cross-match to identify these.
+- **García et al. (2014) / McQuillan et al. (2014):** Cross-match these photometric rotation catalogs with APOKASC asteroseismic ages (Pinsonneault et al. 2025) to identify additional old stars with surface periods. **COMPLETENESS WARNING:** McQuillan et al. detected periods for 34,030 stars with P = 0.2–70 days, but detection completeness drops dramatically for P > 30 days due to Kepler's quarterly spacecraft reorientations (~90-day segments). Stars >4 Gyr have periods >30 days — precisely where the catalog is least complete. The cross-match will yield some old stars, but biased toward the more active (shorter-period, anomalous) ones. Report this selection bias in the paper.
+- **Pezzotti et al. (2026, A&A 706, A257, arXiv:2512.14517):** Revisits activity-rotation-age with Kepler LEGACY asteroseismic ages. May provide additional calibration points.
 
 ### Analysis
 
@@ -330,7 +410,7 @@ Plot predicted vs true for all old stars, with each method as a different symbol
 ### Connect to the physical debate
 
 In the discussion section, interpret the extrapolation result in the context of:
-- The critical Rossby number hypothesis (Ro_crit ≈ 2, beyond which magnetic braking weakens)
+- The critical Rossby number hypothesis (Ro_crit ≈ 2.16 on the van Saders et al. convective turnover timescale calibration, or Ro_crit ≈ 0.91 ± 0.03 on the Metcalfe et al. asteroseismically calibrated scale — these use different τ_cz calibrations, not contradictory values). Specify which scale when citing a number.
 - The mass dependence of the transition (does PySR's equation predict different transition ages for different stellar masses/colors?)
 - Whether the functional form discovered by PySR is consistent with any proposed physical mechanism
 
@@ -364,7 +444,7 @@ This is the most important verification step. Gyrochronology equations are only 
 
 1. **Physical sanity of the discovered equation:**
    - Does period increase with age? (It should, for all ages > ~100 Myr.)
-   - Does period increase with color (redder = lower mass = faster spin-down)? (It should.)
+   - Does period increase with color (redder = lower mass = longer period at fixed age, due to smaller moment of inertia — NOT "faster spin-down"; M dwarfs actually have weaker magnetic braking torques but end up with longer periods because they are smaller; Curtis et al. 2020, ApJ 904, 140)? (It should, at least for the converged slow-rotator sequence.)
    - Are there unphysical features like negative periods or division by zero at certain age/color values?
 
 2. **Comparison to known functional forms:** Is the PySR-discovered equation recognizable? If PySR finds something like `P = a * age^0.52 * (color - 0.4)^0.6`, that is essentially Barnes 2007 rediscovered — and the contribution is the bootstrap proof that this form is uniquely stable, not the equation itself. If PySR finds something structurally different — say, with a logarithmic age dependence or an interaction term — that is scientifically interesting and the comparison to Barnes must be rigorous (cross-validated RMSE, not just training RMSE).
@@ -375,15 +455,19 @@ This is the most important verification step. Gyrochronology equations are only 
 
 4. **Numerical stability:** Evaluate the equation on the full age range (1 Myr to 14 Gyr) and color range (0.3 to 3.0). Check for overflow, underflow, or NaN values.
 
-### Where the method fails (MANDATORY — required by Huppenkothen et al. 2023 checklist)
+### Where the method fails (MANDATORY — recommended by Huppenkothen et al. 2023 white paper)
 
-5. **Color boundaries:** The discovered equation will likely diverge or become unphysical near color < 0.4 (hot stars above the Kraft break, where magnetic braking is not the dominant spin-down mechanism) and color > 2.5 (very low-mass M dwarfs that remain fully convective). Report these boundaries explicitly. Plot the equation's predictions across the full color range and mark where it becomes unphysical.
+5. **Color boundaries:** The discovered equation will likely diverge or become unphysical near (BP-RP)₀ < ~0.55 (hot stars above the Kraft break at Teff ~ 6250–6550 K with ~200 K width (Beyer & White 2024), where magnetic braking is not the dominant spin-down mechanism; the Kraft break is at (BP-RP)₀ ~ 0.54–0.60 per Beyer & White 2024, NOT at 0.4 — the 0.4 value is the B-V zero-point in Barnes 2007, a different color system) and (BP-RP)₀ > 2.5 (very low-mass M dwarfs that remain fully convective). Report these boundaries explicitly. Plot the equation's predictions across the full color range and mark where it becomes unphysical.
 
 6. **Age boundaries:** The training data spans 1.5 Myr to ~4 Gyr. Report the equation's behavior at 0.1 Myr (pre-main-sequence) and 10+ Gyr (old disk/halo). If the equation predicts absurd values outside the training range, mark the extrapolation boundary clearly.
 
 7. **PySR convergence failures:** If certain bootstrap resamples produce no valid equation (PySR fails to converge or all equations violate the physics constraints), report the failure rate. If 15/100 bootstraps fail, that is informative — it suggests the data is marginally constraining.
 
 8. **The honest comparison to curve_fit:** If `scipy.optimize.curve_fit` with the Barnes functional form achieves the same cross-validated RMSE as PySR's best equation, say so plainly. The contribution in this case is the bootstrap stability analysis and the out-of-distribution test, not the equation itself. Do not oversell.
+
+9. **Age-uncertainty sensitivity analysis (MANDATORY).** Cluster ages from isochrone fitting carry uncertainties of ~0.06-0.08 dex (15-20%), per ChronoFlow's own error budget. Different stellar evolution codes (PARSEC, MIST, BASTI) give systematically different ages at the ~0.1 dex level. This means PySR cannot meaningfully distinguish between age^0.50 and age^0.52 — the difference produces ~1% change in predicted period at 1 Gyr, far below intrinsic scatter. **To test whether PySR's functional form is robust to age uncertainty:** perturb all cluster ages by draws from a Gaussian with σ = 0.1 dex (the systematic uncertainty between evolution codes). Rerun PySR on the perturbed data 10 times. If the same functional form appears, it is robust to age uncertainty. If the form changes, the exponent-level claims are fitting noise in the ages, not discovering physics. Report this analysis in the paper — it is the most important sanity check for any symbolic regression result where inputs have known systematic uncertainties.
+
+10. **RMSE noise floor.** State explicitly in the paper: the minimum achievable RMSE is set by the combination of (a) intrinsic scatter in stellar rotation periods at fixed age and mass (which is large, especially for M dwarfs), and (b) cluster age uncertainties (~15-20%). If PySR and Barnes differ by less than this floor, the difference is not statistically significant. Compute this floor and report it alongside all RMSE comparisons.
 
 ---
 
@@ -397,14 +481,14 @@ Note: the title frames the astrophysical question, not the tool. "PySR" does not
 
 1. **Abstract** (150 words)
    - Problem: gyrochronology relations are either hand-crafted (Barnes) or black-box (ChronoFlow)
-   - Method: PySR symbolic regression on ~8,000 cluster rotators from ChronoFlow's training set
+   - Method: PySR symbolic regression on 7,615 cluster rotators from ChronoFlow's training set
    - Result: the best PySR equation, its RMSE vs Barnes/MH/Angus, and whether it recovers a known functional form or discovers a new one
    - Implication: either the classical functional form is (approximately) optimal, or there is a better simple equation that the community should adopt
 
 2. **Body** (~1200 words)
    - Paragraph 1: What gyrochronology is and why closed-form relations matter
    - Paragraph 2: What PySR is and how symbolic regression works (one paragraph, no math)
-   - Paragraph 3: Data — ChronoFlow training set, 30 clusters, ~8,000 rotators
+   - Paragraph 3: Data — ChronoFlow training set, 30 clusters, 7,615 rotators
    - Paragraph 4: Results — the Pareto frontier, the best equation in LaTeX, comparison table
    - Paragraph 5: Cross-validation results — per-cluster RMSE
    - Paragraph 6: Residual analysis — what PySR finds in ChronoFlow's errors
@@ -430,8 +514,8 @@ Note: the title frames the astrophysical question, not the tool. "PySR" does not
    - This paper's contribution: physics-constrained symbolic regression to test whether a unique functional form exists and whether it captures the braking transition. Cite Huppenkothen et al. (2023) best practices.
 
 2. **Data** (0.5 page)
-   - ChronoFlow training set: 30 clusters, ~8,000 rotators, age range, color range, period range
-   - Out-of-distribution test sample: 20-30 old stars from van Saders et al. and Metcalfe et al.
+   - ChronoFlow training set: 30 clusters, 7,615 rotators (after slow-sequence filtering: fewer), age range, color range, period range
+   - Out-of-distribution test sample: 10-20 old stars with confirmed **surface** rotation periods, primarily from van Saders et al. (cross-matched with McQuillan 2014)
    - Table of cluster properties (name, age, number of members)
 
 3. **Methods** (2 pages)
@@ -448,7 +532,7 @@ Note: the title frames the astrophysical question, not the tool. "PySR" does not
    - 4.3 Physics-constrained vs unconstrained search comparison
    - 4.4 Bootstrap stability: which functional form(s) are uniquely supported by the data?
    - 4.5 Cross-validation comparison table (PySR vs Barnes vs MH vs Angus vs ChronoFlow vs curve_fit)
-   - 4.6 Out-of-distribution extrapolation to old stars: does PySR predict the stalled spin-down?
+   - 4.6 Out-of-distribution extrapolation to old stars: does PySR predict the stalled spin-down? (**Frame as exploratory** — 10-20 heterogeneous test points cannot support strong statistical claims. Use language like "suggestive" and "consistent with," not "demonstrates" or "proves.")
    - 4.7 ChronoFlow residual analysis: physical interpretation of where ChronoFlow succeeds and fails
 
 5. **Where the method fails** (0.5 page) — Color and age boundaries of validity. Bootstrap convergence failures. Honest comparison to curve_fit.
@@ -458,7 +542,7 @@ Note: the title frames the astrophysical question, not the tool. "PySR" does not
    - Does the functional form capture or miss the braking transition? Connection to van Saders et al. critical Rossby number hypothesis.
    - Mass dependence of the transition (different colors = different transition ages?)
    - Implications for stellar age-dating: should the community update Barnes 2007?
-   - What we tried that did not work (required by Huppenkothen checklist)
+   - What we tried that did not work (recommended by Huppenkothen et al. 2023)
 
 7. **Conclusions** (0.5 page)
    - Summary of the best equation and its stability across bootstraps
@@ -485,7 +569,8 @@ Note: the title frames the astrophysical question, not the tool. "PySR" does not
 | 2 | Implement Barnes/MH/Angus/curve_fit baselines, refit to Gaia colors, verify against published values |
 | 3 | Run PySR direct search (constrained + unconstrained, let it run 1-2 days), inspect Pareto frontier |
 | 4 | Run ChronoFlow forward model, compute and visualize residuals, run PySR on residuals |
-| 5 | Bootstrap stability analysis (100 resamples — start Monday, runs ~50 hours across cores) |
-| 6 | Out-of-distribution extrapolation test, cross-validation (leave-one-cluster-out) |
-| 7 | Verification, failure mode characterization, generate all figures and tables |
-| 8 | Write the paper (RNAAS first, then full version) |
+| 5-7 | Bootstrap stability analysis: Step A (10 same-data runs, ~3-5 days) then Step B (50-100 resamples, sequential, 2-4 weeks — see compute note in Phase 7) |
+| 8 | Out-of-distribution extrapolation test, cross-validation (leave-one-cluster-out) |
+| 9 | Verification, failure mode characterization, generate all figures and tables |
+| 10-11 | Write the paper (RNAAS first, then full version) |
+| 12 | Revise, advisor feedback |

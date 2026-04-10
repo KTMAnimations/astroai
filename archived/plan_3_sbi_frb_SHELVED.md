@@ -1,4 +1,4 @@
-# Research Plan: Flow-Matching Posterior Estimation for FRB Dispersion Measures
+# Research Plan: Simulation-Based Inference for FRB Dispersion Measures
 
 **Proposal 3 from top_5_proposals.md**
 
@@ -8,13 +8,15 @@
 
 The naive version — "call sbi.SNPE() on simulated FRBs" — is not publishable. Calling a library function is not a contribution. The community paper by Huppenkothen et al. (2023, arXiv:2310.12528) identifies "machine learning for machine learning's sake" as the primary failure mode of astro-ML papers, and multiple SBI-specific critiques (Hermans et al. 2021 on overconfident posteriors; Hahn et al. A&A 2025 on variance inflation; domain-adaptation failures in Villaescusa-Navarro et al.) set a high bar for validation rigor.
 
+**Critical prior work:** Rajabi et al. (2025, arXiv:2512.24003) already built and publicly released (GPL-2.0) a forward simulator that includes dispersion, scattering (with ν⁻⁴ frequency dependence), scintillation, spectral index, and instrumental noise, and generated 180,000 simulations with it for training a CNN-LSTM point estimator. **This project does NOT claim to be the first FRB simulator.** The Rajabi et al. simulator exists and is public.
+
 The novel contribution has three parts, ordered by importance:
 
-1. **The forward model is the main scientific artifact.** No publicly available simulator produces realistic FRB dynamic spectra with physically motivated scintillation, scattering, spectral index variation, AND instrumental response in a single pipeline. Building, validating, and releasing this simulator as a standalone package is the primary contribution. The neural posterior estimator is the inference engine that makes the simulator useful, but the simulator is the thing reviewers will care about most. The simulator will be released independently of the inference code so that the community can plug it into any inference framework (not just SBI).
+1. **Calibrated joint posteriors, not point estimates.** This is the primary contribution. Rajabi et al. produce a single DM number with no uncertainty. This project produces the full joint posterior over three correlated parameters: DM, scattering timescale (τ_s), and spectral index (α). The correlations are physically meaningful — DM and τ_s both increase with distance, and their ratio constrains the turbulence spectrum. No existing FRB DM estimator (classical or ML) provides calibrated multi-parameter posteriors. This is the gap. Crucially, the posteriors must be validated against known SBI failure modes: we include TARP diagnostics (Lemos et al. 2023), model misspecification tests, and 500 injection tests — matching or exceeding the validation standard set by Gebhard et al. (A&A 2025).
 
-2. **Multi-parameter joint posteriors with rigorous calibration.** Existing DM estimators return a single number. This project returns the full joint posterior over three correlated parameters: DM, scattering timescale (τ_s), and spectral index (α). The correlations between these parameters are physically meaningful — DM and τ_s both increase with distance through the intergalactic medium, and their ratio constrains the turbulence spectrum of the intervening plasma. Mapping these correlations for 4,545 CHIME bursts is a new scientific result, not just a methods demonstration. Crucially, the posteriors must be validated against the known SBI failure modes: we include TARP diagnostics (Lemos et al. 2023), model misspecification tests, and 500 injection tests — matching or exceeding the validation standard set by Gebhard et al. (A&A 2025).
+2. **An improved and validated forward model.** The Rajabi et al. simulator is a starting point, but it was validated only indirectly (via the CNN-LSTM's DM accuracy). This project extends and validates the simulator more rigorously: (a) quantitative statistical comparison of simulated vs real CHIME dynamic spectra (pixel intensity histograms, pulse profiles, bandpass shapes — not just visual inspection), (b) misspecification tests showing how posteriors degrade when specific simulator components are disabled. The simulator improvement over Rajabi et al. must be explicitly demonstrated, not assumed. If the Rajabi simulator is already sufficient, use it as-is and contribute the validation and SBI inference instead.
 
-3. **Explicit characterization of where the method fails.** For which bursts (low S/N, high scattering, narrow bandwidth) do the posteriors become uninformative or miscalibrated? Reporting failure modes is required by the Huppenkothen checklist and builds trust with reviewers who know the SBI literature.
+3. **Explicit characterization of where the method fails.** For which bursts (low S/N, high scattering, narrow bandwidth) do the posteriors become uninformative or miscalibrated? Reporting failure modes builds trust with reviewers who know the SBI literature.
 
 ---
 
@@ -27,7 +29,13 @@ python -m venv fmpe_frb_env
 source fmpe_frb_env/bin/activate
 pip install torch numpy scipy matplotlib pandas astropy h5py
 pip install sbi           # simulation-based inference toolkit
-pip install scintools      # scintillation modeling
+pip install scintools      # scintillation modeling — NOTE: scintools is designed for pulsar
+                           # scintillation on timescales of seconds to minutes. For FRB timescales
+                           # (microseconds to milliseconds), the scintillation PATTERN generation
+                           # (correlated Gaussian fields in time-frequency) is reusable, but the
+                           # dynamic spectrum simulation pipeline may need custom code. Investigate
+                           # in week 2 whether scintools.Simulation can generate patterns at FRB
+                           # timescales or whether a custom implementation is needed.
 ```
 
 Project structure:
@@ -62,9 +70,9 @@ The simulator takes a set of physical parameters and produces a synthetic dynami
    ```
    Δt(ν) = 4.149 × DM × (ν_lo^(-2) - ν^(-2)) ms
    ```
-   where ν is in GHz. This is an exact physical formula, not an approximation.
+   where ν is in GHz. The constant 4.149 matches Lorimer & Kramer (2004): K_DM = 4.148808 ± 0.000003 GHz² pc⁻¹ cm³ ms. This is the cold-plasma limit, valid when ν >> ν_plasma — an excellent approximation at radio frequencies.
 
-3. **Apply scattering:** convolve the time profile at each frequency with a one-sided exponential with timescale τ_s × (ν / ν_ref)^(-4). The frequency scaling exponent -4 is the thin-screen Kolmogorov prediction; this can also be varied.
+3. **Apply scattering:** convolve the time profile at each frequency with a one-sided exponential with timescale τ_s × (ν / ν_ref)^(-4). The frequency scaling exponent -4 is the thin-screen approximation of Kolmogorov scattering (the full uniform-medium Kolmogorov prediction is -4.4; see Lorimer & Kramer 2004). Measured exponents for individual FRBs scatter broadly; for extragalactic FRBs the dominant scattering screen is often in the host galaxy, not the IGM (Macquart & Koay 2013). The exponent can be varied for the misspecification test (Phase 4).
 
 4. **Apply scintillation:** multiply the dynamic spectrum by a scintillation pattern generated using `scintools`. The pattern has characteristic bandwidth Δν_scint and characteristic timescale Δt_scint (derived from Δν_scint via the scintillation arc relation). Use `scintools.Simulation` to generate correlated Gaussian fields in the (time, frequency) plane.
 
@@ -78,7 +86,7 @@ Before using it for training, verify:
 - At τ_s = 0 and Δν_scint → ∞ (no scattering, no scintillation), the output should be a simple dispersed pulse. Check that de-dispersing at the true DM recovers a clean Gaussian.
 - At high τ_s, the pulse should visibly broaden at low frequencies.
 - At small Δν_scint, the dynamic spectrum should show "patchy" bright and dark frequency channels (the scintillation pattern).
-- Generate 100 spectra and visually compare to real CHIME dynamic spectra from the Catalog 2 baseband release. The simulated spectra should look qualitatively similar.
+- Generate 100 spectra and visually compare to real CHIME Catalog 2 total-intensity dynamic spectra (waterfall plots). The simulated spectra should look qualitatively similar.
 
 ### Simulator-vs-real statistical comparison (MANDATORY — do this BEFORE training the flow)
 
@@ -95,7 +103,9 @@ Present these as overlay plots. If any distribution diverges visibly, diagnose t
 
 ### How many simulations
 
-Generate 500,000 training simulations and 50,000 validation simulations. At ~0.5 seconds per simulation (the dispersion step is the bottleneck), this takes about 3 days on a laptop. The simulations can be run in parallel across CPU cores.
+Generate 500,000 training simulations and 50,000 validation simulations as a starting point. At ~0.5 seconds per simulation (the dispersion step is the bottleneck), this takes about 3 days on a laptop. The simulations can be run in parallel across CPU cores.
+
+**Note on simulation budget:** 500K simulations for a 5-parameter problem with 2D observations is on the low end of what published SBI papers use (Gebhard et al. A&A 2025 used 33.5M for 16 parameters). Run SBC/TARP diagnostics (Phase 4) after training to check whether the posterior has converged. If calibration diagnostics reveal underfitting or poor coverage, increase to 1–2M simulations. The compute cost scales linearly.
 
 Store simulations in HDF5 format: one file per batch of 10,000 spectra.
 
@@ -111,10 +121,16 @@ You have a simulator that maps parameters θ = (DM, τ_s, α) → dynamic spectr
 
 The `sbi` package trains a neural network to approximate this posterior directly. You feed it (θ, x) pairs from the simulator, and it learns a conditional density estimator q(θ | x) that approximates p(θ | x).
 
-### Architecture choice: Neural Posterior Estimation with a Masked Autoregressive Flow
+### Architecture choice: Neural Posterior Estimation
+
+**METHOD NAME CLARIFICATION:** The `sbi` package supports two relevant inference methods:
+- **SNPE** (Sequential Neural Posterior Estimation) with a MAF (Masked Autoregressive Flow) — a discrete bijective flow trained with maximum likelihood. Simpler, faster to train, well-tested.
+- **FMPE** (Flow Matching Posterior Estimation) — a continuous normalizing flow trained with the flow-matching objective from Lipman et al. 2023. Newer, potentially more stable for complex posteriors, but requires ODE solving at inference time.
+
+**Start with SNPE+MAF** (simpler, better-documented in `sbi`). If calibration diagnostics reveal poor coverage, try FMPE as an alternative. Report which method was used. Do NOT call the paper "Flow-Matching" if you used SNPE — this is a different method and reviewers will catch the mismatch immediately.
 
 ```python
-from sbi.inference import SNPE
+from sbi.inference import SNPE  # or: from sbi.inference import FMPE
 from sbi.utils import posterior_nn
 
 # Define the embedding network (compresses the 2D spectrum to a vector)
@@ -131,16 +147,19 @@ embedding_net = torch.nn.Sequential(
     torch.nn.ReLU(),
 )
 
-# Build the flow
+# Option A: SNPE with MAF (recommended starting point)
 density_estimator = posterior_nn(
     model="maf",          # Masked Autoregressive Flow
     embedding_net=embedding_net,
     hidden_features=128,
     num_transforms=5,
 )
-
-# Train
 inference = SNPE(prior=prior, density_estimator=density_estimator)
+
+# Option B: Genuine FMPE (try if SNPE calibration is poor)
+# from sbi.inference import FMPE
+# inference = FMPE(prior=prior, density_estimator=density_estimator)
+
 inference.append_simulations(theta_train, x_train)
 posterior = inference.train(training_batch_size=256, max_num_epochs=100)
 ```
@@ -207,9 +226,13 @@ This test directly addresses the dominant SBI criticism: what happens when the f
 
 **Time: 1 week**
 
-### Download CHIME Catalog 2 baseband data
+### Download CHIME Catalog 2 dynamic spectra
 
-The baseband waveforms are public at the CHIME/FRB data release page. Each burst is stored as a complex-valued time-frequency array. Convert to dynamic spectra (power = |amplitude|²) at CHIME's native resolution.
+**CRITICAL DATA CORRECTION:** The CHIME/FRB Catalog 2 (arXiv:2601.09399, submitted January 2026) provides **total-intensity dynamic spectra** (waterfall plots) at 0.983 ms time resolution and 24.4 kHz frequency resolution for ~4,539 bursts from 3,641 sources. It does **NOT** provide baseband (raw voltage) data for all events. The Catalog 2 paper explicitly states that baseband analysis will be presented "in a forthcoming paper." For Catalog 1, baseband data was released for only 140 out of 536 events.
+
+**The project uses intensity waterfalls, not baseband.** This is the actual data product available. The simulator must produce output in the same format: total-intensity dynamic spectra at CHIME's channelization (1024 frequency channels across 400–800 MHz, ~1 ms time resolution). The intensity waterfalls from Catalog 2 are sufficient for DM, scattering, and spectral index inference — baseband is not needed for these parameters.
+
+**Week 1 checkpoint:** Download 10 real CHIME Catalog 2 waterfalls and verify they are in the expected format (2D intensity arrays with time and frequency axes). Confirm the exact resolution, normalization, and any preprocessing steps applied by the CHIME pipeline.
 
 ### Preprocess to match simulator output
 
@@ -280,9 +303,9 @@ This catalog is the second major deliverable (after the simulator). Release it a
 
 ## Phase 8: Paper writing plan
 
-**Title:** "A Scintillation-Aware Forward Model for Fast Radio Bursts: Joint Posteriors on Dispersion, Scattering, and Spectral Index for 4,545 CHIME Events"
+**Title:** "Calibrated Joint Posteriors on Dispersion, Scattering, and Spectral Index for ~4,500 CHIME/FRB Bursts via Simulation-Based Inference"
 
-Note: "Forward Model" leads the title, not "SBI" or "Flow Matching." This signals that the simulator is the contribution.
+Note: "Calibrated Joint Posteriors" leads the title — this is the actual novelty (posteriors, not point estimates). Do NOT use "Flow Matching" in the title unless you actually use FMPE rather than SNPE. The forward model is discussed prominently but is an extension of Rajabi et al.'s existing simulator, not the sole contribution.
 
 ### Sections (full MNRAS / ApJ paper, 12-16 pages — target the full paper, not a Letter):
 
@@ -325,7 +348,7 @@ A Letter (5-8 pages) would not accommodate the validation rigor required to pree
 
 | Week | Activity |
 | --- | --- |
-| 1 | Setup, understand CHIME data format, read Islam et al. 2025 |
+| 1 | Setup, understand CHIME data format, read Rajabi et al. 2025 |
 | 2-3 | Build forward simulator step by step (dispersion → scattering → scintillation → noise) |
 | 4 | Validate simulator against real CHIME spectra, generate 500K training sims |
 | 5-6 | Build and train neural posterior estimator, run calibration diagnostics |

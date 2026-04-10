@@ -27,7 +27,9 @@ Each of the five is presented with the same structure:
 
 ---
 
-## Proposal 1 — SIREN for variable-star light curves
+## Proposal 1 — SIREN for variable-star light curves [DEMOTED: RNAAS-only side project]
+
+**Status:** Demoted from full-paper candidate to RNAAS-only (1,500 words, 1 figure, 4 weeks). The core contribution (SIREN vs GP curve fitting on 200 stars) lacks scientific depth for a journal paper — it is an interpolation comparison, not a physics result. The gap exists partly because the problem is well-served by existing methods. Viable as a quick first publication to stake a claim and build experience.
 
 **Scientific goal.** Can a small neural network that maps time directly to brightness reconstruct Cepheid and RR Lyrae light curves more accurately than Gaussian process regression when observations are sparse and irregularly spaced?
 
@@ -75,7 +77,7 @@ The current workhorse method is a two-dimensional convolutional neural network a
 
 Mamba is a new type of neural network architecture introduced in 2023 by Gu and Dao. It belongs to a family called selective state-space models. The practical consequence is that Mamba processes sequences whose length is N using computation that scales linearly with N, rather than quadratically like a Transformer. Long one-dimensional astronomical spectra are exactly the kind of input where this matters. Mamba also has a reference PyTorch implementation that is a drop-in replacement for an RNN.
 
-This proposal trains a small Mamba encoder (around 5 million parameters, which is tiny by ML standards) directly on raw log power spectra from Kepler and TESS red giants. The network has three output heads: one classifies the star as a red giant branch or red clump star, and two regress the two global oscillation parameters (ν_max, the frequency of maximum oscillation power, and Δν, the spacing between consecutive oscillation frequencies). The proposal is the first application of a state-space model to asteroseismology.
+This proposal trains a small Mamba encoder (around 1.5–2 million parameters with hidden_dim=256) directly on raw log power spectra from Kepler and TESS red giants. The network has three output heads: one classifies the star as a red giant branch or red clump star, and two regress the two global oscillation parameters (ν_max, the frequency of maximum oscillation power, and Δν, the spacing between consecutive oscillation frequencies). The proposal is the first application of a state-space model to asteroseismology.
 
 **Technology needed.**
 - PyTorch
@@ -83,26 +85,29 @@ This proposal trains a small Mamba encoder (around 5 million parameters, which i
 - `lightkurve` for TESS data access; MAST HLSP KEPSEISMIC for Kepler power spectra
 - Standard PyTorch training boilerplate; no custom CUDA kernels needed beyond what `mamba-ssm` provides
 
-**Inputs.** Kepler APOKASC-3 red giants (the Hon et al. 2018 sample, ~15,000 classified stars, public on MAST) and the TESS Southern Continuous Viewing Zone red-giant catalog (Stokholm et al. 2025, 19,151 stars, arXiv:2604.00498). Raw log power spectra, no image conversion.
+**Inputs.** Kepler APOKASC-3 red giants (the Hon et al. 2018 sample, ~15,000 classified stars, public on MAST) and the TESS Southern Continuous Viewing Zone red-giant catalog (Sreenivas et al. 2026, 19,151 stars, arXiv:2604.00498). Raw log power spectra, no image conversion.
 
 **Outputs.** Red giant branch vs red clump classification accuracy compared to Hon et al. 2018; ν_max and Δν regression accuracy compared to the BAM pipeline; an ablation showing how accuracy depends on the Mamba hidden dimension and depth; and a computational benchmark showing the linear-in-sequence-length scaling Mamba promises.
 
 **Baseline.**
-- Hon et al. 2018 two-dimensional CNN on echelle diagrams, MNRAS 476, 3233 — the current community standard for evolutionary state classification.
+- Hon et al. 2018 two-dimensional CNN on echelle diagrams, MNRAS 476, 3233, arXiv:1802.07260 — the current community standard for evolutionary state classification. Note: Hon et al. already reported duration-dependent accuracy (93.2% at 27 days, 95.4% at 82 days, 98.3% at 356+ days). This project extends their measurement with multi-architecture comparison, non-neural baselines, and interpretability.
+- Kuszlewicz et al. 2020 "Clumpiness" time-domain method, MNRAS 497, 4843 — achieved >91% at 27 days independently.
 - The BAM pipeline for global asteroseismic parameter extraction.
-- A size-matched Transformer encoder as a secondary ML baseline, to isolate the effect of the state-space architecture.
+- A size-matched Transformer encoder as a secondary ML baseline.
+- A Random Forest on hand-crafted features as the simplest-possible baseline (required by Huppenkothen et al. 2023 best practices).
 
 **Tangential research that makes this look promising.**
 - Gu and Dao 2023 introduced Mamba (arXiv:2312.00752). It outperformed Transformers of similar size on several language modeling benchmarks while using substantially less compute for long sequences.
 - Pan et al. 2024 published Astroconformer in MNRAS 528, 5890, achieving 0.017 dex RMSE for surface gravity on Kepler stellar parameter inference by combining attention with convolutions. This is the most recent architecture paper in the space and confirms that the asteroseismology community accepts new deep-learning architectures when they improve on CNN baselines.
 - Hon, Stello, Yu 2018 (MNRAS 476, 3233) is the canonical deep-learning red-giant classification paper and is the baseline this proposal beats.
-- Stokholm et al. 2025 (arXiv:2604.00498) released a 19,151-star TESS red-giant catalog in early 2026 — fresh held-out data for evaluation.
+- Sreenivas et al. 2026 (arXiv:2604.00498) described a 19,151-star TESS red-giant catalog. **However, as of April 2026, the associated data tables have not been publicly released** (GitHub repo contains only README). The cross-survey transfer experiment in plan_2 uses a workaround (Kepler-TESS overlap with APOKASC-3 ground-truth labels). See plan_2 Phase 2 for details.
 - No asteroseismology paper uses Mamba or any state-space model as of April 2026. An explicit arXiv search for "Mamba asteroseismology" returns zero hits.
+- **Important prior work:** Hon et al. (2018, MNRAS 476, 3233) already measured classification accuracy at 27, 82, 356, and 1460 days (93.2% at 27 days). Kuszlewicz et al. (2020, MNRAS 497, 4843) achieved >91% at 27 days with a time-domain method. The basic scaling law exists. This proposal extends it with multi-architecture comparison, non-neural baselines, interpretability, failure-mode analysis, and cross-survey transfer — none of which prior work provides.
 
 **Publication target and why it is publishable.**
 - Primary ML target: ML4PS at NeurIPS 2026 (4-page double-blind workshop paper).
-- Primary astronomy target: A&A Letter or MNRAS Letter if the architecture beats Hon 2018 on classification and matches BAM on regression. Full MNRAS paper otherwise.
-- Why it is publishable: state-space models are one of the two or three hottest architectural directions in deep learning in 2024–2026. No one has applied them in astronomy. The closest comparison — Astroconformer, published in MNRAS in 2024 — used the same dataset family with a different architecture and was accepted cleanly. A Mamba paper fits the same mold with newer machinery and clearer computational motivation.
+- Primary astronomy target: full MNRAS paper framed as a comprehensive multi-architecture benchmark extending Hon 2018, with interpretability and failure-mode analysis.
+- Why it is publishable: the paper provides a systematic, multi-method benchmark that the community lacks. It answers not just "how accurate?" (already measured) but "does architecture matter?", "does deep learning beat feature engineering?", "which stars fail?", and "does the result transfer across surveys?" Astroconformer (MNRAS 2024) extended Hon's CNN with a Transformer and was accepted; this extends the comparison further with Mamba, Transformer, CNN, AND Random Forest.
 
 ---
 
@@ -112,7 +117,7 @@ This proposal trains a small Mamba encoder (around 5 million parameters, which i
 
 **Plain-language explanation.** A fast radio burst is a millisecond-long flash of radio emission from an extragalactic source. As the radio signal travels through the ionized material between galaxies, different frequencies travel at different speeds and arrive at the telescope at slightly different times. This frequency-dependent delay is called the dispersion measure, and it is the single most important number extracted from each burst because it acts as a proxy for distance.
 
-Current software for measuring dispersion measures uses classical matched filtering or, most recently, a feed-forward CNN-LSTM (Islam et al. 2025, arXiv:2512.24003). These methods produce a single best-guess number. They do not give a proper probability distribution over possible dispersion measures, and they do not account for scintillation — the rapid frequency-dependent brightness variation that happens when a radio signal is broken up by interstellar turbulence. For wide bursts with strong scintillation, both problems matter.
+Current software for measuring dispersion measures uses classical matched filtering or, most recently, a feed-forward CNN-LSTM (Rajabi et al. 2025, arXiv:2512.24003). These methods produce a single best-guess number. They do not give a proper probability distribution over possible dispersion measures, and they do not account for scintillation — the rapid frequency-dependent brightness variation that happens when a radio signal is broken up by interstellar turbulence. For wide bursts with strong scintillation, both problems matter.
 
 This proposal fixes both. The student builds a physical forward model of a fast radio burst: a clean burst at a given dispersion measure, broken up by a scintillation pattern, broadened by scattering, and corrupted by instrument noise. Then the student simulates a large training dataset by sampling random dispersion measures, scintillation parameters, and scattering timescales, and feeding them through the forward model. Finally the student trains a conditional normalizing flow — a type of neural network that outputs full probability distributions — to predict the dispersion measure given the simulated dynamic spectrum.
 
@@ -126,18 +131,18 @@ Once the flow is trained, the student runs it on real CHIME/FRB Catalog 2 bursts
 
 **Inputs.** Two datasets. First, a large training set of simulated dynamic spectra produced by the forward model with labeled ground-truth dispersion measures. Second, real CHIME/FRB Catalog 2 baseband waveforms (4,545 events) for downstream application.
 
-**Outputs.** Posterior coverage diagnostics comparing the flow's stated credible intervals to empirical coverage on held-out simulations. A scatter plot comparing point estimates from the flow to the Islam et al. 2025 CNN-LSTM baseline. A per-burst posterior width as a function of burst duration and signal-to-noise, quantifying when the flow gives tight versus loose estimates.
+**Outputs.** Posterior coverage diagnostics comparing the flow's stated credible intervals to empirical coverage on held-out simulations. A scatter plot comparing point estimates from the flow to the Rajabi et al. 2025 CNN-LSTM baseline. A per-burst posterior width as a function of burst duration and signal-to-noise, quantifying when the flow gives tight versus loose estimates.
 
 **Baseline.**
-- Islam et al. 2025 CNN-LSTM feed-forward dispersion-measure estimator (arXiv:2512.24003) — the current state-of-the-art deep-learning method.
+- Rajabi et al. 2025 CNN-LSTM feed-forward dispersion-measure estimator (arXiv:2512.24003) — the current state-of-the-art deep-learning method.
 - Classical incoherent dedispersion scan (the matched-filter approach).
 
 **Tangential research that makes this look promising.**
 - Lipman et al. 2023 introduced flow matching (arXiv:2210.02747), a newer and more stable training objective for conditional normalizing flows.
 - Papamakarios et al. 2021 review paper on simulation-based inference (JMLR), the foundational reference for using normalizing flows on physical forward models.
-- Haldemann et al. 2025 applied flow matching posterior estimation to exoplanet atmospheric retrievals in A&A (full HTML on aanda.org), demonstrating that these methods produce well-calibrated posteriors in astrophysics when the forward model is honest. This is the most directly relevant precedent.
+- Gebhard et al. 2025 (A&A 693, A42, arXiv:2410.21477) applied flow matching posterior estimation to exoplanet atmospheric retrievals, demonstrating that these methods produce well-calibrated posteriors in astrophysics when the forward model is honest. This is the most directly relevant precedent. (**CORRECTION:** Earlier versions of this document incorrectly attributed this paper to "Haldemann et al." The correct first author is Gebhard.)
 - Ho et al. 2024 LtU-ILI (Open Journal of Astrophysics, arXiv:2402.05137) is an open-source toolkit for exactly this kind of analysis in cosmology, showing that the astronomy community now treats SBI with normalizing flows as a first-class technique.
-- Islam et al. 2025 (arXiv:2512.24003) demonstrated that CNN-LSTMs do not give uncertainty estimates on FRB dispersion measures, which is the gap this proposal closes.
+- Rajabi et al. 2025 (arXiv:2512.24003) demonstrated that CNN-LSTMs do not give uncertainty estimates on FRB dispersion measures, which is the gap this proposal closes.
 - No paper has used simulation-based inference to estimate FRB dispersion measures, and no FRB dispersion-measure estimator incorporates a scintillation-aware forward model. This is the largest gap in the list.
 
 **Publication target and why it is publishable.**
@@ -166,7 +171,7 @@ This is the project most likely to produce an interpretable result. It runs enti
 - Numpy, pandas, and matplotlib for data handling and plotting.
 - No neural network training required; no GPU required.
 
-**Inputs.** The ChronoFlow training set from Van-Lane et al. 2024, publicly released on Zenodo. About 8,000 cluster rotators with ages derived from Kepler, K2, TESS, and Gaia, cross-referenced to cluster membership.
+**Inputs.** The ChronoFlow training set from Van-Lane et al. 2025 (ApJ 986, 59), available in the `data/` directory of the GitHub repository (github.com/philvanlane/chronoflow) and archived on Zenodo (DOI 10.5281/zenodo.15482094; note: the Zenodo deposit contains code/tutorials, not the data files directly — the data CSV is in the GitHub repo). 7,615 cluster rotators with ages derived from Kepler, K2, TESS, and Gaia, cross-referenced to cluster membership across 30 open clusters.
 
 **Outputs.** A table of symbolic equations ranked by accuracy and complexity, showing the Pareto frontier of the search. The single best equation expressed as a LaTeX formula, with parameters rounded to physically meaningful precision. A comparison to Barnes 2007, Mamajek-Hillenbrand 2008, Angus 2019, and ChronoFlow itself on held-out clusters. If a residual fit is performed, a second formula for the ChronoFlow correction term.
 
@@ -174,14 +179,15 @@ This is the project most likely to produce an interpretable result. It runs enti
 - Barnes 2007 gyrochronology relation, ApJ 669, 1167.
 - Mamajek and Hillenbrand 2008, ApJ 687, 1264.
 - Angus et al. 2019 `stardate`, AJ 158, 173.
-- ChronoFlow (Van-Lane et al. 2024) as the deep-learning benchmark.
+- ChronoFlow (Van-Lane et al. 2025) as the deep-learning benchmark.
 
 **Tangential research that makes this look promising.**
 - Cranmer 2024 introduced PySR as a general-purpose symbolic regression library for scientific applications (arXiv:2305.01582).
 - Udrescu and Tegmark 2020 AI Feynman (Science Advances) demonstrated that symbolic regression can recover textbook physics equations from simulated data — a proof of concept for using the method in physical science.
-- Van-Lane et al. 2024 ChronoFlow (arXiv:2412.12244) provides both the cleaned training data and a state-of-the-art neural benchmark to match or beat.
+- Van-Lane et al. 2025 ChronoFlow (arXiv:2412.12244) provides both the cleaned training data and a state-of-the-art neural benchmark to match or beat.
 - Cranmer et al. 2020 (NeurIPS) showed that symbolic regression can rediscover known physical laws from graph neural network predictions, which is conceptually the technique this proposal applies to ChronoFlow's residuals.
-- The few existing astronomy applications of PySR target neutron-star equations of state rather than stellar rotation. Gyrochronology is a clean unused target.
+- PySR has been applied to many astronomy problems (galaxy-halo connection, SZ flux-mass relations, black hole masses, star formation parameterization, star/galaxy classification — see ai.damtp.cam.ac.uk/pysr/papers/). Custom Julia loss functions are now established practice (Salim et al. 2025, arXiv:2505.04681). The specific application to stellar rotation / gyrochronology is novel.
+- Lu & Angus 2024 (AJ 167, 159) published a GP-based gyrochronology calibration to 14 Gyr. PySR offers a complementary contribution: an interpretable closed-form equation rather than a black-box GP.
 
 **Publication target and why it is publishable.**
 - Primary target: Research Notes of the AAS (RNAAS) for the symbolic expression itself — this is the canonical fast-publication format for short clean results and a closed-form equation is exactly what it was designed for.
@@ -191,46 +197,15 @@ This is the project most likely to produce an interpretable result. It runs enti
 
 ---
 
-## Proposal 5 — GraphSAGE / GATv2 for open-cluster chemical homogeneity
+## ~~Proposal 5 — GraphSAGE / GATv2 for open-cluster chemical homogeneity~~ [CULLED]
 
-**Scientific goal.** Can a graph neural network, trained to propagate noisy per-star metallicities through an open-cluster membership graph, determine whether each cluster is chemically homogeneous or heterogeneous using only Gaia XP spectra, with accuracy competitive with high-resolution spectroscopic measurements?
+**This proposal has been removed from the active portfolio.** Reasons:
+1. **Fundamental signal-to-noise problem.** Per-star XP metallicity errors (~0.15 dex) exceed intra-cluster chemical spreads (~0.03 dex) by 5x. A weighted mean over N=100 stars already achieves ~0.015 dex precision — the GNN needs to beat a one-line computation.
+2. **Weak methodological novelty.** The proposed UncertaintySAGEConv (inverse-variance weighting inside message passing) is standard statistical practice, not a new architecture.
+3. **Near-competitor.** Spina et al. (2025, A&A 702) published graph attention networks for open-cluster chemical tagging, narrowing the novelty claim.
+4. **High execution cost.** 3-4 weeks of data engineering (1.3M star cross-match) before any model code runs, with uncertain payoff.
 
-**Plain-language explanation.** An open cluster is a group of a few hundred to a few thousand stars that formed together out of the same cloud of gas and dust. Because they formed from a single cloud, the stars in a cluster should all have very similar chemical compositions — the same ratio of iron to hydrogen, the same ratio of magnesium to iron, and so on. Whether and to what extent this chemical homogeneity actually holds is an important diagnostic of how stars form. Testing it normally requires high-resolution spectroscopy of many stars in the cluster, which is observationally expensive.
-
-Gaia DR3 released low-resolution BP/RP (XP) spectra for about 220 million stars. Methods like Andrae et al. 2023 produce per-star metallicity estimates from XP, but individual measurements are noisy — the error per star is larger than the typical within-cluster chemical spread. So you cannot test homogeneity just by looking at the scatter of individual XP metallicities. You need to combine information across stars in a statistically principled way.
-
-This is exactly what graph neural networks are designed to do. The proposal treats each cluster as a graph. Each star in the cluster is a node. Each node has features: the XP spectrum coefficients, the Gaia astrometry, and the per-star metallicity estimate with its error. Edges connect stars that are near each other in 6-dimensional phase space (position plus velocity). The graph neural network then performs several rounds of message passing: each node looks at its neighbors, combines its features with theirs, and updates its own representation. After a few rounds of message passing, the network outputs a single latent metallicity per cluster and a per-cluster homogeneity score.
-
-The training target is the APOGEE high-resolution ground truth for clusters that have APOGEE observations (a few hundred clusters out of the ~7,000 in the Hunt & Reffert 2023 catalog). Once trained, the network is applied to the remaining ~6,500 clusters to predict which are homogeneous and which are not.
-
-**Technology needed.**
-- PyTorch Geometric (PyG) for graph neural networks
-- GraphSAGE (Hamilton et al. 2017) or GATv2 (Brody, Alon, Yahav 2022) as the specific architecture
-- `astroquery` for Gaia data access
-- `GaiaXPy` for XP spectrum coefficients
-- ADQL for the Gaia archive cross-match to APOGEE DR17
-
-**Inputs.** Hunt and Reffert 2023 Gaia DR3 open cluster catalog (~7,000 clusters, public on the A&A 2023 supplementary materials). Gaia DR3 XP spectra and the Andrae et al. 2023 XP metallicities for each cluster member. APOGEE DR17 cluster metallicities for supervised training and validation. All data is public.
-
-**Outputs.** A per-cluster homogeneity score and latent metallicity prediction for all ~7,000 Hunt-Reffert clusters. A confusion matrix comparing graph-network predictions against APOGEE ground truth on the validation subset. A histogram of predicted homogeneity scores with error bars. An ablation showing the effect of graph connectivity (k-NN vs full graph) and of message-passing depth on performance.
-
-**Baseline.**
-- Weighted mean plus chi-squared dispersion test on individual XP metallicities — the statistical baseline that every cluster study would use as the first cut.
-- Niu et al. 2025 XP-based refinement of cluster parameters (A&A 693, A170), which uses XP metallicities for cluster characterization but does not test homogeneity with a graph-based method.
-- Hunt and Reffert 2023 DNN cluster membership tools, which do not use GNNs and do not test chemistry.
-
-**Tangential research that makes this look promising.**
-- Hamilton, Ying, Leskovec 2017 (NeurIPS) introduced GraphSAGE, the foundational inductive graph neural network.
-- Veličković et al. 2018 (ICLR) introduced Graph Attention Networks; Brody et al. 2022 (ICLR) improved them as GATv2. These are now the standard architectures for node-level regression on astronomical catalogs.
-- Villaescusa-Navarro et al. 2022 CAMELS Multifield Dataset papers used GNNs for cosmological parameter inference on halo catalogs, showing the astronomy community accepts GNN papers when the graph structure has physical meaning (Shao et al. 2023 ApJ, Villaescusa-Navarro 2023 NeurIPS).
-- Andrae et al. 2023 (arXiv:2407.06963) and Khalatyan et al. 2024 A&A 692, A66 ("SHBoost") are the two current workhorse methods for Gaia XP metallicities and provide the per-star features the graph network consumes.
-- Hunt and Reffert 2023 (A&A 673, A114) provides the cluster catalog and membership probabilities.
-- No paper uses a graph neural network to test chemical homogeneity of open clusters, and no paper applies message passing to combine noisy Gaia XP metallicities within cluster members.
-
-**Publication target and why it is publishable.**
-- Primary target: A&A or MNRAS full paper.
-- Methods-paper target: ML4PS at NeurIPS 2026 or ML4Astro at ICML 2026.
-- Why it is publishable: the proposal takes a real astrophysical question (are open clusters chemically homogeneous?) that currently requires expensive observations, and shows that a learned graph-based combination of cheap noisy measurements can substitute for expensive ones. Graph neural networks are also one of the few deep-learning architectures that astronomers readily accept because the graph structure (stars in a cluster) is physically motivated and not an arbitrary modeling choice.
+The detailed plan is preserved in `plan_5_gnn_cluster.md` for reference but is not recommended for execution.
 
 ---
 
@@ -240,20 +215,20 @@ Three retained proposals, ranked by overall recommendation priority. The orderin
 
 | # | Name | GPU | Time | Safety | Stretch | Survives negative result? |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Mamba-RG | 1 | 8-12w | ML4PS | MNRAS | Yes — scaling law is useful regardless of which architecture wins |
-| 2 | PySR-Gyro | no | 5-7w | RNAAS | MNRAS / ApJL | Yes — bootstrap stability is a finding even if Barnes is confirmed |
-| 3 | FMPE-FRB | 1 | 12-16w | ML4PS | ApJ / MNRAS | Partially — forward model is useful even if posteriors are miscalibrated |
+| 1 | PySR-Gyro | no | 10-14w | RNAAS | MNRAS / ApJL | Yes — bootstrap stability is a finding even if Barnes is confirmed |
+| 2 | Mamba-RG | 1 | 14-18w | ML4PS | MNRAS | Yes — scaling law is useful regardless of which architecture wins |
+| ~~3~~ | ~~SBI-FRB~~ | ~~1~~ | ~~16-20w~~ | ~~ML4PS~~ | ~~MNRAS~~ | **SHELVED** — Three physics errors in forward model (scattering exponent, DM-τ_s correlation, scintillation timescale), existing FRB simulators (fitburst, Rajabi et al.), CHIME baseband unavailable. Requires radio astronomy co-supervisor. |
 | (side) | SIREN-LC | no | 4w | RNAAS | — | N/A — RNAAS only, no stretch target |
 
-Legend: **Mamba-RG** = Proposal 2 (red giants, reframed as observation-duration scaling law). **PySR-Gyro** = Proposal 4 (gyrochronology, reframed around stalled spin-down). **FMPE-FRB** = Proposal 3 (fast radio bursts, reframed around forward model). **SIREN-LC** = Proposal 1 (light curves, RNAAS-only side project). **GPU**: compute required. **Time**: weeks. **Safety**: the near-guaranteed venue. **Stretch**: the best reachable high-prestige venue.
+Legend: **Mamba-RG** = Proposal 2 (red giants, reframed as observation-duration scaling law). **PySR-Gyro** = Proposal 4 (gyrochronology, reframed around stalled spin-down). **FMPE-FRB** = Proposal 3 (fast radio bursts, reframed around forward model). **SIREN-LC** = Proposal 1 (light curves, RNAAS-only side project). **GPU**: compute required. **Time**: weeks. **Safety**: the most likely venue. **Stretch**: the best reachable high-prestige venue.
 
-**The single recommended project for a first-time undergraduate:** Proposal 2 (observation-duration scaling law). Clear scientific question, robust to negative results, scope matches Astroconformer (MNRAS 2024). Requires one GPU.
+**The single recommended project overall:** Proposal 4 (PySR for gyrochronology). Runs on a laptop. 8-12 weeks realistic. Best balance of feasibility, robustness to negative results, and publishability. Bootstrap stability and out-of-distribution test provide independent contributions even if the equation itself is Barnes 2007. RNAAS is highly achievable; MNRAS/ApJL depends on whether the bootstrap or OOD test reveals something surprising.
 
-**The single recommended project with no GPU and shortest timeline:** Proposal 4 (PySR for gyrochronology). Runs on a laptop. 5-7 weeks. Bootstrap stability and out-of-distribution test provide independent contributions even if the equation itself is Barnes 2007.
+**The higher-ceiling alternative with more risk:** Proposal 2 (observation-duration scaling law). Requires one GPU. 14-18 weeks realistic. The multi-architecture benchmark with failure-mode analysis has not been done. But it requires more domain knowledge (mixed-mode physics, asteroseismology), has a blocked TESS transfer experiment, and the "boring answer" risk (all architectures perform the same) is real.
 
-**The single recommended project for highest ceiling:** Proposal 3 (FMPE for FRB DMs). Hardest and longest, but produces two independent contributions (forward model + catalog). Requires one GPU and radio astronomy domain knowledge.
+**~~The single recommended project for highest ceiling:~~ Proposal 3 (SBI for FRB DMs) — SHELVED.** Independent review found three physics errors in the forward model (the plan's stated primary contribution): the scattering exponent explanation is wrong (Geyer & Karastergiou 2016), the DM-τ_s correlation doesn't exist for extragalactic FRBs (Zhu et al. 2021), and FRBs are too short for temporal scintillation. Additionally, fitburst (CHIME's own simulator) and Rajabi et al.'s GPL-2.0 simulator already exist, CHIME baseband data is not public, and multiple API calls in the code are wrong. This project requires a radio astronomy co-supervisor to be viable. Plan preserved in `archived/plan_3_sbi_frb_SHELVED.md`.
 
-**Quick side project for early publication:** Proposal 1 (SIREN-LC RNAAS). 4 weeks, no GPU, guaranteed RNAAS publication. Do this first as a warm-up, then switch to a main project.
+**Quick side project for early publication:** Proposal 1 (SIREN-LC RNAAS). 4 weeks, no GPU, very likely RNAAS acceptance (RNAAS is moderated, not peer-reviewed, and explicitly accepts method demonstrations and preliminary results — but "guaranteed" is too strong; the editor can still reject). Do this first as a warm-up, then switch to a main project.
 
 ### Recommended publication strategy (applies to all proposals)
 
@@ -281,26 +256,34 @@ Papers referenced in the proposals. All are real and the arXiv IDs are verified 
 ### State-space models and Mamba
 - Gu, Dao. Mamba: Linear-Time Sequence Modeling with Selective State Spaces. 2023. arXiv:2312.00752.
 - Gu, Goel, Ré. Efficiently Modeling Long Sequences with Structured State Spaces (S4). ICLR 2022. arXiv:2111.00396.
-- Hon, Stello, Yu. Deep learning classification in asteroseismology. MNRAS 476, 3233 (2018).
+- Hon, Stello, Yu. Deep Learning Classification in Asteroseismology Using an Improved Neural Network. MNRAS 476, 3233 (2018). arXiv:1802.07260.
+- Kuszlewicz, Hon, Huber, et al. Automated classification of Kepler targets using time-domain features. MNRAS 497, 4843 (2020). arXiv:2007.10921.
 - Pan, Lu, Huertas-Company, Ho, Koester. Astroconformer: Inferring Surface Gravity of Stars from Stellar Light Curves with Transformer. MNRAS 528, 5890 (2024). arXiv:2309.16316.
-- Stokholm, Beck, et al. 19,151 Red Giants in the TESS Southern Continuous Viewing Zone. arXiv:2604.00498 (2026).
+- Sreenivas, Bedding, Huber, Stello, Hon, Reyes, Li, Hey. Global Asteroseismology of 19,000 Red Giants in the TESS Continuous Viewing Zones. arXiv:2604.00498 (2026).
+- Pinsonneault et al. APOKASC-3: The Third Asteroseismic-Spectroscopic Catalog. ApJS 276, 69 (2025). arXiv:2410.00102.
 
 ### Simulation-based inference and flow matching
 - Lipman, Chen, Ben-Hamu, Nickel, Le. Flow Matching for Generative Modeling. 2023. arXiv:2210.02747.
 - Papamakarios, Nalisnick, Rezende, Mohamed, Lakshminarayanan. Normalizing Flows for Probabilistic Modeling and Inference. JMLR 22, 1–64 (2021). arXiv:1912.02762.
-- Haldemann, Ksoll, Walter, Carrión-González, Mordasini, Henning, Quanz. Exoplanet Atmospheric Retrieval with Neural Simulation-Based Inference using Flow Matching Posterior Estimation. A&A (January 2025, full HTML on aanda.org).
+- Gebhard, Wildberger, Dax, Angerhausen, Quanz, Schölkopf. Inferring Atmospheric Properties of Exoplanets with Flow Matching and Neural Importance Sampling. A&A 693, A42 (2025). arXiv:2410.21477.
 - Ho, Bartlett, et al. LtU-ILI: An All-in-One Framework for Implicit Inference in Astrophysics and Cosmology. Open Journal of Astrophysics (2024). arXiv:2402.05137.
-- Islam, et al. Deep Learning Dispersion Measure Estimation for Fast Radio Bursts. 2025. arXiv:2512.24003.
+- Rajabi, Liu, Rajabi, Houde. Machine-learning approaches to dispersion measure estimation for fast radio bursts. 2025. arXiv:2512.24003.
 - CHIME/FRB Collaboration. The First CHIME/FRB Fast Radio Burst Catalog (Catalog 1 + Catalog 2 baseband release public 2025).
 
 ### Symbolic regression and gyrochronology
 - Cranmer. Interpretable Machine Learning for Science with PySR and SymbolicRegression.jl. 2024. arXiv:2305.01582.
 - Udrescu, Tegmark. AI Feynman: A Physics-Inspired Method for Symbolic Regression. Science Advances 6, eaay2631 (2020).
 - Cranmer et al. Discovering Symbolic Models from Deep Learning with Inductive Biases. NeurIPS 2020. arXiv:2006.11287.
-- Van-Lane, Speagle, Douglas. ChronoFlow: A Data-Driven Model for Gyrochronology. 2024. arXiv:2412.12244.
+- Van-Lane, Speagle, Eadie, Douglas, Cargile, Zucker, Lu, Angus. ChronoFlow: A Data-Driven Model for Gyrochronology. ApJ 986, 59 (2025). arXiv:2412.12244.
 - Barnes. Ages for Illustrative Field Stars Using Gyrochronology: Viability, Limitations, and Errors. ApJ 669, 1167 (2007).
 - Mamajek, Hillenbrand. Improved Age Estimation for Solar-Type Dwarfs Using Activity-Rotation Diagnostics. ApJ 687, 1264 (2008).
 - Angus et al. Toward Precise Stellar Ages: Combining Isochrone Fitting with Empirical Gyrochronology. AJ 158, 173 (2019).
+- Tenachi, Ibata, Diakogiannis. PhySO: Physical Symbolic Optimization. ApJ 959, 99 (2023). arXiv:2303.03192.
+- van Saders, Ceillier, Metcalfe, et al. Weakened magnetic braking as the cause of anomalously rapid rotation in old field stars. Nature 529, 181 (2016).
+- Hall, Foreman-Mackey, et al. Weakened magnetic braking supported by asteroseismic rotation rates of Kepler dwarfs. Nature Astronomy 5, 707 (2021).
+- Metcalfe et al. Magnetic braking at the crossroads. ApJ 991, L17 (2025). arXiv:2509.03717.
+- Pezzotti et al. The stellar activity-rotation-age relationship under the lens of asteroseismology. A&A (2026). arXiv:2512.14517.
+- Yang et al. Four ages of rotating stars. A&A (2025). arXiv:2506.07383.
 
 ### Graph neural networks and Gaia XP spectroscopy
 - Hamilton, Ying, Leskovec. Inductive Representation Learning on Large Graphs (GraphSAGE). NeurIPS 2017. arXiv:1706.02216.
