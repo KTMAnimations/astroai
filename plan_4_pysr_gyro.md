@@ -159,6 +159,16 @@ The key modification from a naive PySR run: a custom loss function written in Ju
 import pysr
 import numpy as np
 
+# Compute inverse-frequency age weights so each log-age decade has equal
+# influence on the loss. Without this, 73% of stars at <500 Myr dominate
+# the fit and inflate the age exponent from ~0.5 to ~0.83.
+log_ages = np.log10(ages_myr)
+age_bins = np.arange(log_ages.min(), log_ages.max() + 0.5, 0.5)  # 0.5-dex bins
+bin_indices = np.digitize(log_ages, age_bins)
+bin_counts = np.bincount(bin_indices, minlength=len(age_bins) + 1)
+sample_weights = 1.0 / bin_counts[bin_indices]
+sample_weights = sample_weights * len(sample_weights) / sample_weights.sum()  # normalize so sum = N
+
 X = np.column_stack([ages_myr, colors_bprp0])  # shape (N, 2)
 y = periods_days  # shape (N,)
 
@@ -170,14 +180,21 @@ function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
     if !flag
         return L(Inf)
     end
-    # Standard MSE
+    # Weighted MSE — when using a custom loss_function (full objective),
+    # PySR does NOT automatically apply dataset.weights. We must apply
+    # them manually. Weights are passed via model.fit(weights=sample_weights)
+    # and stored in dataset.weights.
     diffs = prediction .- dataset.y
-    mse = sum(diffs .^ 2) / length(diffs)
+    if dataset.weights !== nothing
+        mse = sum(dataset.weights .* diffs .^ 2) / sum(dataset.weights)
+    else
+        mse = sum(diffs .^ 2) / length(diffs)
+    end
 
     # Penalty: negative periods
     neg_penalty = sum(max.(0, -prediction)) / length(prediction)
 
-    # Penalty: non-monotonic with age — HEAVILY RESTRICTED.
+    # Penalty: non-monotonic with age — checked WITHIN narrow color bins.
     #
     # IMPORTANT: Standard magnetic braking (monotonic spin-down) applies ONLY to:
     #   - Ages 100 Myr to ~1 Gyr (before stalled spin-down in K dwarfs)
@@ -190,21 +207,32 @@ function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
     #   - Colors < 0.6: above the Kraft break, weak/absent magnetic braking
     #   - Colors > 1.1: late K/M dwarfs with extended stalled phases
     #
+    # BUG FIX: The monotonicity check must be done within narrow color bins,
+    # not across the full 0.6–1.1 range. At fixed age, redder stars have longer
+    # periods than bluer stars. Sorting all masked stars by age and penalizing
+    # decreases would incorrectly penalize a legitimate drop from a red young
+    # star to a blue older star. Fix: bin by color in 0.1 mag bins, check
+    # monotonicity in age within each bin.
+    #
     # RECOMMENDED: Run PySR TWICE — once with this restricted penalty, once WITHOUT
     # any monotonicity penalty. Compare the Pareto frontiers. If the unconstrained
     # search finds physically sensible equations, the penalty is unnecessary.
     # If it finds pathological equations, the penalty is justified.
     ages = dataset.X[1, :]
     colors = dataset.X[2, :]
-    mask = (ages .> 100.0) .& (ages .< 1000.0) .& (colors .> 0.6) .& (colors .< 1.1)
-    if sum(mask) > 10
-        masked_ages = ages[mask]
-        masked_pred = prediction[mask]
-        sorted_idx = sortperm(masked_ages)
-        sorted_pred = masked_pred[sorted_idx]
-        mono_violations = sum(max.(0, sorted_pred[1:end-1] .- sorted_pred[2:end]))
-    else
-        mono_violations = zero(L)
+    mono_violations = zero(L)
+    # Check monotonicity within 0.1-mag color bins from 0.6 to 1.1
+    for color_lo in 0.6:0.1:1.0
+        color_hi = color_lo + L(0.1)
+        mask = (ages .> 100.0) .& (ages .< 1000.0) .& (colors .>= color_lo) .& (colors .< color_hi)
+        if sum(mask) < 5
+            continue
+        end
+        bin_ages = ages[mask]
+        bin_pred = prediction[mask]
+        sorted_idx = sortperm(bin_ages)
+        sorted_pred = bin_pred[sorted_idx]
+        mono_violations += sum(max.(0, sorted_pred[1:end-1] .- sorted_pred[2:end]))
     end
 
     return mse + 10.0 * neg_penalty + 1.0 * mono_violations
@@ -220,7 +248,7 @@ model = pysr.PySRRegressor(
     maxsize=25,
     batching=True,
     batch_size=500,
-    loss_function=physics_loss,  # NOTE: Both 'loss_function' and 'full_objective' may work as aliases depending on PySR version. Verify against your installed version: `python -c "import pysr; help(pysr.PySRRegressor)"`. Current docs (v1.5.9) list 'loss_function'.
+    loss_function=physics_loss,  # In PySR v1.5.10, `loss_function` is the correct parameter for a dataset-level (full) objective. `elementwise_loss` is for per-point losses. Verified against installed source.
     complexity_of_operators={
         "pow": 2, "log": 1, "exp": 1, "sqrt": 1
     },
@@ -229,7 +257,10 @@ model = pysr.PySRRegressor(
     output_directory="project/results/pysr_constrained",  # saves results to this permanent path
 )
 
-model.fit(X, y, variable_names=["age", "color"])
+# Pass inverse-frequency age weights so each log-age decade has equal
+# influence on the loss. The custom loss_function accesses these via
+# dataset.weights in Julia.
+model.fit(X, y, variable_names=["age", "color"], weights=sample_weights)
 ```
 
 Run this TWICE: once with the physics-constrained loss, once with plain MSE. Compare the Pareto frontiers. The constrained search should produce equations that are physically sensible everywhere, while the unconstrained search may find equations that fit better on the training data but blow up at extreme ages or colors.
