@@ -90,9 +90,9 @@ The ChronoFlow residual analysis is still done, but it is a secondary experiment
    - M67 (3.87 Gyr) is the ONLY cluster above 3 Gyr
    PySR's equation will be well-constrained below 500 Myr and poorly constrained above 1 Gyr. Any exponent-level claim is driven almost entirely by young clusters. **Acknowledge this in the paper and interpret results accordingly.** The statement "ages 1.5 Myr to ~4 Gyr" is literally true but seriously misleading about sampling density.
 
-5. **Quality check:** Make a scatter plot of rotation period vs (BP-RP)_0, colored by cluster age. You should see that younger clusters (blue dots) have shorter periods and older clusters (red dots) have longer periods, with a clear color-dependence. If this pattern is not visible, something is wrong with the data loading.
+6. **Quality check:** Make a scatter plot of rotation period vs (BP-RP)_0, colored by cluster age. You should see that younger clusters (blue dots) have shorter periods and older clusters (red dots) have longer periods, with a clear color-dependence. If this pattern is not visible, something is wrong with the data loading.
 
-5. **Unit decisions:** Convert age to Myr (not log). Using linear age values (1–4000) rather than log-transformed values allows PySR to choose between `log(age)`, `age^n`, `sqrt(age)`, and other functional forms. Note: PySR can only discover logarithmic relationships if `log` is included in the operator set (Phase 4 includes it). Transcendental functions like `log` cannot be exactly composed from algebraic operators (+, ×, ^). In practice, PySR struggles to approximate log-like relationships without `log` in the operator set (see PySR GitHub issue #7 for an example). The practical recommendation: always include `log` in the operator set when log relationships are plausible.
+7. **Unit decisions:** Convert age to Myr (not log). Using linear age values (1–4000) rather than log-transformed values allows PySR to choose between `log(age)`, `age^n`, `sqrt(age)`, and other functional forms. Note: PySR can only discover logarithmic relationships if `log` is included in the operator set (Phase 4 includes it). Transcendental functions like `log` cannot be exactly composed from algebraic operators (+, ×, ^). In practice, PySR struggles to approximate log-like relationships without `log` in the operator set (see PySR GitHub issue #7 for an example). The practical recommendation: always include `log` in the operator set when log relationships are plausible.
 
 ---
 
@@ -242,7 +242,13 @@ end
 model = pysr.PySRRegressor(
     niterations=200,
     binary_operators=["+", "-", "*", "/", "pow"],
-    unary_operators=["log", "exp", "sqrt"],  # abs REMOVED: creates non-differentiable points, no known physical mechanism produces |x| dependence in rotation
+    # abs REMOVED: creates non-differentiable points, no known physical mechanism
+    # produces |x| dependence in rotation.
+    # NOTE: pow allows unphysical combinations like pow(age, color) or
+    # pow(color, age). PySR cannot restrict pow's second argument to constants
+    # only. In practice, these expressions fit poorly and rank low on the Pareto
+    # frontier. Check discovered equations for such terms and discard them.
+    unary_operators=["log", "exp", "sqrt"],
     populations=30,
     population_size=50,
     maxsize=25,
@@ -252,7 +258,15 @@ model = pysr.PySRRegressor(
     complexity_of_operators={
         "pow": 2, "log": 1, "exp": 1, "sqrt": 1
     },
-    # select_k_features removed — with exactly 2 input features, selecting top 2 of 2 is a no-op
+    # Nesting constraints prevent pathological expressions like exp(exp(x))
+    # or log(log(x)) which waste search time and produce numerically unstable
+    # equations. Each entry limits how many times an operator's argument can
+    # itself contain nested operators.
+    nested_constraints={
+        "exp": {"exp": 0, "log": 0},
+        "log": {"log": 0, "exp": 0},
+        "sqrt": {"sqrt": 1},
+    },
     progress=True,
     output_directory="project/results/pysr_constrained",  # saves results to this permanent path
 )
@@ -354,6 +368,8 @@ Even if the best residual equation has a large RMSE (meaning ChronoFlow's errors
 
 **CIRCULARITY WARNING:** The residual analysis above uses ChronoFlow's predictions on its OWN training data. Residual patterns may reflect ChronoFlow's finite capacity/inductive bias rather than genuine systematic errors on unseen stars. **To make the physical interpretation honest, run Phase 6 on leave-one-cluster-out (LOO) residuals instead:** for each cluster, use the ChronoFlow prediction from the model that was NOT trained on that cluster (from Phase 9's LOO runs). This requires running ChronoFlow LOO first (adds compute), but makes the residual analysis genuinely out-of-sample.
 
+**SCHEDULING NOTE:** This creates a dependency on Phase 9 (LOO cross-validation), which is listed later. In practice, run Phase 6 in two passes: (1) an initial pass with in-sample residuals immediately after Phase 5 to get early signal on residual structure, then (2) a final pass with proper LOO residuals after Phase 9 completes. Report only the LOO version in the paper.
+
 ---
 
 ## Phase 7: Bootstrap stability analysis (MANDATORY)
@@ -447,7 +463,7 @@ In the discussion section, interpret the extrapolation result in the context of:
 
 ## Phase 9: Cross-validation across clusters (MANDATORY)
 
-**Time: 1-2 days**
+**Time: 3-8 days** (30 PySR LOO runs at 50 iterations each, ~2-6 hours per run, sequential)
 
 This is the most important verification step. Gyrochronology equations are only useful if they generalize to clusters not in the training set.
 
@@ -594,14 +610,16 @@ Note: the title frames the astrophysical question, not the tool. "PySR" does not
 
 ## Timeline
 
+**Note:** The original 12-week timeline underestimated compute for the bootstrap (Phase 7), LOO PySR cross-validation (Phase 9, 30 runs), and age-uncertainty sensitivity (Phase 10, 10 runs). Revised to 14–16 weeks. Phases 7, 8, and 9 are independent and can run in parallel on separate machines/nodes if cluster compute is available.
+
 | Week | Activity |
 | --- | --- |
 | 1 | Environment setup, data download, understand ChronoFlow data, make scatter plots, assemble old-star OOD sample |
 | 2 | Implement Barnes/MH/Angus/curve_fit baselines, refit to Gaia colors, verify against published values |
 | 3 | Run PySR direct search (constrained + unconstrained, let it run 1-2 days), inspect Pareto frontier |
-| 4 | Run ChronoFlow forward model, compute and visualize residuals, run PySR on residuals |
-| 5-7 | Bootstrap stability analysis: Step A (10 same-data runs, ~3-5 days) then Step B (50-100 resamples, sequential, 2-4 weeks — see compute note in Phase 7) |
-| 8 | Out-of-distribution extrapolation test, cross-validation (leave-one-cluster-out) |
-| 9 | Verification, failure mode characterization, generate all figures and tables |
-| 10-11 | Write the paper (RNAAS first, then full version) |
-| 12 | Revise, advisor feedback |
+| 4 | Run ChronoFlow forward model, compute and visualize in-sample residuals (initial Phase 6 pass), run PySR on residuals |
+| 5-8 | Bootstrap stability analysis: Step A (10 same-data runs, ~3-5 days) then Step B (50-100 resamples, sequential, 2-4 weeks — see compute note in Phase 7) |
+| 9-10 | LOO PySR cross-validation (Phase 9, 30 runs × 2-6 hrs each, ~3-8 days). In parallel: out-of-distribution extrapolation test (Phase 8), age-uncertainty sensitivity (Phase 10, 10 runs). Revisit Phase 6 with LOO residuals. |
+| 11 | Verification, failure mode characterization, generate all figures and tables |
+| 12-13 | Write the paper (RNAAS first, then full version) |
+| 14 | Revise, advisor feedback |
