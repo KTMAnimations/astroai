@@ -74,8 +74,7 @@ else:
 
     print("  Recommendation (pending actual timing):")
     print("  - 50 resamples × 50 iters:  ~25 hrs (1 day) — feasible on a single machine")
-    print("  - 100 resamples × 50 iters: ~50 hrs (2 days) — feasible before Sept 2026 deadline")
+    print("  - 100 resamples × 50 iters: ~50 hrs (2 days) — feasible on a single machine")
     print("  - 50 resamples × 200 iters: ~100 hrs (4 days) — use if reproducibility check fails")
 
-print(f"\n  ML4PS deadline: ~September 2026")
-print(f"  All options are feasible. Start with 50 × 50, increase if needed.")
+print(f"\n  All options are feasible. Start with 50 × 50, increase if needed.")

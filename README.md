@@ -8,9 +8,9 @@ I got into this after reading the [ChronoFlow paper](https://arxiv.org/abs/2412.
 
 A machine inventing equations will always find one that fits a hair better, so the real question is whether that equation is real or just fitting noise. I re-ran the whole search on a hundred resampled copies of the data and counted how often each equation's shape came back. A real law turns up every time; noise turns up once and never again.
 
-![Left: every equation found, error against complexity, flattening out above the noise floor. Right: how many distinct equation shapes survived across a hundred resamples.](project/figures/rnaas_figure.png)
+![Left: every equation found, error against complexity, flattening out above the noise floor. Right: how many distinct equation shapes survived across a hundred resamples.](project/figures/pareto_stability.png)
 
-It came back to Skumanich. The simple form, period as the square root of age times color, showed up in all hundred runs, while the fancier equations that edged it out on paper were different every time. A one-line `scipy.curve_fit` matched the whole pipeline in cross-validation. The data just doesn't hold enough to support anything more elaborate than the 1972 answer.
+It came back to Skumanich. The simple form, period as the square root of age times color, showed up in all hundred runs, while the fancier equations that edged it out in raw error were different every time. A one-line `scipy.curve_fit` matched the whole pipeline in cross-validation. The data just doesn't hold enough to support anything more elaborate than the 1972 answer.
 
 As a last check I inverted the relation to age tens of thousands of Kepler field stars and pushed it onto M67, an old cluster where the law is known to break. Stars past about four billion years stop slowing on schedule, and the predictions overshoot them exactly there.
 

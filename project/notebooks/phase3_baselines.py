@@ -132,7 +132,7 @@ print(f"Valid domain (color>0.5, age>10 Myr): {valid.sum()} / {len(df)} stars")
 # NOTE: Barnes, MH, and DeadSimple share the same functional form
 # (P = a*(color-c0)^b * age^n). They converge to nearly identical parameters
 # from different starting points (RMSE within 0.005 d), confirming a single
-# global minimum. Only Barnes2007 and Angus2019 are reported in the paper.
+# global minimum. Barnes2007 and Angus2019 are the headline baselines;
 # MH and DeadSimple are retained as convergence validation.
 models = {
     "Barnes2007": {

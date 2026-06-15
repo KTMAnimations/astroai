@@ -1,6 +1,0 @@
-[    1624ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.cosmos.esa.int/web/gaia/dr3-gaia-source-xp-continuous-mean-spectra:0
-[    4006ms] [LOG] contributor... @ https://www.cosmos.esa.int/combo?browserId=chrome&minifierType=js&languageId=en_GB&t=1774418358496&/o/esa-cosmos-theme-contributor/js/esa-cosmos-theme-contributor.js:0
-[    4249ms] [LOG] VANILLA main.js DOMContentLoaded  @ https://www.cosmos.esa.int/o/esa-cosmos-theme/js/main.js?browserId=chrome&minifierType=js&languageId=en_GB&t=1774418418000:22
-[    4250ms] [LOG] found em! 404 [object HTMLCollection] @ https://www.cosmos.esa.int/o/esa-cosmos-theme/js/main.js?browserId=chrome&minifierType=js&languageId=en_GB&t=1774418418000:17
-[    4255ms] [LOG] JQUERY main.js @ https://www.cosmos.esa.int/o/esa-cosmos-theme/js/main.js?browserId=chrome&minifierType=js&languageId=en_GB&t=1774418418000:1
-[    4568ms] [LOG] allPortletsReady... @ https://www.cosmos.esa.int/combo?browserId=chrome&minifierType=js&languageId=en_GB&t=1774418358496&/o/esa-cosmos-theme-contributor/js/esa-cosmos-theme-contributor.js:1

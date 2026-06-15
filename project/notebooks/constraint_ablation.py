@@ -6,8 +6,8 @@ whether the physics loss function changes the functional form or just
 the coefficients.
 
 If both find the same forms at the same frequencies, physics constraints
-are not load-bearing for this dataset (though still a methodological
-contribution for the paper).
+are not load-bearing for this dataset (though still a useful
+methodological check).
 
 Usage:
     python constraint_ablation.py             # full (20 runs at 200 iters)

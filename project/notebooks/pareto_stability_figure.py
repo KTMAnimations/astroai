@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate the single multi-panel figure for the RNAAS note.
+"""Generate the multi-panel results figure.
 
-Panel (a): Pareto front — complexity vs RMSE, with noise floor.
-Panel (b): Bootstrap stability — unique canonical forms at each complexity.
+Panel (a): Pareto front, complexity vs RMSE, with noise floor.
+Panel (b): Bootstrap stability, unique canonical forms at each complexity.
 """
 
 import json
@@ -151,7 +151,7 @@ ax2.text(16, 55, "unstable", fontsize=7.5, ha="center", color="#d6604d",
          fontstyle="italic", alpha=0.7)
 
 plt.tight_layout(w_pad=2.5)
-out_path = os.path.join(FIGURES, "rnaas_figure.pdf")
+out_path = os.path.join(FIGURES, "pareto_stability.pdf")
 fig.savefig(out_path, dpi=300, bbox_inches="tight")
 print(f"Saved: {out_path}")
 fig.savefig(out_path.replace(".pdf", ".png"), dpi=200, bbox_inches="tight")

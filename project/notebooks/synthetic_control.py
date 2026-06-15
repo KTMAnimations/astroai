@@ -7,8 +7,7 @@ bootstrap stability analysis, and verifies that the method correctly:
   B) Detects instability when the true form is complex
   C) Shows data limitations when the true form has a piecewise transition
 
-This is the paper's core methods contribution: without synthetic validation,
-the bootstrap stability claim is unverifiable.
+Without synthetic validation, the bootstrap stability claim is unverifiable.
 
 Usage:
     python synthetic_control.py             # full (100 resamples × 3 datasets)
