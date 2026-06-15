@@ -15,9 +15,3 @@ It came back to Skumanich. The simple form, period as the square root of age tim
 As a last check I inverted the relation to age tens of thousands of Kepler field stars and pushed it onto M67, an old cluster where the law is known to break. Stars past about four billion years stop slowing on schedule, and the predictions overshoot them exactly there.
 
 ![M67. Predicted against observed; the law overshoots once the stars get old.](project/figures/m67_pred_vs_obs.png)
-
-## What's here
-
-The write-up is a short note in `project/paper`. The pipeline in `project/notebooks` cleans the catalog, fits the baselines, runs the search and its hundred resamples, and does the cross-validation, writing results to `project/results` and plots to `project/figures`. The `chronoflow` and `GPgyro` folders are external packages, not my code.
-
-Star catalog from ChronoFlow, equation search with PySR. By Roy Vaid.
