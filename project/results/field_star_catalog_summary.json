@@ -1,0 +1,19 @@
+{
+  "n_mcquillan": 34030,
+  "n_berger": 186548,
+  "n_crossmatch": 32097,
+  "n_valid_fgk": 31206,
+  "skumanich_C": 0.34442368231963133,
+  "skumanich_C_err": 0.007389458049573253,
+  "age_stats": {
+    "median_Myr": 1458.5043526788172,
+    "mean_Myr": 1938.5936162358773,
+    "min_Myr": 0.6867825013390582,
+    "max_Myr": 21832.788409023105,
+    "lt_1Gyr": 12380,
+    "1_to_4Gyr": 14871,
+    "gt_4Gyr": 3955
+  },
+  "median_age_err_Myr": 353.94445931624267,
+  "median_fractional_err": 0.24267631335220713
+}

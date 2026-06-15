@@ -56,9 +56,9 @@ print(f"PySR config: niterations={NITER}, populations={NPOP}, population_size={P
 df = pd.read_csv(os.path.join(DATA, "clean_slow_seq.csv"))
 
 # Filter to valid gyrochronology domain
-valid = (df["BPRP_0"] > 0.5) & (df["fiducial_age_Myr"] > 10.0) & (df["Prot"] > 0.1)
+valid = (df["BPRP_0"] > 0.5) & (df["BPRP_0"] < 2.0) & (df["fiducial_age_Myr"] > 10.0) & (df["Prot"] > 0.1)
 df = df[valid].reset_index(drop=True)
-print(f"Loaded {len(df)} stars (valid domain: color>0.5, age>10 Myr)")
+print(f"Loaded {len(df)} stars (valid domain: 0.5<color<2.0, age>10 Myr)")
 
 ages = df["fiducial_age_Myr"].values
 colors = df["BPRP_0"].values
@@ -83,12 +83,12 @@ y = periods
 # ── Physics-constrained loss function (Julia) ───────────────────────────────
 
 # Pre-construct the monotonicity grid in Julia (allocated once, reused per call).
-# 6 ages × 5 colors = 30 grid points, ordered so that within each color block
+# 7 ages × 7 colors = 49 grid points, ordered so that within each color block
 # the ages are increasing. eval_tree_array on this small matrix is cheap.
 mono_grid_setup = """
 const MONO_GRID = let
-    grid_ages = Float32[100.0, 200.0, 350.0, 500.0, 700.0, 1000.0]
-    grid_colors = Float32[0.65, 0.75, 0.85, 0.95, 1.05]
+    grid_ages = Float32[50.0, 100.0, 200.0, 500.0, 1000.0, 2000.0, 4000.0]
+    grid_colors = Float32[0.55, 0.70, 0.85, 1.00, 1.20, 1.50, 1.90]
     n_grid = length(grid_ages) * length(grid_colors)
     grid = Matrix{Float32}(undef, 2, n_grid)
     k = 1
@@ -129,17 +129,17 @@ function physics_loss(tree, dataset::Dataset{T,L}, options) where {T,L}
     # non-differentiable loss landscape that broke BFGS constant
     # optimization (constrained run did 100x less work per iteration).
     #
-    # Fix: evaluate the equation on 30 pre-ordered grid points (6 ages ×
-    # 5 colors). Grid is allocated once as a Julia const Ref. The penalty
+    # Fix: evaluate the equation on 49 pre-ordered grid points (7 ages ×
+    # 7 colors). Grid covers ages 50-4000 Myr and colors 0.55-1.90,
+    # spanning the full FGK domain including old clusters (M67 at 3870 Myr)
+    # and K-dwarfs. Grid is allocated once as a Julia const Ref. The penalty
     # is smooth because grid points are in fixed order — no sorting.
-    # The extra eval_tree_array call on 30 points adds ~2-3x overhead
-    # compared to unconstrained, which is acceptable.
     grid_pred, grid_flag = eval_tree_array(tree, MONO_GRID[], options)
     mono_violations = zero(L)
     if grid_flag
-        for ci in 1:5  # 5 color bins
-            offset = (ci - 1) * 6  # 6 age steps per color
-            for ai in 1:5  # 5 adjacent pairs per color
+        for ci in 1:7  # 7 color bins
+            offset = (ci - 1) * 7  # 7 age steps per color
+            for ai in 1:6  # 6 adjacent pairs per color
                 mono_violations += max(zero(L), grid_pred[offset + ai] - grid_pred[offset + ai + 1])
             end
         end

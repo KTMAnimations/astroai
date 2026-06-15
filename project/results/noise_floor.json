@@ -1,0 +1,14 @@
+{
+  "intrinsic_scatter_median_days": 1.9193965036998852,
+  "intrinsic_scatter_iqr": [
+    1.371450445007211,
+    2.7537962224437185
+  ],
+  "n_color_bins": 72,
+  "age_uncertainty_sigma_dex": 0.1,
+  "age_uncertainty_rmse_delta_95pct": 0.30402206545984484,
+  "age_uncertainty_rmse_std": 0.09529133540946545,
+  "combined_floor_quadrature": 1.943325076949766,
+  "skumanich_baseline_C": 0.34442368231963133,
+  "skumanich_baseline_rmse": 7.139852055485612
+}

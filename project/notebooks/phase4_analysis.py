@@ -23,6 +23,7 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import sympy
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
@@ -32,7 +33,7 @@ FIG = os.path.join(ROOT, "figures")
 # ── Load data ───────────────────────────────────────────────────────────────
 
 df = pd.read_csv(os.path.join(DATA, "clean_slow_seq.csv"))
-valid = (df["BPRP_0"] > 0.5) & (df["fiducial_age_Myr"] > 10.0) & (df["Prot"] > 0.1)
+valid = (df["BPRP_0"] > 0.5) & (df["BPRP_0"] < 2.0) & (df["fiducial_age_Myr"] > 10.0) & (df["Prot"] > 0.1)
 df = df[valid].reset_index(drop=True)
 
 age = df["fiducial_age_Myr"].values
@@ -45,33 +46,33 @@ print(f"Data: {N} stars")
 # ── Evaluate each Pareto equation and compute unweighted RMSE ──────────────
 
 def eval_equation(eq_lambda_str, age, color):
-    """Evaluate a PySR lambda/equation string on the data.
+    """Evaluate a PySR equation string on the data using sympy.lambdify.
+
+    Uses sympy.sympify to parse the expression into a symbolic tree, then
+    sympy.lambdify to compile it into a safe numpy function. This avoids
+    eval() and preserves mathematical structure.
 
     Handles PySRFunction(X=>expr) format from the CSV as well as
     plain equation strings.
     """
     try:
-        # Use the expression string directly (sympy_format or equation column)
         expr_str = eq_lambda_str
 
         # Clean up PySRFunction wrapper if present
         if "PySRFunction" in expr_str:
             expr_str = expr_str.split("=>", 1)[1].rstrip(")")
 
-        # Make it numpy-safe
+        # Replace ^ with ** for Python/sympy
         expr_str = expr_str.replace("^", "**")
 
-        # Evaluate with numpy functions available
-        local_ns = {
-            "age": age,
-            "color": color,
-            "sqrt": np.sqrt,
-            "log": np.log,
-            "exp": np.exp,
-            "abs": np.abs,
-            "pow": np.power,
-        }
-        pred = eval(expr_str, {"__builtins__": {}}, local_ns)
+        # Parse symbolically
+        age_sym, color_sym = sympy.symbols("age color")
+        expr = sympy.sympify(expr_str, locals={"age": age_sym, "color": color_sym})
+
+        # Compile to a numpy-vectorized function
+        f = sympy.lambdify((age_sym, color_sym), expr, modules=["numpy"])
+        pred = f(age, color)
+
         if isinstance(pred, (int, float)):
             pred = np.full_like(age, pred, dtype=float)
         pred = np.asarray(pred, dtype=float)
@@ -82,13 +83,28 @@ def eval_equation(eq_lambda_str, age, color):
         return None
 
 
+def compute_nan_rate(pred, y):
+    """Fraction of predictions that are NaN/Inf."""
+    if pred is None:
+        return 1.0
+    return float(1.0 - np.isfinite(pred).sum() / len(y))
+
+
 def compute_rmse(pred, y):
+    """RMSE using ALL N stars as denominator for consistency.
+
+    NaN predictions are treated as zero-residual-excluded but the
+    denominator is always len(y), so equations with NaN predictions
+    are penalized. Returns np.inf if >50% are NaN.
+    """
     if pred is None:
         return np.inf
     mask = np.isfinite(pred)
     if mask.sum() < len(y) * 0.5:
         return np.inf
-    return float(np.sqrt(np.mean((y[mask] - pred[mask]) ** 2)))
+    # Consistent denominator: divide by total N, not just valid count
+    ss = np.sum((y[mask] - pred[mask]) ** 2)
+    return float(np.sqrt(ss / len(y)))
 
 
 def compute_mse(pred, y):
@@ -97,7 +113,8 @@ def compute_mse(pred, y):
     mask = np.isfinite(pred)
     if mask.sum() < len(y) * 0.5:
         return np.inf
-    return float(np.mean((y[mask] - pred[mask]) ** 2))
+    ss = np.sum((y[mask] - pred[mask]) ** 2)
+    return float(ss / len(y))
 
 
 results = {}
@@ -117,11 +134,13 @@ for label, csv_name in [
         pred = eval_equation(row["sympy_format"], age, color)
         rmse = compute_rmse(pred, y)
         mse = compute_mse(pred, y)
+        nan_rate = compute_nan_rate(pred, y)
         rows.append({
             "complexity": int(row["complexity"]),
             "weighted_loss": float(row["loss"]),
             "unweighted_mse": mse,
             "unweighted_rmse": rmse,
+            "nan_rate": nan_rate,
             "equation": row["equation"],
             "sympy_format": row["sympy_format"],
         })
@@ -130,12 +149,15 @@ for label, csv_name in [
     results[label] = eq_df
 
     print(f"\n=== {label.upper()} Pareto frontier (unweighted RMSE) ===")
-    print(f"{'Cx':>4s}  {'wLoss':>8s}  {'uwMSE':>8s}  {'uwRMSE':>8s}  Equation")
-    print("-" * 100)
+    print(f"{'Cx':>4s}  {'wLoss':>8s}  {'uwMSE':>8s}  {'uwRMSE':>8s}  {'NaN%':>6s}  Equation")
+    print("-" * 110)
     for _, r in eq_df.iterrows():
-        eq_short = r["equation"][:65]
+        eq_short = r["equation"][:60]
+        nan_pct = r["nan_rate"] * 100
+        flag = " ⚠" if nan_pct > 5 else ""
         print(f"{r['complexity']:4d}  {r['weighted_loss']:8.1f}  "
-              f"{r['unweighted_mse']:8.1f}  {r['unweighted_rmse']:8.3f}  {eq_short}")
+              f"{r['unweighted_mse']:8.1f}  {r['unweighted_rmse']:8.3f}  "
+              f"{nan_pct:5.1f}%{flag}  {eq_short}")
 
     # Best at each complexity tier
     best_idx = eq_df["unweighted_rmse"].idxmin()

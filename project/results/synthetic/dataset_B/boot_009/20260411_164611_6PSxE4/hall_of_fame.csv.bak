@@ -1,0 +1,12 @@
+Complexity,Loss,Equation
+1,12.0313635,"4.02366"
+2,8.155468,"log(age)"
+3,5.5491447,"sqrt(sqrt(age))"
+4,3.2961802,"sqrt(age * 0.04044031)"
+6,3.2486644,"sqrt((age * 0.034348592) * color)"
+7,3.0722826,"sqrt(0.038192037 * (sqrt(color) * age))"
+8,3.047415,"sqrt((sqrt(exp(color)) * age) * 0.022064121)"
+10,2.9822738,"(color + exp(sqrt(sqrt(age * 0.013673541)))) - 1.9902341"
+13,2.9696956,"exp(sqrt(((color + sqrt(age)) * 0.106421016) + sqrt(color))) - 2.4515774"
+14,2.9569685,"exp(sqrt(sqrt(color ^ color) + (sqrt(age) * 0.106421016))) - 2.3913267"
+16,2.9373496,"exp(sqrt(color + ((sqrt(age) * 0.08940309) - -1.8169917))) - (sqrt(sqrt(color)) * 4.985976)"

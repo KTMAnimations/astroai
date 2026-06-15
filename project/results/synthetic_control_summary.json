@@ -1,0 +1,17 @@
+{
+  "B": {
+    "description": "Known complex (negative control)",
+    "true_form": "P = 0.3*age^0.4*(color-0.3)^0.6 + 0.005*age*exp(-color)",
+    "n_resamples": 100,
+    "dominant_form": "C0*sqrt(age)",
+    "dominant_form_frequency": 99,
+    "dominant_form_percentage": 99.0,
+    "form_distribution": {
+      "C0*sqrt(age)": 99,
+      "C0 + C1*age": 1
+    },
+    "n_unique_forms": 2,
+    "total_wall_clock_seconds": 1513.4693460464478,
+    "interpretation": "STABLE: method correctly identifies unique form"
+  }
+}

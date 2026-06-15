@@ -1,0 +1,17 @@
+{
+  "unfiltered": {
+    "n_stars": 3655,
+    "best_equation": "age * 0.008678821",
+    "canonical_form": "C0*age",
+    "complexity": 3,
+    "rmse_unfiltered": 8.01351133249117,
+    "rmse_on_filtered": 8.835434293326278
+  },
+  "filtered": {
+    "n_stars": 2911,
+    "canonical_form": "C0*sqrt(age)*color",
+    "rmse": 7.139730637610301
+  },
+  "same_form": false,
+  "wall_clock_seconds": 120.94840884208679
+}

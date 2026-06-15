@@ -1,0 +1,53 @@
+{
+  "n_stars": 141,
+  "age_Myr": 3870.0,
+  "skumanich_C": 0.34442368231963133,
+  "rmse": {
+    "Skumanich": 29.059015356957598,
+    "Barnes2007": 29.17230764685174,
+    "PySR_best": 29.048420693076697
+  },
+  "mean_residual": {
+    "Skumanich": 2.447972991923245,
+    "Barnes2007": 2.5801400283379197,
+    "PySR_best": 0.09282602639288948
+  },
+  "effective_age": {
+    "mean": 6742.261681154604,
+    "median": 2567.4624719058606,
+    "mean_ratio": 1.7421864809185021,
+    "median_ratio": 0.6634269953245118
+  },
+  "fraction_faster_than_skumanich": 0.6737588652482269,
+  "color_dependence": [
+    {
+      "color_lo": 0.5,
+      "color_hi": 0.8,
+      "n_stars": 11,
+      "median_age_eff": 2651.0276120631725,
+      "ratio": 0.6850200547966854
+    },
+    {
+      "color_lo": 0.8,
+      "color_hi": 1.1,
+      "n_stars": 21,
+      "median_age_eff": 5406.289480508297,
+      "ratio": 1.396974025971136
+    },
+    {
+      "color_lo": 1.1,
+      "color_hi": 1.4,
+      "n_stars": 17,
+      "median_age_eff": 4303.894369732136,
+      "ratio": 1.1121174081995182
+    },
+    {
+      "color_lo": 1.4,
+      "color_hi": 2.0,
+      "n_stars": 92,
+      "median_age_eff": 2119.9102707870425,
+      "ratio": 0.5477804317279179
+    }
+  ],
+  "interpretation": "M67 stars appear 34% younger than their actual age based on rotation. This is consistent with weakened magnetic braking: spin-down stalled at an effective age of ~2567 Myr."
+}

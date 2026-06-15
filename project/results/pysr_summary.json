@@ -1,57 +1,67 @@
 {
   "constrained": {
-    "best_equation": "((age * 0.007316762) + ((8.5889015 / color) + ((((color + -2.0319872) * -0.116679996) * sqrt(age)) + -1.6697483))) * (color + -0.42589724)",
-    "best_rmse": 8.361333598738714,
-    "best_complexity": 22,
-    "n_pareto": 13,
+    "best_equation": "(((age ^ 0.2175721) + (age * 0.004694542)) + 1.298035) * (log(color) + 0.99350107)",
+    "best_rmse": 6.991739365466379,
+    "best_rmse_log_dex": 0.17958598974920087,
+    "best_complexity": 15,
+    "n_pareto": 17,
     "representatives": {
       "cx_5": {
-        "equation": "(color * age) / 153.1682",
-        "unweighted_rmse": 9.510928873860284,
+        "equation": "(age * 0.0067004915) + 4.1335316",
+        "unweighted_rmse": 7.870527913182042,
+        "rmse_log_dex": 0.2454596813187609,
         "complexity": 5
       },
-      "cx_9": {
-        "equation": "(((-0.009172484 / color) - -0.01628263) * age) + 3.0876238",
-        "unweighted_rmse": 8.866858342218409,
-        "complexity": 9
+      "cx_10": {
+        "equation": "((age * 0.0059477463) + 3.9324646) * (log(color) + 0.9871814)",
+        "unweighted_rmse": 7.03089053645639,
+        "rmse_log_dex": 0.18425921064932504,
+        "complexity": 10
       },
-      "cx_14": {
-        "equation": "((color * -2.5036871) + ((age * 0.0076351706) + 8.008479)) * (log(color) + 0.7789216)",
-        "unweighted_rmse": 8.559827428010937,
-        "complexity": 14
+      "cx_15": {
+        "equation": "(((age ^ 0.2175721) + (age * 0.004694542)) + 1.298035) * (log(color) + 0.99350107)",
+        "unweighted_rmse": 6.991739365466379,
+        "rmse_log_dex": 0.17958598974920087,
+        "complexity": 15
       },
       "cx_20": {
-        "equation": "(color + -0.42054522) * (((age * 0.007996418) + ((sqrt(age) * (color + -1.7251261)) * -0.14716539)) + (6.1259713 / color))",
-        "unweighted_rmse": 8.370696164489768,
+        "equation": "((((age / 1.982463) ^ 0.23778477) + (age * 0.005607156)) + 1.8624219) * sqrt(color + (sqrt(color) - 1.2090203))",
+        "unweighted_rmse": 6.993929203188562,
+        "rmse_log_dex": 0.17695804254173292,
         "complexity": 20
       }
     }
   },
   "unconstrained": {
-    "best_equation": "(color * ((((age * 0.005661519) - (color * 4.105229)) + 13.053621) + (exp(color) / age))) + -4.7590995",
-    "best_rmse": 8.392999584935671,
-    "best_complexity": 18,
-    "n_pareto": 17,
+    "best_equation": "(color - ((0.22973137 / color) / 1.0141319)) * (exp(sqrt((age ^ 0.37972626) + ((5.193092 / color) - color)) + -1.7871736) + 1.8654422)",
+    "best_rmse": 6.982168007300454,
+    "best_rmse_log_dex": 0.17478410055896434,
+    "best_complexity": 24,
+    "n_pareto": 15,
     "representatives": {
       "cx_5": {
-        "equation": "(age * 0.006522526) * color",
-        "unweighted_rmse": 9.510450889448743,
+        "equation": "(age * 0.00678915) + 4.0464997",
+        "unweighted_rmse": 7.8745002235816965,
+        "rmse_log_dex": 0.24586280154505105,
         "complexity": 5
       },
       "cx_10": {
-        "equation": "(((age * 0.005785422) - sqrt(color)) * color) + 5.38084",
-        "unweighted_rmse": 8.814597604150622,
+        "equation": "sqrt(exp(age ^ 0.2219415) + 1.0702358) * color",
+        "unweighted_rmse": 7.0202356562268005,
+        "rmse_log_dex": 0.1899845625569417,
         "complexity": 10
       },
       "cx_15": {
-        "equation": "((((age * 0.0024085024) + ((7.003058 / age) - color)) * 2.3744774) + 6.605753) * color",
-        "unweighted_rmse": 8.504293924743507,
+        "equation": "exp((sqrt(age ^ 0.34972474) + (-1.0832411 / color)) + (2.6972628 / sqrt(age)))",
+        "unweighted_rmse": 6.995860082915481,
+        "rmse_log_dex": 0.17892640844501567,
         "complexity": 15
       },
-      "cx_20": {
-        "equation": "(-2.2162418 / color) + (((((0.005564937 * age) - (color * 3.5963738)) + 10.215846) + (exp(color) / age)) * color)",
-        "unweighted_rmse": 8.393066413831846,
-        "complexity": 20
+      "cx_19": {
+        "equation": "exp((sqrt((age + 6.060048) ^ 0.3589815) - (1.1435231 / color)) + -0.113664985) + (log(color) + 1.4621662)",
+        "unweighted_rmse": 6.992803135317165,
+        "rmse_log_dex": 0.18076371114416726,
+        "complexity": 19
       }
     }
   }

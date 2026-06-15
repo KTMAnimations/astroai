@@ -48,6 +48,18 @@ colors = df["BPRP_0"].values
 periods = df["Prot"].values
 clusters = df["cluster"].values
 
+# ── Cluster-level weights ─────────────────────────────────────────────────
+# Equal total weight per cluster, divided among members. This gives each
+# cluster one effective vote regardless of membership count — matching the
+# weighting used in phase4_pysr_search.py (lines 74-76).
+# For curve_fit, sigma = 1/sqrt(weight) because it minimizes sum((r/sigma)^2).
+
+cluster_counts = df.groupby("cluster")["Prot"].transform("count").values.astype(float)
+sample_weights = 1.0 / cluster_counts
+sample_weights = sample_weights * len(sample_weights) / sample_weights.sum()
+
+print(f"Cluster weight range: {sample_weights.min():.3f} – {sample_weights.max():.3f}")
+
 # ── Model definitions ──────────────────────────────────────────────────────
 
 
@@ -79,11 +91,22 @@ def angus_model(X, cA, c0, c1, c2, c3, c4):
 # ── Fitting helper ─────────────────────────────────────────────────────────
 
 
-def fit_model(model_func, X, y, p0, bounds, label):
-    """Fit a model, return params and training RMSE."""
+def fit_model(model_func, X, y, p0, bounds, label, weights=None):
+    """Fit a model with optional cluster-level weighting.
+
+    Parameters
+    ----------
+    weights : array-like or None
+        Per-point importance weights (higher = more important).
+        Converted to sigma = 1/sqrt(weight) for curve_fit.
+    """
     try:
+        sigma = None
+        if weights is not None:
+            sigma = 1.0 / np.sqrt(np.clip(weights, 1e-10, None))
         popt, pcov = curve_fit(
-            model_func, X, y, p0=p0, bounds=bounds, maxfev=20000
+            model_func, X, y, p0=p0, bounds=bounds, maxfev=20000,
+            sigma=sigma, absolute_sigma=False,
         )
         y_pred = model_func(X, *popt)
         residuals = y - y_pred
@@ -100,11 +123,17 @@ def fit_model(model_func, X, y, p0, bounds, label):
 # Filter to valid domain: color > 0.5 (above Kraft break) and age > 10 Myr
 # to avoid PMS complications. This matches where gyrochronology is expected
 # to work.
-valid = (colors > 0.5) & (ages > 10.0) & (periods > 0.1)
+valid = (colors > 0.5) & (colors < 2.0) & (ages > 10.0) & (periods > 0.1)
 X_valid = (ages[valid], colors[valid])
 y_valid = periods[valid]
+w_valid = sample_weights[valid]
 print(f"Valid domain (color>0.5, age>10 Myr): {valid.sum()} / {len(df)} stars")
 
+# NOTE: Barnes, MH, and DeadSimple share the same functional form
+# (P = a*(color-c0)^b * age^n). They converge to nearly identical parameters
+# from different starting points (RMSE within 0.005 d), confirming a single
+# global minimum. Only Barnes2007 and Angus2019 are reported in the paper.
+# MH and DeadSimple are retained as convergence validation.
 models = {
     "Barnes2007": {
         "func": barnes_model,
@@ -124,8 +153,10 @@ models = {
     "Angus2019": {
         "func": angus_model,
         # cA ~ 0.65, polynomial coefficients from the paper
+        # Bounds widened from ±20 to ±100 for c1-c4 — previous c4=-20.0 was
+        # hitting the lower bound, indicating a pathological fit (checklist A3).
         "p0": [0.55, 0.3, 1.5, 0.5, -0.3, 0.1],
-        "bounds": ([0.0, -20, -20, -20, -20, -20], [2.0, 20, 20, 20, 20, 20]),
+        "bounds": ([0.0, -100, -100, -100, -100, -100], [2.0, 100, 100, 100, 100, 100]),
         "n_params": 6,
     },
     "DeadSimple_CurveFit": {
@@ -144,7 +175,8 @@ results = {}
 
 for name, spec in models.items():
     popt, rmse, mae, y_pred = fit_model(
-        spec["func"], X_valid, y_valid, spec["p0"], spec["bounds"], name
+        spec["func"], X_valid, y_valid, spec["p0"], spec["bounds"], name,
+        weights=w_valid,
     )
     results[name] = {
         "params": popt.tolist() if popt is not None else None,
@@ -178,15 +210,22 @@ for held_out in unique_clusters:
 
     X_train = (ages[train_mask], colors[train_mask])
     y_train = periods[train_mask]
+    # Recompute cluster weights for the training subset (held-out cluster removed)
+    train_clusters = clusters[train_mask]
+    train_cluster_counts = pd.Series(train_clusters).groupby(train_clusters).transform("count").values.astype(float)
+    w_train = 1.0 / train_cluster_counts
+    w_train = w_train * len(w_train) / w_train.sum()
+
     X_test = (ages[test_mask], colors[test_mask])
     y_test = periods[test_mask]
-    test_age = df.loc[test_mask, "fiducial_age_Myr"].iloc[0]
+    test_age = df.loc[test_mask, "fiducial_age_Myr"].median()
 
     row = {"cluster": held_out, "age_Myr": test_age, "n_test": int(test_mask.sum())}
 
     for name, spec in models.items():
         popt, _, _, _ = fit_model(
-            spec["func"], X_train, y_train, spec["p0"], spec["bounds"], name
+            spec["func"], X_train, y_train, spec["p0"], spec["bounds"], name,
+            weights=w_train,
         )
         if popt is not None:
             try:

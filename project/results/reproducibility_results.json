@@ -1,0 +1,32 @@
+[
+  {
+    "run": 1,
+    "best_equation": "(color * 0.34451842) * sqrt(age)",
+    "best_rmse": 7.139730637610301,
+    "best_complexity": 6,
+    "best_loss": 37.29631,
+    "canonical_form": "C0*sqrt(age)*color",
+    "n_pareto": 18,
+    "wall_clock_seconds": 68.36192202568054
+  },
+  {
+    "run": 2,
+    "best_equation": "(sqrt(age) * 0.34453174) * color",
+    "best_rmse": 7.139713672409341,
+    "best_complexity": 6,
+    "best_loss": 37.29631,
+    "canonical_form": "C0*sqrt(age)*color",
+    "n_pareto": 18,
+    "wall_clock_seconds": 53.33957123756409
+  },
+  {
+    "run": 3,
+    "best_equation": "(color * 0.34429038) * sqrt(age)",
+    "best_rmse": 7.140025137266109,
+    "best_complexity": 6,
+    "best_loss": 37.296318,
+    "canonical_form": "C0*sqrt(age)*color",
+    "n_pareto": 18,
+    "wall_clock_seconds": 70.83441686630249
+  }
+]

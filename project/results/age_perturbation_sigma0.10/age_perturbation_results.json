@@ -1,0 +1,99 @@
+{
+  "config": {
+    "sigma_dex": 0.1,
+    "n_runs": 10,
+    "niterations": 50
+  },
+  "results": [
+    {
+      "run": 0,
+      "best_equation": "sqrt(age / 7.3479204) * color",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 39.01294207572937
+    },
+    {
+      "run": 1,
+      "best_equation": "(sqrt(age) * color) / 2.9597535",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 19.919923067092896
+    },
+    {
+      "run": 2,
+      "best_equation": "age * 0.011247138",
+      "best_complexity": 3,
+      "best_canonical": "C0*age",
+      "has_color": false,
+      "wall_clock_seconds": 24.587268829345703
+    },
+    {
+      "run": 3,
+      "best_equation": "sqrt(age * 0.15553452)",
+      "best_complexity": 4,
+      "best_canonical": "C0*sqrt(age)",
+      "has_color": false,
+      "wall_clock_seconds": 18.960249185562134
+    },
+    {
+      "run": 4,
+      "best_equation": "sqrt(age) * (color * 0.33728012)",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 29.062364101409912
+    },
+    {
+      "run": 5,
+      "best_equation": "sqrt(age * 0.11669618) * color",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 23.559825897216797
+    },
+    {
+      "run": 6,
+      "best_equation": "color * sqrt(age * 0.11724251)",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 30.206504106521606
+    },
+    {
+      "run": 7,
+      "best_equation": "sqrt(age * 0.10483839) * color",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 19.838318824768066
+    },
+    {
+      "run": 8,
+      "best_equation": "sqrt(age) * 0.4060124",
+      "best_complexity": 4,
+      "best_canonical": "C0*sqrt(age)",
+      "has_color": false,
+      "wall_clock_seconds": 36.865922927856445
+    },
+    {
+      "run": 9,
+      "best_equation": "(color * sqrt(age)) * 0.33513847",
+      "best_complexity": 6,
+      "best_canonical": "C0*sqrt(age)*color",
+      "has_color": true,
+      "wall_clock_seconds": 30.711615085601807
+    }
+  ],
+  "summary": {
+    "with_color_pct": 70.0,
+    "without_color_pct": 30.0,
+    "n_unique_forms": 3,
+    "form_distribution": {
+      "C0*sqrt(age)*color": 7,
+      "C0*age": 1,
+      "C0*sqrt(age)": 2
+    }
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "constrained": {
+    "n_equations": 16,
+    "selections": {
+      "aic": {
+        "complexity": 15,
+        "rmse": 6.991739365466379,
+        "aic": 11330.21434295805,
+        "form": "(C0 + log(color))*(C1 + C3*age + age**C2)"
+      },
+      "bic": {
+        "complexity": 13,
+        "rmse": 7.001307852637234,
+        "bic": 11346.12904980579,
+        "form": "(C0 + log(color))*(C1*age + log(age + color))"
+      },
+      "rmse": {
+        "complexity": 15,
+        "rmse": 6.991739365466379,
+        "form": "(C0 + log(color))*(C1 + C3*age + age**C2)"
+      },
+      "get_best": {
+        "complexity": 3,
+        "rmse": 8.820203686373642,
+        "form": "C0*age"
+      },
+      "bootstrap_stable": {
+        "form": "C0*sqrt(age)*color",
+        "frequency_pct": 83.0
+      }
+    },
+    "all_equations": [
+      {
+        "complexity": 2,
+        "n_params": 1,
+        "mse": 99.62108016614744,
+        "rmse": 9.981036026693193,
+        "aic": 13396.599104002024,
+        "bic": 13402.57535594577,
+        "equation": "log(age)",
+        "sympy_format": "log(age)",
+        "canonical_form": "log(age)"
+      },
+      {
+        "complexity": 3,
+        "n_params": 1,
+        "mse": 77.79599306911918,
+        "rmse": 8.820203686373642,
+        "aic": 12676.755777177963,
+        "bic": 12682.73202912171,
+        "equation": "age * 0.008948854",
+        "sympy_format": "age*0.008948854",
+        "canonical_form": "C0*age"
+      },
+      {
+        "complexity": 4,
+        "n_params": 2,
+        "mse": 66.55707039752245,
+        "rmse": 8.158251675299216,
+        "aic": 12224.55202273549,
+        "bic": 12236.50452662298,
+        "equation": "sqrt(age * 0.15767747)",
+        "sympy_format": "0.397086224893284*sqrt(age)",
+        "canonical_form": "C0*sqrt(age)"
+      },
+      {
+        "complexity": 5,
+        "n_params": 2,
+        "mse": 61.94520963217767,
+        "rmse": 7.870527913182042,
+        "aic": 12015.514561377833,
+        "bic": 12027.467065265324,
+        "equation": "(age * 0.0067004915) + 4.1335316",
+        "sympy_format": "age*0.0067004915 + 4.1335316",
+        "canonical_form": "C0 + C1*age"
+      },
+      {
+        "complexity": 6,
+        "n_params": 2,
+        "mse": 50.976867617982066,
+        "rmse": 7.1398086541574814,
+        "aic": 11448.223757248541,
+        "bic": 11460.176261136032,
+        "equation": "color * sqrt(age * 0.11865092)",
+        "sympy_format": "0.344457428429117*sqrt(age)*color",
+        "canonical_form": "C0*sqrt(age)*color"
+      },
+      {
+        "complexity": 7,
+        "n_params": 2,
+        "mse": 49.95485771235166,
+        "rmse": 7.067875049288269,
+        "aic": 11389.269597677483,
+        "bic": 11401.222101564974,
+        "equation": "((age * 0.0053408765) + 3.698305) * color",
+        "sympy_format": "color*(age*0.0053408765 + 3.698305)",
+        "canonical_form": "color*(C0 + C1*age)"
+      },
+      {
+        "complexity": 9,
+        "n_params": 2,
+        "mse": 49.59229916830077,
+        "rmse": 7.042180001128966,
+        "aic": 11368.065323815534,
+        "bic": 11380.017827703025,
+        "equation": "exp((age ^ 0.23630136) * 0.4454915) * color",
+        "sympy_format": "color*exp(age**0.23630136*0.4454915)",
+        "canonical_form": "color*exp(C0*age**C1)"
+      },
+      {
+        "complexity": 10,
+        "n_params": 3,
+        "mse": 49.43342173563202,
+        "rmse": 7.03089053645639,
+        "aic": 11360.724465721009,
+        "bic": 11378.653221552246,
+        "equation": "((age * 0.0059477463) + 3.9324646) * (log(color) + 0.9871814)",
+        "sympy_format": "(0.0059477463*age + 3.9324646)*(log(color) + 0.9871814)",
+        "canonical_form": "(C0 + log(color))*(C1 + C2*age)"
+      },
+      {
+        "complexity": 11,
+        "n_params": 2,
+        "mse": 49.05840205224228,
+        "rmse": 7.004170332897558,
+        "aic": 11336.556380449741,
+        "bic": 11348.508884337232,
+        "equation": "(log(age) + (age * 0.0049162563)) * (log(color) + 0.89491767)",
+        "sympy_format": "(0.0049162563*age + log(age))*(log(color) + 0.89491767)",
+        "canonical_form": "(C0 + log(color))*(C1*age + log(age))"
+      },
+      {
+        "complexity": 13,
+        "n_params": 2,
+        "mse": 49.0183116473998,
+        "rmse": 7.001307852637234,
+        "aic": 11334.176545918299,
+        "bic": 11346.12904980579,
+        "equation": "(log(age + color) + (age * 0.0049162563)) * (log(color) + 0.89491767)",
+        "sympy_format": "(0.0049162563*age + log(age + color))*(log(color) + 0.89491767)",
+        "canonical_form": "(C0 + log(color))*(C1*age + log(age + color))"
+      },
+      {
+        "complexity": 14,
+        "n_params": 3,
+        "mse": 49.03598386947597,
+        "rmse": 7.002569804684275,
+        "aic": 11337.225838838094,
+        "bic": 11355.154594669331,
+        "equation": "((age * 0.0049162563) + log(age / sqrt(color))) * (log(color) + 0.91807115)",
+        "sympy_format": "(0.0049162563*age + log(age/sqrt(color)))*(log(color) + 0.91807115)",
+        "canonical_form": "(C0 + log(color))*(C1*log(color) + C2*age + log(age))"
+      },
+      {
+        "complexity": 15,
+        "n_params": 4,
+        "mse": 48.884419354612206,
+        "rmse": 6.991739365466379,
+        "aic": 11330.21434295805,
+        "bic": 11354.119350733032,
+        "equation": "(((age ^ 0.2175721) + (age * 0.004694542)) + 1.298035) * (log(color) + 0.99350107)",
+        "sympy_format": "(log(color) + 0.99350107)*(age**0.2175721 + 0.004694542*age + 1.298035)",
+        "canonical_form": "(C0 + log(color))*(C1 + C3*age + age**C2)"
+      },
+      {
+        "complexity": 17,
+        "n_params": 4,
+        "mse": 48.924132530461996,
+        "rmse": 6.994578795786205,
+        "aic": 11332.578247934118,
+        "bic": 11356.4832557091,
+        "equation": "(0.99350107 + log(color)) * ((age * 0.004694542) + (1.2362698 + ((color + age) ^ 0.2175721)))",
+        "sympy_format": "(log(color) + 0.99350107)*(0.004694542*age + (age + color)**0.2175721 + 1.2362698)",
+        "canonical_form": "(C0 + log(color))*(C1 + C3*age + (age + color)**C2)"
+      },
+      {
+        "complexity": 18,
+        "n_params": 5,
+        "mse": 48.893482224048064,
+        "rmse": 6.992387448078665,
+        "aic": 11332.753974358957,
+        "bic": 11362.635234077685,
+        "equation": "sqrt(color + (sqrt(color) - 1.2063978)) * ((age * 0.005185477) + ((age ^ 0.23778477) - -1.5154812))",
+        "sympy_format": "(age**0.23778477 + 0.005185477*age + 1.5154812)*sqrt(sqrt(color) + color - 1.2063978)",
+        "canonical_form": "sqrt(C0 + sqrt(color) + color)*(C1 + C3*age + age**C2)"
+      },
+      {
+        "complexity": 20,
+        "n_params": 6,
+        "mse": 48.915045699213785,
+        "rmse": 6.993929203188562,
+        "aic": 11336.037528637038,
+        "bic": 11371.895040299512,
+        "equation": "((((age / 1.982463) ^ 0.23778477) + (age * 0.005607156)) + 1.8624219) * sqrt(color + (sqrt(color) - 1.2090203))",
+        "sympy_format": "(0.849824320920718*age**0.23778477 + 0.005607156*age + 1.8624219)*sqrt(sqrt(color) + color - 1.2090203)",
+        "canonical_form": "sqrt(C0 + sqrt(color) + color)*(C1 + C2*age + C3*age**C4)"
+      },
+      {
+        "complexity": 22,
+        "n_params": 6,
+        "mse": 48.92192106940353,
+        "rmse": 6.99442071006624,
+        "aic": 11336.446662389164,
+        "bic": 11372.304174051638,
+        "equation": "(((age / 1.982463) ^ 0.23778477) + (((age * 0.005607156) + 1.887513) / 1.0134723)) * sqrt((color + sqrt(color)) - 1.2090203)",
+        "sympy_format": "(0.849824320920718*age**0.23778477 + 0.00553261889841488*age + 1.86242189352388)*sqrt(sqrt(color) + color - 1.2090203)",
+        "canonical_form": "sqrt(C0 + sqrt(color) + color)*(C1 + C2*age + C3*age**C4)"
+      }
+    ]
+  },
+  "unconstrained": {
+    "n_equations": 14,
+    "selections": {
+      "aic": {
+        "complexity": 24,
+        "rmse": 6.982168007300454,
+        "aic": 11326.238841980423,
+        "form": "(C0 + color**C1)*(C2 + C3*exp(color**C4*sqrt(C5 + color*(age**C6 - color))))/color"
+      },
+      "bic": {
+        "complexity": 12,
+        "rmse": 7.002504779741717,
+        "bic": 11347.124280148011,
+        "form": "color + exp((C0 + age**C1*color)/color)"
+      },
+      "rmse": {
+        "complexity": 24,
+        "rmse": 6.982168007300454,
+        "form": "(C0 + color**C1)*(C2 + C3*exp(color**C4*sqrt(C5 + color*(age**C6 - color))))/color"
+      },
+      "get_best": {
+        "complexity": 3,
+        "rmse": 8.819921210930296,
+        "form": "C0*age"
+      },
+      "bootstrap_stable": {
+        "form": "C0*sqrt(age)*color",
+        "frequency_pct": 83.0
+      }
+    },
+    "all_equations": [
+      {
+        "complexity": 2,
+        "n_params": 1,
+        "mse": 99.62108016614744,
+        "rmse": 9.981036026693193,
+        "aic": 13396.599104002024,
+        "bic": 13402.57535594577,
+        "equation": "log(age)",
+        "sympy_format": "log(age)",
+        "canonical_form": "log(age)"
+      },
+      {
+        "complexity": 3,
+        "n_params": 1,
+        "mse": 77.79101016701813,
+        "rmse": 8.819921210930296,
+        "aic": 12676.56931908417,
+        "bic": 12682.545571027917,
+        "equation": "age * 0.0089564705",
+        "sympy_format": "age*0.0089564705",
+        "canonical_form": "C0*age"
+      },
+      {
+        "complexity": 4,
+        "n_params": 2,
+        "mse": 66.542899738705,
+        "rmse": 8.15738314281639,
+        "aic": 12223.932176045348,
+        "bic": 12235.884679932838,
+        "equation": "sqrt(age) * 0.39746386",
+        "sympy_format": "0.39746386*sqrt(age)",
+        "canonical_form": "C0*sqrt(age)"
+      },
+      {
+        "complexity": 5,
+        "n_params": 2,
+        "mse": 62.007753771188185,
+        "rmse": 7.8745002235816965,
+        "aic": 12018.452224167202,
+        "bic": 12030.404728054693,
+        "equation": "(age * 0.00678915) + 4.0464997",
+        "sympy_format": "age*0.00678915 + 4.0464997",
+        "canonical_form": "C0 + C1*age"
+      },
+      {
+        "complexity": 6,
+        "n_params": 2,
+        "mse": 50.973374743184465,
+        "rmse": 7.139564044336633,
+        "aic": 11448.024292130964,
+        "bic": 11459.976796018454,
+        "equation": "(sqrt(age) * 0.34465012) * color",
+        "sympy_format": "0.34465012*sqrt(age)*color",
+        "canonical_form": "C0*sqrt(age)*color"
+      },
+      {
+        "complexity": 7,
+        "n_params": 2,
+        "mse": 49.92431597866979,
+        "rmse": 7.0657141166813275,
+        "aic": 11387.48930682738,
+        "bic": 11399.44181071487,
+        "equation": "color * ((age * 0.005288137) + 3.7283115)",
+        "sympy_format": "color*(age*0.005288137 + 3.7283115)",
+        "canonical_form": "color*(C0 + C1*age)"
+      },
+      {
+        "complexity": 8,
+        "n_params": 2,
+        "mse": 49.37165916805639,
+        "rmse": 7.026496934323418,
+        "aic": 11355.085161831257,
+        "bic": 11367.037665718748,
+        "equation": "color * sqrt(exp(age ^ 0.22189468))",
+        "sympy_format": "color*sqrt(exp(age**0.22189468))",
+        "canonical_form": "color*exp(age**C0/2)"
+      },
+      {
+        "complexity": 10,
+        "n_params": 3,
+        "mse": 49.28370866895814,
+        "rmse": 7.0202356562268005,
+        "aic": 11351.89489238492,
+        "bic": 11369.823648216157,
+        "equation": "sqrt(exp(age ^ 0.2219415) + 1.0702358) * color",
+        "sympy_format": "color*sqrt(exp(age**0.2219415) + 1.0702358)",
+        "canonical_form": "color*sqrt(C0 + exp(age**C1))"
+      },
+      {
+        "complexity": 11,
+        "n_params": 2,
+        "mse": 49.125506885525375,
+        "rmse": 7.0089590443606795,
+        "aic": 11340.535488680744,
+        "bic": 11352.487992568234,
+        "equation": "color + exp((age ^ 0.17382544) - (1.0494355 / color))",
+        "sympy_format": "color + exp(age**0.17382544 - 1.0494355/color)",
+        "canonical_form": "color + exp((C0 + age**C1*color)/color)"
+      },
+      {
+        "complexity": 12,
+        "n_params": 2,
+        "mse": 49.03507319030559,
+        "rmse": 7.002504779741717,
+        "aic": 11335.17177626052,
+        "bic": 11347.124280148011,
+        "equation": "color + exp((-1.1107569 / color) + sqrt(age ^ 0.35237706))",
+        "sympy_format": "color + exp(age**0.17618853 - 1.1107569/color)",
+        "canonical_form": "color + exp((C0 + age**C1*color)/color)"
+      },
+      {
+        "complexity": 15,
+        "n_params": 4,
+        "mse": 48.9420582997302,
+        "rmse": 6.995860082915481,
+        "aic": 11333.644641026169,
+        "bic": 11357.54964880115,
+        "equation": "exp((sqrt(age ^ 0.34972474) + (-1.0832411 / color)) + (2.6972628 / sqrt(age)))",
+        "sympy_format": "exp(age**0.17486237 - 1.0832411/color + 2.6972628/sqrt(age))",
+        "canonical_form": "exp((C1 + color*(C2*age**C3 + age**C0))/color)"
+      },
+      {
+        "complexity": 19,
+        "n_params": 5,
+        "mse": 48.899295689301574,
+        "rmse": 6.992803135317165,
+        "aic": 11333.100073482716,
+        "bic": 11362.981333201444,
+        "equation": "exp((sqrt((age + 6.060048) ^ 0.3589815) - (1.1435231 / color)) + -0.113664985) + (log(color) + 1.4621662)",
+        "sympy_format": "0.892556925758399*exp((age + 6.060048)**0.17949075 - 1.1435231/color) + log(color) + 1.4621662",
+        "canonical_form": "C0 + C1*exp((C2 + color*(C3 + age)**C4)/color) + log(color)"
+      },
+      {
+        "complexity": 22,
+        "n_params": 6,
+        "mse": 48.76094279024576,
+        "rmse": 6.982903607400417,
+        "aic": 11326.852181303571,
+        "bic": 11362.709692966046,
+        "equation": "(color - (0.22973137 / color)) * (exp(sqrt(((age ^ 0.37972626) + (5.193092 / color)) - color) + -1.7871736) + 1.8654422)",
+        "sympy_format": "(color - 0.22973137/color)*(0.167432733403068*exp(sqrt(age**0.37972626 - color + 5.193092/color)) + 1.8654422)",
+        "canonical_form": "(C0 + color**C1)*(C2 + C3*exp(color**C4*sqrt(C5 + color*(age**C6 - color))))/color"
+      },
+      {
+        "complexity": 24,
+        "n_params": 6,
+        "mse": 48.75067008217,
+        "rmse": 6.982168007300454,
+        "aic": 11326.238841980423,
+        "bic": 11362.096353642897,
+        "equation": "(color - ((0.22973137 / color) / 1.0141319)) * (exp(sqrt((age ^ 0.37972626) + ((5.193092 / color) - color)) + -1.7871736) + 1.8654422)",
+        "sympy_format": "(color - 0.226530069707895/color)*(0.167432733403068*exp(sqrt(age**0.37972626 - color + 5.193092/color)) + 1.8654422)",
+        "canonical_form": "(C0 + color**C1)*(C2 + C3*exp(color**C4*sqrt(C5 + color*(age**C6 - color))))/color"
+      }
+    ]
+  },
+  "baselines": {
+    "Barnes2007": {
+      "n_params": 4,
+      "rmse": 7.134147489494692,
+      "aic": 11447.605653891182,
+      "bic": 11471.510661666163
+    },
+    "MamajekHillenbrand2008": {
+      "n_params": 4,
+      "rmse": 7.1290671792548945,
+      "aic": 11443.458262415443,
+      "bic": 11467.363270190424
+    },
+    "Angus2019": {
+      "n_params": 6,
+      "rmse": 7.106608379467161,
+      "aic": 11429.08818362204,
+      "bic": 11464.945695284514
+    },
+    "DeadSimple_CurveFit": {
+      "n_params": 4,
+      "rmse": 7.1298446769221036,
+      "aic": 11444.093176421315,
+      "bic": 11467.998184196296
+    },
+    "Skumanich_1param": {
+      "n_params": 1,
+      "rmse": 7.139852055485612,
+      "aic": 11446.259147799832,
+      "bic": 11452.235399743578
+    }
+  }
+}

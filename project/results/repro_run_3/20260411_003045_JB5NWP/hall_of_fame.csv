@@ -1,0 +1,9 @@
+Complexity,Loss,Equation
+1,78.934235,"8.497757"
+2,75.13409,"log(age)"
+4,66.92931,"log(age * age)"
+5,62.453667,"log(age) + exp(color)"
+6,60.68121,"log(age * age) + -3.1622298"
+8,48.96921,"(log(age * age) + -3.1622298) * color"
+13,48.829647,"(log(age * age) + ((-0.5417496 + log(color)) + -3.1622298)) * color"
+15,48.676807,"(((log(age * (age / 2.3352966)) + log(color)) + -4.294947) * color) - -1.681241"

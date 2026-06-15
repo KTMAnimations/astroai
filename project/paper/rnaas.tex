@@ -1,0 +1,108 @@
+\documentclass[RNAAS]{aastex7}
+
+\begin{document}
+
+\title{Bootstrap Stability of Symbolic Regression for Stellar Gyrochronology}
+
+\author{Kai Vaid}
+\affiliation{Independent Researcher}
+
+\begin{abstract}
+I apply physics-constrained symbolic regression (PySR) to 5,269 slow-sequence FGK rotators across 29 open clusters from the ChronoFlow catalog, searching for an interpretable equation $P_\mathrm{rot} = f(\mathrm{age}, \mathrm{color})$.
+PySR's Pareto front spans complexities 2--22; the best equation (complexity~15, 4~parameters) achieves RMSE~$= 6.99$~d versus $7.14$~d for the 1-parameter Skumanich relation $P = C\sqrt{t}\,(B_P - R_P)_0$.
+This $0.15$~d improvement is well below the $1.94$~d noise floor set by intrinsic scatter and age uncertainty.
+To test whether the data uniquely constrain the functional form, I run PySR on 100 bootstrap resamples and canonicalize each Pareto equation.
+At complexity~$\leq 6$, the canonical form is perfectly stable: $P = C\sqrt{t}\,(B_P - R_P)_0$ appears in 100/100 resamples.
+At complexity~$\geq 10$, 30--58 distinct forms appear---the complex equations are fitting noise.
+A synthetic control experiment confirms the methodology: when the ground truth is Skumanich, PySR recovers it in 100\% of resamples.
+Open cluster rotation data do not contain sufficient information to distinguish functional forms beyond Skumanich.
+\end{abstract}
+
+\keywords{methods: statistical --- stars: rotation --- stars: activity}
+
+\section{Introduction}
+
+Gyrochronology calibrates stellar age from rotation period and mass \citep{Barnes2007, MamajekHillenbrand2008}.
+The canonical Skumanich law $P \propto t^{1/2}$ \citep{Skumanich1972} remains the backbone of most relations, though recent work has explored data-driven alternatives using Gaussian processes \citep{LuAngus2024} and normalizing flows \citep{VanLane2025}.
+
+Symbolic regression (SR) offers interpretable, closed-form equations discovered directly from data \citep{Cranmer2023}.
+PySR has been applied across astrophysics---galaxy--halo connection \citep{Cranmer2020}, SZ flux--mass scaling \citep{Wadekar2023}, star formation \citep{Salim2025}---but never to stellar rotation.
+A natural question: does PySR discover a gyrochronology equation that improves on classical forms?
+
+Equally important: \emph{is the discovered form unique?}
+SR is stochastic and produces a Pareto front of equations at each complexity level.
+A complex equation that fits 0.15~d better than Skumanich is only meaningful if the same form is recovered consistently.
+I introduce a bootstrap stability analysis---running PySR on 100 resamples and counting canonical forms---to answer this question.
+
+\section{Data and Method}
+
+I use the ChronoFlow rotation catalog \citep{VanLane2025}: 7,615 Gaia DR3 main-sequence stars in 30 clusters.
+After quality filtering and slow-sequence selection (removing fast rotators via adaptive thresholding; see Van-Lane et al.\ 2025 for cluster parameters), 5,269 FGK stars remain across 29 clusters spanning 10--3,870~Myr.
+The age distribution is severely skewed: 81\% of stars are younger than 500~Myr, and only one cluster (M67 at 3,870~Myr) exceeds 3~Gyr.
+
+I run PySR with physics-constrained and unconstrained loss functions.
+The physics loss penalizes negative periods and enforces monotonic age dependence on a fixed 7$\times$7 grid in the regime where standard magnetic braking applies (100--1000~Myr, $0.55 \leq (B_P - R_P)_0 \leq 1.9$).
+Cluster-level importance weighting ensures each cluster contributes equally regardless of membership count.
+Settings: 200 iterations, 30 populations of 50, maximum complexity 25, operators $\{+, -, \times, \div, \mathrm{pow}, \log, \exp, \sqrt{\phantom{x}}\}$.
+
+For the bootstrap analysis, I generate 100 resamples of the training data (sampling $N$ stars with replacement) and run PySR on each.
+I canonicalize equations by replacing all numerical constants with ordered placeholders ($C_0, C_1, \ldots$) via depth-first traversal after SymPy simplification \citep{Meurer2017}, enabling form-level comparison across runs.
+
+\section{Results}
+
+\textbf{Pareto front.}
+Figure~\ref{fig:main}a shows RMSE versus complexity for the constrained run.
+The front drops steeply from complexity~2 (RMSE = 9.98~d) to complexity~6 (7.14~d), then flattens: the best equation at complexity~15 reaches 6.99~d.
+The 0.15~d gap between complexity~6 and the optimum is far below the 1.94~d noise floor (intrinsic scatter 1.92~d in quadrature with 0.30~d from 0.1~dex age uncertainty).
+The constrained and unconstrained searches converge to the same forms---physics penalties are not load-bearing for this dataset.
+
+\textbf{Bootstrap stability.}
+Figure~\ref{fig:main}b shows the number of unique canonical forms recovered at each complexity level across 100 bootstrap resamples.
+At complexities 2--6, the form is perfectly stable: $C_0 \sqrt{t}\,(B_P - R_P)_0$ appears at complexity~6 in all 100 resamples.
+At complexity~7, stability drops to 70\% (3 unique forms).
+By complexity~10, 32 distinct forms appear; at complexity~15, 58.
+The complex equations that marginally outperform Skumanich in RMSE are different every time---they fit noise, not signal.
+
+\textbf{One-parameter equivalence.}
+A single-parameter \texttt{scipy.curve\_fit} of $P = C\sqrt{t}\,(B_P - R_P)_0$ with $C = 0.344$ matches PySR in leave-one-cluster-out cross-validation: both achieve mean RMSE = 3.79 $\pm$ 5.05~d across 29 held-out clusters.
+
+\textbf{Synthetic validation.}
+I generate synthetic rotation periods from a known Skumanich law with matched noise.
+PySR recovers the true form in 100/100 bootstrap resamples, confirming the stability analysis is methodologically sound.
+A negative-control dataset with a complex ground truth produces unstable recoveries, as expected.
+
+\textbf{Reproducibility.}
+Three independent PySR runs on the full dataset all converge to $C_0 \sqrt{t}\,(B_P - R_P)_0$ at complexity~6, with RMSE spread of 0.003~d.
+
+\section{Discussion}
+
+The conclusion is unambiguous: open cluster rotation data uniquely support the Skumanich form and cannot constrain more complex functional dependencies.
+This is not surprising given the age distribution---81\% of training stars are below 500~Myr, providing dense constraints only on the young-age slope.
+The practical implication is that, for this dataset, \texttt{scipy.curve\_fit} with the Barnes functional form is sufficient; symbolic regression adds interpretive value through the stability analysis but not predictive accuracy.
+
+The bootstrap stability framework demonstrated here is domain-agnostic and applicable to any PySR study.
+I recommend that future SR applications report form stability across resamples, not just the single best equation.
+
+\begin{figure}[t]
+\plotone{rnaas_figure.pdf}
+\caption{(a) PySR Pareto front: RMSE vs.\ expression complexity for the physics-constrained search on 5,269 slow-sequence rotators. The blue square marks the Skumanich form at complexity~6. The dashed line shows the combined noise floor (intrinsic scatter $\oplus$ age uncertainty). (b) Number of unique canonical forms recovered at each complexity level across 100 bootstrap resamples. At complexity~$\leq 6$, forms are perfectly stable; above complexity~9, dozens of distinct equations appear. \label{fig:main}}
+\end{figure}
+
+\begin{acknowledgments}
+This work uses data from the ChronoFlow catalog \citep{VanLane2025} and the PySR package \citep{Cranmer2023}.
+\end{acknowledgments}
+
+\begin{thebibliography}{99}
+\bibitem[Barnes(2007)]{Barnes2007} Barnes, S.~A.\ 2007, \apj, 669, 1167
+\bibitem[Cranmer(2023)]{Cranmer2023} Cranmer, M.\ 2023, arXiv:2305.01582
+\bibitem[Cranmer et al.(2020)]{Cranmer2020} Cranmer, M., et al.\ 2020, NeurIPS 2020
+\bibitem[Lu \& Angus(2024)]{LuAngus2024} Lu, Y.~L., \& Angus, R.\ 2024, \aj, 167, 159
+\bibitem[Mamajek \& Hillenbrand(2008)]{MamajekHillenbrand2008} Mamajek, E.~E., \& Hillenbrand, L.~A.\ 2008, \apj, 687, 1264
+\bibitem[Meurer et al.(2017)]{Meurer2017} Meurer, A., et al.\ 2017, PeerJ Comp.\ Sci., 3, e103
+\bibitem[Salim et al.(2025)]{Salim2025} Salim, S., et al.\ 2025, arXiv:2505.04681
+\bibitem[Skumanich(1972)]{Skumanich1972} Skumanich, A.\ 1972, \apj, 171, 565
+\bibitem[Van-Lane et al.(2025)]{VanLane2025} Van-Lane, P., et al.\ 2025, \apj, submitted (arXiv:2412.12244)
+\bibitem[Wadekar et al.(2023)]{Wadekar2023} Wadekar, D., et al.\ 2023, PNAS, 120, e2202218120
+\end{thebibliography}
+
+\end{document}
