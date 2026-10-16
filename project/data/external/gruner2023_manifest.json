@@ -1,0 +1,8 @@
+{
+  "paper": "https://arxiv.org/abs/2305.16997",
+  "source_url": "https://raw.githubusercontent.com/lgbouma/gyro-interp/33538508939352186bf00cd77907d1dafe22b9dc/gyrointerp/data/literature/Gruner_Barnes_Weingrill_2023_M67_tableC2.csv",
+  "sha256": "8150f9e663847335951b40db4a201e60443f1e48b015e36102e13ee3b3e9fb79",
+  "rows": 47,
+  "age_myr": 4000,
+  "note": "Published effectively single main-sequence sample. Gaia DR3 dereddened BP-RP supplied directly. HPS periods are already doubled in the published table; do not double again."
+}

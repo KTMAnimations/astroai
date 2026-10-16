@@ -1,0 +1,11 @@
+{
+  "folds_replayed": 48,
+  "candidate_fits_replayed": 528,
+  "numeric_values_compared": 17421,
+  "maximum_absolute_difference": 0.0,
+  "absolute_tolerance": 1e-10,
+  "relative_tolerance": 1e-10,
+  "manifest_sha256": "bf92f37c935f54cc08e4ee94f6ce4ecc107edd190a532e0f8cc60b243e6b3fc4",
+  "verification_script_sha256": "69d15b671a9a1d7c78d3bab0946f10361f156313341f437ee1e1162c8bfeba6d",
+  "all_models_and_candidates_match": true
+}

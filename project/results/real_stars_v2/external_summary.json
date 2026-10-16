@@ -1,0 +1,86 @@
+{
+  "n_stars": 25,
+  "reference_age_myr": 4000,
+  "data_sha256": "8150f9e663847335951b40db4a201e60443f1e48b015e36102e13ee3b3e9fb79",
+  "frozen_model_sha256": {
+    "holdout_M67_seed0": "2b8adacb001b9d7d7316421b97fbeaaaa0944e6b5a0c20c522ba87fb62a34b33",
+    "holdout_M67_seed1": "63ec7446937bdc5f0423cca6e0b2fba0fb1d828044fdd1fbf75523a2eae396c1",
+    "holdout_M67_seed2": "1698896db96f6fdf93fd0fd5477acf157d1ae79f14d4a39cdcb3a8ae0929554b"
+  },
+  "scores": {
+    "gaussian_hetero": {
+      "nll": -0.6670493860850882,
+      "crps": 0.06253833507832503,
+      "rmse_dex": 0.12753051311693628,
+      "mae_dex": 0.07390285176573436,
+      "coverage68": 0.9066666666666667,
+      "coverage90": 0.96
+    },
+    "gaussian_power": {
+      "nll": -0.32025570067744796,
+      "crps": 0.09129417294656993,
+      "rmse_dex": 0.1536801398901658,
+      "mae_dex": 0.13283780597963749,
+      "coverage68": 0.96,
+      "coverage90": 0.96
+    },
+    "gaussian_quadratic": {
+      "nll": -0.4234676229673562,
+      "crps": 0.0735407293882455,
+      "rmse_dex": 0.1249393635129082,
+      "mae_dex": 0.06537208869121731,
+      "coverage68": 0.96,
+      "coverage90": 0.96
+    },
+    "gaussian_rbf": {
+      "nll": -0.3245372303062756,
+      "crps": 0.09245451164387199,
+      "rmse_dex": 0.15940708421350383,
+      "mae_dex": 0.12923656646616252,
+      "coverage68": 0.9333333333333332,
+      "coverage90": 0.96
+    },
+    "mixture_power": {
+      "nll": -0.2488809886676473,
+      "crps": 0.09966887679137115,
+      "rmse_dex": 0.18402066809902995,
+      "mae_dex": 0.13948553314984188,
+      "coverage68": 0.21333333333333335,
+      "coverage90": 0.6933333333333334
+    },
+    "mixture_quadratic": {
+      "nll": -0.8611658389173065,
+      "crps": 0.057526989326719846,
+      "rmse_dex": 0.11744675854933467,
+      "mae_dex": 0.07933229177712832,
+      "coverage68": 0.9199999999999999,
+      "coverage90": 0.9733333333333333
+    },
+    "validation_selected": {
+      "nll": -0.8611658389173065,
+      "crps": 0.057526989326719846,
+      "rmse_dex": 0.11744675854933467,
+      "mae_dex": 0.07933229177712832,
+      "coverage68": 0.9199999999999999,
+      "coverage90": 0.9733333333333333
+    }
+  },
+  "inferred_age_myr": {
+    "gaussian_hetero": 4108.333619800009,
+    "gaussian_power": 4748.118006964145,
+    "gaussian_quadratic": 4024.2625158431115,
+    "gaussian_rbf": 4416.6562962028875,
+    "mixture_power": 4999.999999999999,
+    "mixture_quadratic": 3375.6810263158063,
+    "validation_selected": 3375.6810263158063
+  },
+  "boundary_hits": {
+    "gaussian_hetero": 0,
+    "gaussian_power": 0,
+    "gaussian_quadratic": 0,
+    "gaussian_rbf": 2,
+    "mixture_power": 3,
+    "mixture_quadratic": 0,
+    "validation_selected": 0
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "study_id": "real_stars_v2",
+  "reference_study": "research_v1",
+  "seed": 20261015,
+  "models": ["gaussian_power", "gaussian_quadratic", "gaussian_hetero", "mixture_power", "mixture_quadratic", "gaussian_rbf"],
+  "mixture_quadratic_penalties": [0.0, 0.01, 0.1],
+  "rbf_penalties": [0.001, 0.01, 0.1, 1.0],
+  "primary_comparison": "mixture_quadratic_minus_gaussian_power_nll",
+  "age_grid_myr": [80.0, 5000.0, 401],
+  "bootstrap_replicates": 20000
+}

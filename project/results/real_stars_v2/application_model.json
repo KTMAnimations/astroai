@@ -1,0 +1,61 @@
+{
+  "model": {
+    "kind": "mixture_quadratic",
+    "penalty": 0.1,
+    "beta": [
+      0.9484794071493043,
+      0.2975266885539151,
+      0.16319306165287265,
+      0.0876860137835122,
+      -0.10363544305229111,
+      -0.07557634028759902
+    ],
+    "sigma": 0.22254716149597692,
+    "converged": true,
+    "n_discovery": 721,
+    "delta": 0.2994399589375625,
+    "sigma_slow": 0.053682658505014344,
+    "sigma_fast": 0.34323524214101914,
+    "gate_coef": [
+      1.0677260111207059,
+      0.04727817790669726,
+      1.1405250602464463
+    ],
+    "objective": -0.6088471437838312,
+    "attempts": [
+      {
+        "converged": true,
+        "objective": -0.6088471437796515,
+        "iterations": 134
+      },
+      {
+        "converged": true,
+        "objective": -0.6088471437838312,
+        "iterations": 165
+      },
+      {
+        "converged": true,
+        "objective": -0.6088471437602736,
+        "iterations": 176
+      }
+    ]
+  },
+  "sample_sha256": "8e087d322cf61342b8a94c2594bfd2e67d968a099ce19b93929c7e0142ae0fd4",
+  "penalty_rule": "Most frequent inner-validation choice across 48 folds; ties use stronger regularization",
+  "penalty_counts": {
+    "0.0": 17,
+    "0.1": 30,
+    "0.01": 1
+  },
+  "n_stars": 721,
+  "n_clusters": 16,
+  "age_domain_myr": [
+    135,
+    3870
+  ],
+  "color_domain": [
+    0.65,
+    1.5
+  ],
+  "scope": "Conditional rotation distribution. Trained on the full primary sample; not a held-out model or calibrated individual-star age estimator."
+}

@@ -16,3 +16,10 @@ The `clean_*.csv`, McQuillan, Berger and residual tables belong to the historica
 analysis. The new study does not use the legacy field-star age catalogue as
 validation. Catalogue measurements and cluster ages retain their original
 observational and calibration uncertainties.
+
+`external/` contains the pinned Gruner et al. (2023) M67 table and its provenance.
+The observational follow-up uses 25 stars within the fixed color domain that
+have no Gaia-ID overlap with any entry in the full original catalogue. See the
+[external data record](external/README.md) for reddening, published period
+corrections and the selection ledger. These observations do not train or select
+the models used to predict them.

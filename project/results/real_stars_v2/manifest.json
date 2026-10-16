@@ -1,0 +1,90 @@
+{
+  "config": {
+    "study_id": "real_stars_v2",
+    "reference_study": "research_v1",
+    "seed": 20261015,
+    "models": [
+      "gaussian_power",
+      "gaussian_quadratic",
+      "gaussian_hetero",
+      "mixture_power",
+      "mixture_quadratic",
+      "gaussian_rbf"
+    ],
+    "mixture_quadratic_penalties": [
+      0.0,
+      0.01,
+      0.1
+    ],
+    "rbf_penalties": [
+      0.001,
+      0.01,
+      0.1,
+      1.0
+    ],
+    "primary_comparison": "mixture_quadratic_minus_gaussian_power_nll",
+    "age_grid_myr": [
+      80.0,
+      5000.0,
+      401
+    ],
+    "bootstrap_replicates": 20000
+  },
+  "sample_sha256": "8e087d322cf61342b8a94c2594bfd2e67d968a099ce19b93929c7e0142ae0fd4",
+  "code_sha256": {
+    "scripts/run_real_star_study.py": "775a7ebc7a380cd4792e4b9cadb2f721d1c30f9fe2dbb2a76810242a5a7e5c4d",
+    "src/astrogyro/distributions.py": "3017d8edfc37856a62bb484dbfbd577f68c09452243c40a11ebd2fff27a466c4",
+    "src/astrogyro/data.py": "6688a308ceb5a8662a55fd6f1c8ffb0d0bc406334c859348afb7e4a88cc34cac",
+    "src/astrogyro/metrics.py": "6d061cfa0419b4c9af664f89b29334b22c84354cf2d1afe942ae1c308071eeaf"
+  },
+  "split_sha256": {
+    "holdout_Hyades_seed0": "eda8ae06e89fd91f239a69bf115f6eef05fa2b7a5fb89edc7ff552c857539d65",
+    "holdout_Hyades_seed1": "662ba73db6ac5166a22698349f6a4f36cbd549e95504348dceb1e26409639b22",
+    "holdout_Hyades_seed2": "2e0ed70ab8f84bd9e21bb38caacfcd950ab515073522720ce44acbab9b7e4c31",
+    "holdout_M34_seed0": "7c486b15538b47d28ffcfc8cf3d0f4d357a2c29594168cc55bf6f297c8d40c0a",
+    "holdout_M34_seed1": "0d379888a2d8d1e00515a2e9a1ce6decf13373490d4731b29c3565b501d93fb1",
+    "holdout_M34_seed2": "8a86e6f73874636cb6fb6c72f2e32574a35274f7bc3e68d1a88892fd356e7110",
+    "holdout_M35_seed0": "5213aa09329512d88345f4f9169d892d15737aa70e47cf528fc86ef6d7bffb7e",
+    "holdout_M35_seed1": "b9790d3b65dc73ad291b1d1b67c48683956749025518a4aa45816c0587133792",
+    "holdout_M35_seed2": "6477205b3d9c454e0353daae7dad604e724d12e26e3c016afa5d860c1a66e72a",
+    "holdout_M37_seed0": "ad2e39c55a694d46c92f2e0794f7263a20dbd907564cddc6c04d0f66788d5f1b",
+    "holdout_M37_seed1": "de02fc04835fc473da5909c24e115d7ddfa2458fde46223c14cb2e77edaf6ce6",
+    "holdout_M37_seed2": "d77bab5c911b5f3c450b9d50ead11cf7d7a681a913077a9ce5891db6a2f8a42e",
+    "holdout_M50_seed0": "e2f511746d6f1b0463288a90d217102472b7780d2e23229dbae70ee00788caaf",
+    "holdout_M50_seed1": "16ea074d7b62dc71f5368c42721f35c9fb81964c78437b225d8dc106dd032a24",
+    "holdout_M50_seed2": "e57eda7a8ac724bcc80a6faecbf3f0a583332122ed4da22a794b64d8d691e808",
+    "holdout_M67_seed0": "23218c07debe33b6b91f3184b749c1a35f1bcb99ff2d6e0d41417519161d4c53",
+    "holdout_M67_seed1": "49ae4d131ce15fd448c1b25e2522b9d6cb03b6a2aa7de0b84c809142166bfd1a",
+    "holdout_M67_seed2": "2a1a6f788d77098787a1574e569106bbe0530b063dd56198fe980bd626a54af3",
+    "holdout_NGC1750_seed0": "f6e9fc1aa90c3f4438ccc182c68616c1ad2d5ecff67289ca72f03955aa4321dc",
+    "holdout_NGC1750_seed1": "707587f01b9a0873047de3f7ac9fca830ae12015df3fcdd0ac1a199fc98ada0b",
+    "holdout_NGC1750_seed2": "b0037844cf48d06f3c76be7d748f5d9c3756f95a245aa1e59660fbc173ad9250",
+    "holdout_NGC2281_seed0": "97f85b0903fde4926cb3ccdb6744dd3aa116f0be9cb51410d74f0481f875250c",
+    "holdout_NGC2281_seed1": "1cd9d13e9ca52291ab73ab458084d2dabb32570ad8ecc314d6aed6d38c486cc0",
+    "holdout_NGC2281_seed2": "a3ed97664fd0e0af8d0b11bc4887e9726f4ffccdd0c850ad0f6276f5cd9713cd",
+    "holdout_NGC2516_seed0": "ca9dbce28d5f82eecff57e745469156a26c8bb085dee80cd92659f2447f07933",
+    "holdout_NGC2516_seed1": "259a8a2528083aea231417669f7c07fa073bfca12a514eb0a78a22e0de727034",
+    "holdout_NGC2516_seed2": "1ae2f3bb107b9925c94cf9cf920be7ca5493aa71f660f47029fc966cafbcf57d",
+    "holdout_NGC2548_seed0": "50199dc590e409db503bd44b1294be453912e3ee217b7c4cf6e8e92c18f377e8",
+    "holdout_NGC2548_seed1": "4acfb42e898dd1fcc6660fc163802ceffabe2558444c555f361e921dc7daded4",
+    "holdout_NGC2548_seed2": "2297f156bd07887adeb95854c843271803d413a1dc2999c34275ebcada4e4ce8",
+    "holdout_NGC3532_seed0": "d4dcdfb3af4570b1ce07b9b74d5b17eb2fd8b63aa44d5658850daf9b010b2fc6",
+    "holdout_NGC3532_seed1": "14f2eca6f9e3879bd10ef09a00de8610637a7dc6316b0c2754bf73ba79acbc4a",
+    "holdout_NGC3532_seed2": "3a81a8920dcd4da26bbc2579b8ecedf2c16c1646c9429ff14ec69ba954e3d09b",
+    "holdout_NGC6811_seed0": "08709a57e1a3280473acb62bc00b9add867e238a412ce948c92110c927c88ed0",
+    "holdout_NGC6811_seed1": "90f5583db4d16cc520bf1b684989325e5429bbcebdcac0821ab081734c6b0bab",
+    "holdout_NGC6811_seed2": "8f7471d117f635df78c0c64012821c78c3e5743527c6ad6de8b90cee7d5c066a",
+    "holdout_NGC6819_seed0": "4a594f48b3f0388dd35f784a6810bf43ffa0d45c38ee9efcbc1400c19f42bf51",
+    "holdout_NGC6819_seed1": "7df913373b10de1727547a5b3067f1350e24ad55aeab694d2cdfcacab45bfc05",
+    "holdout_NGC6819_seed2": "78c44e30d0389638fba2760d0124a6afc7848aff04c74ba8b5d3fcf52861a444",
+    "holdout_NGC6866_seed0": "c60c043654c4a0dab1af74018145d22bd9c6b58eb560b0267ee9fd204e5afa41",
+    "holdout_NGC6866_seed1": "2b87eec4ae0111857e0b3b9eb4d90721e1b08263242587620f1c11ac7390dba7",
+    "holdout_NGC6866_seed2": "7838b0f740627a3f27f4012239d5940dcbd76b9499d2da58d6475ae2e55bfc64",
+    "holdout_Praesepe_seed0": "362dc7f40c72f054da86f57b27dc5068b30b5b4619ffc0b8c05709e3b7974c11",
+    "holdout_Praesepe_seed1": "e00e1ca4fe5f755990a251a740e914e3bd259244530946f6120636798b5b6299",
+    "holdout_Praesepe_seed2": "7acabc1222293351b0b15c457b51f1c7228a61950d543697750a9bdf7b4c072d",
+    "holdout_Ruprecht147_seed0": "590697483a86004d9ae8996d06a07d46531640e1f51e553e76f26573b8a7a7f7",
+    "holdout_Ruprecht147_seed1": "58128a37329f2a634d4daa53446c7a72a823496e694cb1cdb7147605ab697752",
+    "holdout_Ruprecht147_seed2": "fd1647cad40db45b9898de818e3f836478f64d480d82be496afb17ebbc7e8cb1"
+  }
+}

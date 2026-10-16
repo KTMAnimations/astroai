@@ -18,6 +18,12 @@ Exact numerical replay is checked on one nontrivial saved trial. Reproduction on
 another operating system or processor may introduce floating-point differences;
 compare equations and predictive metrics as well as the recorded versions.
 
+The `real_stars_v2` follow-up uses the same recorded environment, with NumPy/SciPy
+for distribution fitting. `scripts/verify_real_star_reproducibility.py` independently
+refits all 528 candidate configurations across all 48 splits and compares every
+saved parameter and selection score; it does not rerun PySR. Set
+`OPENBLAS_NUM_THREADS=1` for the recorded numerical replay.
+
 The Python lock also includes ReportLab and pypdf for report generation and PDF
 inspection. Poppler's `pdftoppm` was used for visual inspection; it is a separate
 system dependency and is not needed to run the numerical study or build the PDF.
