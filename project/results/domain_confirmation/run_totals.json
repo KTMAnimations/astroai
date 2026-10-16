@@ -1,0 +1,5 @@
+{
+  "n_searches": 30,
+  "sum_search_elapsed_seconds": 247.31677179301187,
+  "note": "Sum across independent processes, not wall-clock elapsed time."
+}

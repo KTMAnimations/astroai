@@ -1,0 +1,130 @@
+{
+  "seed": 20261416,
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M34",
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC2281",
+      "NGC2548",
+      "NGC3532",
+      "NGC6819",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "NGC2516",
+      "NGC6811",
+      "NGC6866"
+    ],
+    "test_clusters": [
+      "NGC1750"
+    ]
+  },
+  "models": {
+    "pysr_default": {
+      "expression": "sqrt(exp(log_age))",
+      "complexity": 3,
+      "validation_rmse": 0.20721457077299202
+    },
+    "pysr_validation": {
+      "expression": "log_color/exp(log_color) + exp(log_age/1.8357692262065826)",
+      "complexity": 9,
+      "validation_rmse": 0.17762060941062305
+    },
+    "fixed_skumanich": {
+      "name": "fixed_skumanich",
+      "coefficients": [
+        1.0029647178935948
+      ],
+      "n_parameters": 1
+    },
+    "power_law": {
+      "name": "power_law",
+      "coefficients": [
+        1.0081033325243587,
+        0.5224571327414634,
+        1.173690520531903
+      ],
+      "n_parameters": 3
+    },
+    "quadratic": {
+      "name": "quadratic",
+      "coefficients": [
+        1.0559628926905362,
+        0.5787705069218196,
+        1.2259097137285877,
+        0.13123207552134797,
+        0.2422891093027715,
+        -6.682853321755947
+      ],
+      "n_parameters": 6
+    }
+  },
+  "scores": [
+    {
+      "cluster": "NGC1750",
+      "seed": 1,
+      "model": "pysr_default",
+      "n_test": 13,
+      "n_discovery": 572,
+      "n_validation": 136,
+      "age_Myr": 322.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.4433973741279487,
+      "mae_dex": 0.3247557435239472
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 1,
+      "model": "pysr_validation",
+      "n_test": 13,
+      "n_discovery": 572,
+      "n_validation": 136,
+      "age_Myr": 322.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.3368707544645534,
+      "mae_dex": 0.23425395094855256
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 1,
+      "model": "fixed_skumanich",
+      "n_test": 13,
+      "n_discovery": 572,
+      "n_validation": 136,
+      "age_Myr": 322.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.34289076176473554,
+      "mae_dex": 0.23753777368932663
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 1,
+      "model": "power_law",
+      "n_test": 13,
+      "n_discovery": 572,
+      "n_validation": 136,
+      "age_Myr": 322.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.3248603169258848,
+      "mae_dex": 0.22282149583206642
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 1,
+      "model": "quadratic",
+      "n_test": 13,
+      "n_discovery": 572,
+      "n_validation": 136,
+      "age_Myr": 322.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.29595393476362614,
+      "mae_dex": 0.21630460159376733
+    }
+  ],
+  "elapsed_seconds": 9.257534458003647
+}

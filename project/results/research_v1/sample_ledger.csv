@@ -1,0 +1,7 @@
+step,stars,clusters
+catalogue,8412,30
+photometry_and_astrometry,7615,30
+finite_positive_measurements,7615,30
+age_and_color_domain,1700,20
+membership_threshold,745,20
+cluster_sample_size,721,16

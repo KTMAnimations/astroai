@@ -1,0 +1,81 @@
+{
+  "seed": 20271022,
+  "elapsed_seconds": 7.341578624997055,
+  "models": [
+    {
+      "model": "pysr_default",
+      "expression": "(log_color + 0.33356374812650386)*(log_age*0.49897402774276356 + log_age + log_color*0.5887073470072551 + 1.5532361196055076) + 0.5185495373768715",
+      "complexity": 17,
+      "truth_grid_rmse": 0.00013115145485699628,
+      "validation_rmse": 0.00010563958142513481,
+      "trial": "interaction_catalog_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": true
+    },
+    {
+      "model": "pysr_validation",
+      "expression": "(log_color + 0.33356374812650386)*(log_age*0.49897402774276356 + log_age + log_color*0.5887073470072551 + 1.5532361196055076) + 0.5185495373768715",
+      "complexity": 17,
+      "truth_grid_rmse": 0.00013115145485699628,
+      "validation_rmse": 0.00010563958142513481,
+      "trial": "interaction_catalog_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": true
+    },
+    {
+      "model": "fixed_skumanich",
+      "coefficients": [
+        1.015922818680297
+      ],
+      "truth_grid_rmse": 0.09155781951707474,
+      "validation_rmse": 0.06280650311468507,
+      "trial": "interaction_catalog_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "power_law",
+      "coefficients": [
+        1.0082466726288977,
+        0.47698820489866695,
+        1.2854861891699756
+      ],
+      "truth_grid_rmse": 0.08220492764894702,
+      "validation_rmse": 0.052826787857542704,
+      "trial": "interaction_catalog_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "quadratic",
+      "coefficients": [
+        1.036558442571531,
+        0.5000000000000001,
+        1.7499999999999987,
+        7.70658299481049e-17,
+        1.5000000000000002,
+        0.5999999999999983
+      ],
+      "truth_grid_rmse": 8.932673970627337e-16,
+      "validation_rmse": 8.605839904009633e-16,
+      "trial": "interaction_catalog_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": true
+    }
+  ]
+}

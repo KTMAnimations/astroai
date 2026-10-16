@@ -1,0 +1,10 @@
+{
+  "n_trials": 30,
+  "validation_lower_error": 28,
+  "default_lower_error": 2,
+  "numerically_tied": 0,
+  "both_invalid": 0,
+  "invalid_selected_functions": [],
+  "default_selection_misses_despite_accurate_candidate": 28,
+  "no_candidate_recovers": 2
+}

@@ -1,3 +1,11 @@
 pysr_gyro_env/
 *.DS_Store
 __pycache__/
+.venv/
+.pytest_cache/
+*.egg-info/
+build/
+tmp/
+project/results/research_v1/raw_search/
+project/results/domain_confirmation/raw_search/
+*.pyc

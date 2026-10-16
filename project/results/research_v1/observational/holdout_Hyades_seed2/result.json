@@ -1,0 +1,130 @@
+{
+  "seed": 20262117,
+  "split": {
+    "discovery_clusters": [
+      "M34",
+      "M35",
+      "M37",
+      "M67",
+      "NGC1750",
+      "NGC2516",
+      "NGC2548",
+      "NGC3532",
+      "NGC6819",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M50",
+      "NGC2281",
+      "NGC6811"
+    ],
+    "test_clusters": [
+      "Hyades"
+    ]
+  },
+  "models": {
+    "pysr_default": {
+      "expression": "log_color + sqrt(exp(log_age))",
+      "complexity": 5,
+      "validation_rmse": 0.23839119249236362
+    },
+    "pysr_validation": {
+      "expression": "-(-0.5578291116882258)*log_age + exp(log_color)",
+      "complexity": 6,
+      "validation_rmse": 0.23403443233802776
+    },
+    "fixed_skumanich": {
+      "name": "fixed_skumanich",
+      "coefficients": [
+        0.9841358125969845
+      ],
+      "n_parameters": 1
+    },
+    "power_law": {
+      "name": "power_law",
+      "coefficients": [
+        1.0110815397140334,
+        0.5835514201027825,
+        1.495312390206001
+      ],
+      "n_parameters": 3
+    },
+    "quadratic": {
+      "name": "quadratic",
+      "coefficients": [
+        1.0679825918254597,
+        0.6110753966504893,
+        1.2625576661880877,
+        0.11077364974810756,
+        -0.31759275162010214,
+        -8.69136319743335
+      ],
+      "n_parameters": 6
+    }
+  },
+  "scores": [
+    {
+      "cluster": "Hyades",
+      "seed": 2,
+      "model": "pysr_default",
+      "n_test": 45,
+      "n_discovery": 514,
+      "n_validation": 162,
+      "age_Myr": 775.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.2882462286404155,
+      "mae_dex": 0.09956886472616452
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 2,
+      "model": "pysr_validation",
+      "n_test": 45,
+      "n_discovery": 514,
+      "n_validation": 162,
+      "age_Myr": 775.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.28825221010076174,
+      "mae_dex": 0.1020560536655275
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 2,
+      "model": "fixed_skumanich",
+      "n_test": 45,
+      "n_discovery": 514,
+      "n_validation": 162,
+      "age_Myr": 775.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.28696902129775675,
+      "mae_dex": 0.11071637960700992
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 2,
+      "model": "power_law",
+      "n_test": 45,
+      "n_discovery": 514,
+      "n_validation": 162,
+      "age_Myr": 775.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.2863433093905652,
+      "mae_dex": 0.11383763442170912
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 2,
+      "model": "quadratic",
+      "n_test": 45,
+      "n_discovery": 514,
+      "n_validation": 162,
+      "age_Myr": 775.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.2879009025919163,
+      "mae_dex": 0.12473845716488403
+    }
+  ],
+  "elapsed_seconds": 7.214773291998426
+}

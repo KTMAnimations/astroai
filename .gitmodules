@@ -1,0 +1,6 @@
+[submodule "chronoflow"]
+	path = chronoflow
+	url = https://github.com/philvanlane/chronoflow.git
+[submodule "GPgyro"]
+	path = GPgyro
+	url = https://github.com/lyx12311/GPgyro.git

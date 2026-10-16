@@ -1,0 +1,81 @@
+{
+  "seed": 20283022,
+  "elapsed_seconds": 7.645979833003366,
+  "models": [
+    {
+      "model": "pysr_default",
+      "expression": "log_color + log(log_age + 2.5162330757462845)",
+      "complexity": 6,
+      "truth_grid_rmse": 0.06857921435012353,
+      "validation_rmse": 0.16747261327130994,
+      "trial": "saturation_balanced_noise0.15_seed07",
+      "truth": "saturation",
+      "design": "balanced",
+      "noise_dex": 0.15,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "pysr_validation",
+      "expression": "log_age*0.6410085630833541 - (-0.8749309722872756)*log_color + exp(log_age)*(-0.36167981406908006) + 1.2638305433221486",
+      "complexity": 14,
+      "truth_grid_rmse": 0.019827704089767837,
+      "validation_rmse": 0.14983851279174937,
+      "trial": "saturation_balanced_noise0.15_seed07",
+      "truth": "saturation",
+      "design": "balanced",
+      "noise_dex": 0.15,
+      "replicate": 7,
+      "recovered": true
+    },
+    {
+      "model": "fixed_skumanich",
+      "coefficients": [
+        0.9081315940440752
+      ],
+      "truth_grid_rmse": 0.09570106478649044,
+      "validation_rmse": 0.18028790561866953,
+      "trial": "saturation_balanced_noise0.15_seed07",
+      "truth": "saturation",
+      "design": "balanced",
+      "noise_dex": 0.15,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "power_law",
+      "coefficients": [
+        0.8700523916631054,
+        0.323605672126629,
+        0.8746897410802346
+      ],
+      "truth_grid_rmse": 0.02958458961997774,
+      "validation_rmse": 0.15228522957149315,
+      "trial": "saturation_balanced_noise0.15_seed07",
+      "truth": "saturation",
+      "design": "balanced",
+      "noise_dex": 0.15,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "quadratic",
+      "coefficients": [
+        0.9038320331639442,
+        0.2628598192808814,
+        0.918444015234944,
+        -0.1587946522569863,
+        0.22280561244288943,
+        -0.38979650459627757
+      ],
+      "truth_grid_rmse": 0.02295530140059739,
+      "validation_rmse": 0.15274026211207878,
+      "trial": "saturation_balanced_noise0.15_seed07",
+      "truth": "saturation",
+      "design": "balanced",
+      "noise_dex": 0.15,
+      "replicate": 7,
+      "recovered": false
+    }
+  ]
+}

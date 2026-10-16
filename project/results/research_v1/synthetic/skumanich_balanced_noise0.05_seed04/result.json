@@ -1,0 +1,81 @@
+{
+  "seed": 20262019,
+  "elapsed_seconds": 10.293832083996676,
+  "models": [
+    {
+      "model": "pysr_default",
+      "expression": "log_color + sqrt(exp(log_age))",
+      "complexity": 5,
+      "truth_grid_rmse": 0.03010876307277849,
+      "validation_rmse": 0.05620292842854892,
+      "trial": "skumanich_balanced_noise0.05_seed04",
+      "truth": "skumanich",
+      "design": "balanced",
+      "noise_dex": 0.05,
+      "replicate": 4,
+      "recovered": false
+    },
+    {
+      "model": "pysr_validation",
+      "expression": "-(-0.5034838399021451)*log_age + (log_color + 1.0400097332645033)/1.0007983760562487",
+      "complexity": 9,
+      "truth_grid_rmse": 0.0025022664378826255,
+      "validation_rmse": 0.04817668015309337,
+      "trial": "skumanich_balanced_noise0.05_seed04",
+      "truth": "skumanich",
+      "design": "balanced",
+      "noise_dex": 0.05,
+      "replicate": 4,
+      "recovered": true
+    },
+    {
+      "model": "fixed_skumanich",
+      "coefficients": [
+        1.0385363851611944
+      ],
+      "truth_grid_rmse": 0.001977942589664213,
+      "validation_rmse": 0.04809122738926229,
+      "trial": "skumanich_balanced_noise0.05_seed04",
+      "truth": "skumanich",
+      "design": "balanced",
+      "noise_dex": 0.05,
+      "replicate": 4,
+      "recovered": true
+    },
+    {
+      "model": "power_law",
+      "coefficients": [
+        1.0391800766750712,
+        0.5034838395246188,
+        0.99920226577418
+      ],
+      "truth_grid_rmse": 0.0025022662706024462,
+      "validation_rmse": 0.048176680141711364,
+      "trial": "skumanich_balanced_noise0.05_seed04",
+      "truth": "skumanich",
+      "design": "balanced",
+      "noise_dex": 0.05,
+      "replicate": 4,
+      "recovered": true
+    },
+    {
+      "model": "quadratic",
+      "coefficients": [
+        1.0454472419249454,
+        0.5000321320462197,
+        0.9829899376577838,
+        -0.00875171401334092,
+        -0.06984076814175835,
+        -0.43420780543580134
+      ],
+      "truth_grid_rmse": 0.006393040237616265,
+      "validation_rmse": 0.04895698648761809,
+      "trial": "skumanich_balanced_noise0.05_seed04",
+      "truth": "skumanich",
+      "design": "balanced",
+      "noise_dex": 0.05,
+      "replicate": 4,
+      "recovered": true
+    }
+  ]
+}

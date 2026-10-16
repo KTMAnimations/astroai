@@ -1,0 +1,67 @@
+{
+  "config": {
+    "study_id": "domain_confirmation",
+    "seed": 20361015,
+    "sample": {
+      "membership": 0.8,
+      "min_age": 100,
+      "color_lo": 0.65,
+      "color_hi": 1.5,
+      "min_cluster_size": 10
+    },
+    "search": {
+      "iterations": 100,
+      "populations": 12,
+      "population_size": 40,
+      "cycles": 200,
+      "maxsize": 20
+    },
+    "synthetic": {
+      "truths": [
+        "skumanich",
+        "interaction",
+        "saturation"
+      ],
+      "designs": [
+        "catalog"
+      ],
+      "noise_dex": [
+        0.15
+      ],
+      "replicates": 10,
+      "n_train": 600,
+      "n_validation": 200,
+      "recovery_threshold_dex": 0.02
+    },
+    "observational": {
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "bootstrap_replicates": 20000
+    }
+  },
+  "catalog_sha256": "577e4366d164a2c7d9f77320cf86c1da3fbd94ead92ddb2a63d5c10661674238",
+  "code_sha256": {
+    "data.py": "6688a308ceb5a8662a55fd6f1c8ffb0d0bc406334c859348afb7e4a88cc34cac",
+    "baselines.py": "631a34e7114ae0d33c44016f9e0f5100058844e8f30eea00373edfeec8c6277f",
+    "metrics.py": "6d061cfa0419b4c9af664f89b29334b22c84354cf2d1afe942ae1c308071eeaf",
+    "symbolic.py": "9a347b12a7b5a8bc189405f058e725fa6436fd5bbb6116a2f8478310ba1bf380",
+    "experiments.py": "3596b0f9ee7242db65cf39d06b58eaba80dc09ddb174f1558256a1c8a80cee8f"
+  },
+  "signature": "f0acfd4068716ccfbe242c938e5dca98f6ed76c9dc1cab38724d93a922f262f3",
+  "created_utc": "2026-10-16T00:34:07Z",
+  "python": "3.11.8 (main, Apr  2 2025, 23:27:10) [Clang 15.0.0 (clang-1500.3.9.4)]",
+  "platform": "macOS-15.6-arm64-arm-64bit",
+  "versions": {
+    "pysr": "2.7.0",
+    "numpy": "2.4.6",
+    "pandas": "3.0.6",
+    "scipy": "1.17.1",
+    "sympy": "1.14.0",
+    "matplotlib": "3.11.2"
+  },
+  "n_stars": 721,
+  "n_clusters": 16
+}

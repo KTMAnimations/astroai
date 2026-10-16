@@ -1,0 +1,21 @@
+{
+  "n_trials": 180,
+  "validation_lower_error": 125,
+  "default_lower_error": 5,
+  "numerically_tied": 50,
+  "both_invalid": 0,
+  "invalid_selected_functions": [
+    {
+      "trial": "saturation_catalog_noise0.15_seed01",
+      "model": "pysr_validation",
+      "expression": "0.7552776394908459*log_color + 0.4758047792719929*sqrt(log_age + (log_color + sqrt(log_color + 0.5770806177586227))**(1/4)) + 0.4292544066394135"
+    },
+    {
+      "trial": "saturation_catalog_noise0.15_seed02",
+      "model": "pysr_validation",
+      "expression": "sqrt(log_color + log(0.80402566096023499*log_age + 0.80402566096023499*log_color + 2.1201993406031037))"
+    }
+  ],
+  "default_selection_misses_despite_accurate_candidate": 94,
+  "no_candidate_recovers": 10
+}

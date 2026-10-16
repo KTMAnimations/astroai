@@ -1,0 +1,13 @@
+{
+  "status": "fresh_seed_confirmation",
+  "n_trials": 30,
+  "feature_only_mesh_shape": [
+    81,
+    51
+  ],
+  "changed_selections": 0,
+  "original_invalid": 0,
+  "guarded_invalid": 0,
+  "original_recoveries": 21,
+  "guarded_recoveries": 21
+}

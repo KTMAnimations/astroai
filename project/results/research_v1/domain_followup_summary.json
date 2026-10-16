@@ -1,0 +1,13 @@
+{
+  "status": "post_hoc_exploratory_same_trials",
+  "n_trials": 180,
+  "feature_only_mesh_shape": [
+    81,
+    51
+  ],
+  "changed_selections": 2,
+  "original_invalid": 2,
+  "guarded_invalid": 0,
+  "original_recoveries": 157,
+  "guarded_recoveries": 159
+}

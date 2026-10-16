@@ -1,0 +1,8 @@
+{
+  "trial": "interaction_balanced_noise0.05_seed00",
+  "seed": 20272015,
+  "same_equations": true,
+  "same_losses": true,
+  "n_candidates_original": 17,
+  "n_candidates_replay": 17
+}

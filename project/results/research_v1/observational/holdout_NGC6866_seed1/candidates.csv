@@ -1,0 +1,14 @@
+candidate_id,complexity,loss,score,equation,expression,default_selected,validation_rmse,validation_selected
+0,1,0.0971176620068805,0.0,0.8313766048273501,0.8313766048273501,False,0.38565564510289413,False
+1,3,0.0761292698296681,0.12174521980365766,sqrt(exp(log_age)),sqrt(exp(log_age)),False,0.23532230745339247,False
+2,4,0.0760562341385879,0.0009598246190716765,exp(log_age * 0.5223216051874809),exp(log_age*0.5223216051874809),False,0.23485733549622204,False
+3,5,0.0617556930273948,0.20828682352048022,sqrt(exp(log_age)) + log_color,log_color + sqrt(exp(log_age)),True,0.2039541050147136,False
+4,6,0.0599638876122897,0.029443658138778722,(log_age * 0.5400061773704147) + exp(log_color),log_age*0.5400061773704147 + exp(log_color),False,0.20199156741880242,True
+5,7,0.0590969364397421,0.014563421717777136,(log_age * 0.512128417757783) + (log_color + 0.9818774300129247),log_age*0.512128417757783 + log_color + 0.9818774300129247,False,0.20676441076667249,False
+6,8,0.0578868603103894,0.02068866499716923,exp((log_color + log_age) * 0.6642013610801176) + log_color,log_color + exp((log_age + log_color)*0.6642013610801176),False,0.22277173698302036,False
+7,9,0.0559530014266051,0.03397834306039917,sqrt(exp(log_age) + (log_color / (log_color + 0.46876554278069765))),sqrt(log_color/(log_color + 0.46876554278069765) + exp(log_age)),False,inf,False
+8,10,0.0546040218656341,0.02440453753910555,sqrt(exp(log_age) + (log_color / exp(log_color / 0.12955201109979642))),sqrt(log_color*exp(-7.7189075762759148*log_color) + exp(log_age)),False,inf,False
+9,12,0.0541701709006831,0.003988568010293131,sqrt((log_color / exp(log_color / 0.14867138239778344)) + exp(log_color + log_age)),sqrt(log_color*exp(-6.7262440415359259*log_color) + exp(log_age + log_color)),False,inf,False
+10,14,0.0536708584462465,0.004630111800038623,sqrt(exp((log_age * 1.1054082110989303) + log_color) + (log_color / exp(log_color / 0.15612151321081497))),sqrt(log_color*exp(-6.4052671501439638*log_color) + exp(1.1054082110989303*log_age + log_color)),False,inf,False
+11,18,0.0536088090519187,0.000289194600869157,sqrt(exp((log_age * 1.109948907846487) + log_color) + (log_color / exp(((log_color + log_color) + log_color) / 0.46796223909355295))),sqrt(log_color*exp(-6.4107736680015612*log_color) + exp(1.109948907846487*log_age + log_color)),False,inf,False
+12,19,0.0535425326545638,0.0012370616130679846,sqrt(exp(log_age) + (log_color / ((log_color / (exp(log_color / log_age) / log_color)) + exp(log_color / 0.12235416479910594)))),sqrt(log_color/(log_color**2*exp(-log_color/log_age) + exp(8.1729951868978566*log_color)) + exp(log_age)),False,inf,False

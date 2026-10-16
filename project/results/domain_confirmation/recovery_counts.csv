@@ -1,0 +1,4 @@
+truth,design,noise_dex,fixed_skumanich,power_law,pysr_default,pysr_validation,quadratic,any_candidate,n_trials
+interaction,catalog,0.15,0,0,0,8,8,9,10
+saturation,catalog,0.15,0,0,0,5,5,9,10
+skumanich,catalog,0.15,10,10,0,8,8,10,10

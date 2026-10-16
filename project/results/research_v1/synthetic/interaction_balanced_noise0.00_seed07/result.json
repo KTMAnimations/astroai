@@ -1,0 +1,81 @@
+{
+  "seed": 20271022,
+  "elapsed_seconds": 8.039406500000041,
+  "models": [
+    {
+      "model": "pysr_default",
+      "expression": "log_color/0.6504304524619391 + (log_age + log_color/(1.180423290107101*1.9901903201048048))*(log_color/0.666895549857467 + 0.5000043062781816) + 1.0361555199547623",
+      "complexity": 19,
+      "truth_grid_rmse": 0.0003937036214434147,
+      "validation_rmse": 0.00035527219909524513,
+      "trial": "interaction_balanced_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "balanced",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": true
+    },
+    {
+      "model": "pysr_validation",
+      "expression": "log_color/0.6504304524619391 + (log_age + log_color/(1.180423290107101*1.9901903201048048))*(log_color/0.666895549857467 + 0.5000043062781816) + 1.0361555199547623",
+      "complexity": 19,
+      "truth_grid_rmse": 0.0003937036214434147,
+      "validation_rmse": 0.00035527219909524513,
+      "trial": "interaction_balanced_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "balanced",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": true
+    },
+    {
+      "model": "fixed_skumanich",
+      "coefficients": [
+        1.0411561565661518
+      ],
+      "truth_grid_rmse": 0.08805178449654882,
+      "validation_rmse": 0.07748318889972727,
+      "trial": "interaction_balanced_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "balanced",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "power_law",
+      "coefficients": [
+        1.041033566894583,
+        0.499047158150032,
+        1.4471972585289012
+      ],
+      "truth_grid_rmse": 0.07483462518360211,
+      "validation_rmse": 0.07416160656726258,
+      "trial": "interaction_balanced_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "balanced",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": false
+    },
+    {
+      "model": "quadratic",
+      "coefficients": [
+        1.0365584425715313,
+        0.4999999999999997,
+        1.7500000000000009,
+        -4.79187623337236e-16,
+        1.4999999999999987,
+        0.5999999999999959
+      ],
+      "truth_grid_rmse": 1.0120948006137982e-15,
+      "validation_rmse": 9.975648881073664e-16,
+      "trial": "interaction_balanced_noise0.00_seed07",
+      "truth": "interaction",
+      "design": "balanced",
+      "noise_dex": 0.0,
+      "replicate": 7,
+      "recovered": true
+    }
+  ]
+}

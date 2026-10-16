@@ -1,0 +1,130 @@
+{
+  "seed": 20261516,
+  "split": {
+    "discovery_clusters": [
+      "M34",
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC2281",
+      "NGC2516",
+      "NGC2548",
+      "NGC6811",
+      "NGC6819",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "Hyades",
+      "NGC1750",
+      "NGC6866"
+    ],
+    "test_clusters": [
+      "NGC3532"
+    ]
+  },
+  "models": {
+    "pysr_default": {
+      "expression": "sqrt(exp(log_age))",
+      "complexity": 3,
+      "validation_rmse": 0.3144960959121766
+    },
+    "pysr_validation": {
+      "expression": "log_color + (-3.7959902434805666*log_color*(-log_color*log_color + log_color) + exp(log_age*0.3583160039375451))*1.6054123823802293 - 0.5546945033136514",
+      "complexity": 20,
+      "validation_rmse": 0.22051561188880178
+    },
+    "fixed_skumanich": {
+      "name": "fixed_skumanich",
+      "coefficients": [
+        0.9988306845920465
+      ],
+      "n_parameters": 1
+    },
+    "power_law": {
+      "name": "power_law",
+      "coefficients": [
+        1.006665966194583,
+        0.5337991504470257,
+        1.0917522593974855
+      ],
+      "n_parameters": 3
+    },
+    "quadratic": {
+      "name": "quadratic",
+      "coefficients": [
+        1.049499702205324,
+        0.5794076178624228,
+        1.0977284605292792,
+        0.11007715574526608,
+        0.1898608942355633,
+        -5.893382177159514
+      ],
+      "n_parameters": 6
+    }
+  },
+  "scores": [
+    {
+      "cluster": "NGC3532",
+      "seed": 1,
+      "model": "pysr_default",
+      "n_test": 73,
+      "n_discovery": 563,
+      "n_validation": 85,
+      "age_Myr": 398.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.1272230233783387,
+      "mae_dex": 0.1017156454615419
+    },
+    {
+      "cluster": "NGC3532",
+      "seed": 1,
+      "model": "pysr_validation",
+      "n_test": 73,
+      "n_discovery": 563,
+      "n_validation": 85,
+      "age_Myr": 398.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.0839020563770806,
+      "mae_dex": 0.06104786479074505
+    },
+    {
+      "cluster": "NGC3532",
+      "seed": 1,
+      "model": "fixed_skumanich",
+      "n_test": 73,
+      "n_discovery": 563,
+      "n_validation": 85,
+      "age_Myr": 398.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.08685877438677637,
+      "mae_dex": 0.06651558202511466
+    },
+    {
+      "cluster": "NGC3532",
+      "seed": 1,
+      "model": "power_law",
+      "n_test": 73,
+      "n_discovery": 563,
+      "n_validation": 85,
+      "age_Myr": 398.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.08808197124518276,
+      "mae_dex": 0.06830241095678438
+    },
+    {
+      "cluster": "NGC3532",
+      "seed": 1,
+      "model": "quadratic",
+      "n_test": 73,
+      "n_discovery": 563,
+      "n_validation": 85,
+      "age_Myr": 398.0,
+      "age_extrapolation": false,
+      "rmse_dex": 0.08538969096863577,
+      "mae_dex": 0.06267511536180415
+    }
+  ],
+  "elapsed_seconds": 8.304002707998734
+}

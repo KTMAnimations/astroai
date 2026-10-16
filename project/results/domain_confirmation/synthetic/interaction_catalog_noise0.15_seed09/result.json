@@ -1,0 +1,81 @@
+{
+  "seed": 20371024,
+  "elapsed_seconds": 7.792773166998813,
+  "models": [
+    {
+      "model": "pysr_default",
+      "expression": "log_color + sqrt(exp(log_age))",
+      "complexity": 5,
+      "truth_grid_rmse": 0.09270105236087255,
+      "validation_rmse": 0.15972345904909138,
+      "trial": "interaction_catalog_noise0.15_seed09",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 9,
+      "recovered": false
+    },
+    {
+      "model": "pysr_validation",
+      "expression": "log_age*0.4970844940501534 + log_color*exp(log_age)*1.64933306057204 + 1.0353684323590366",
+      "complexity": 12,
+      "truth_grid_rmse": 0.019029869219907968,
+      "validation_rmse": 0.14694831618469067,
+      "trial": "interaction_catalog_noise0.15_seed09",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 9,
+      "recovered": true
+    },
+    {
+      "model": "fixed_skumanich",
+      "coefficients": [
+        1.0130630962682325
+      ],
+      "truth_grid_rmse": 0.09238257013438007,
+      "validation_rmse": 0.15536077542869162,
+      "trial": "interaction_catalog_noise0.15_seed09",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 9,
+      "recovered": false
+    },
+    {
+      "model": "power_law",
+      "coefficients": [
+        1.0043905928647878,
+        0.47245121624330616,
+        1.3557791024748775
+      ],
+      "truth_grid_rmse": 0.08255310211340586,
+      "validation_rmse": 0.15533961500757348,
+      "trial": "interaction_catalog_noise0.15_seed09",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 9,
+      "recovered": false
+    },
+    {
+      "model": "quadratic",
+      "coefficients": [
+        1.0233097533305175,
+        0.46783546606832765,
+        1.76497006341287,
+        -0.02753551713516831,
+        1.475436965898566,
+        1.2668066850907063
+      ],
+      "truth_grid_rmse": 0.014430615838111473,
+      "validation_rmse": 0.14831584333318826,
+      "trial": "interaction_catalog_noise0.15_seed09",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 9,
+      "recovered": true
+    }
+  ]
+}

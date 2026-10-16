@@ -1,0 +1,48 @@
+{
+  "mean_cluster_rmse_dex": {
+    "fixed_skumanich": 0.21821838674542188,
+    "power_law": 0.2195003201043226,
+    "pysr_default": 0.23448539101385818,
+    "pysr_validation": 0.21698077383062622,
+    "quadratic": 0.21437713334238986
+  },
+  "paired_cluster_intervals": {
+    "pysr_default_minus_power_law": {
+      "mean_difference": 0.014985070909535516,
+      "ci95_low": -0.0040260057985932966,
+      "ci95_high": 0.03819328426935161,
+      "n_clusters": 16,
+      "n_bootstrap": 20000
+    },
+    "pysr_validation_minus_power_law": {
+      "mean_difference": -0.002519546273696425,
+      "ci95_low": -0.008452268719788388,
+      "ci95_high": 0.0038820800637352176,
+      "n_clusters": 16,
+      "n_bootstrap": 20000
+    },
+    "fixed_skumanich_minus_power_law": {
+      "mean_difference": -0.001281933358900764,
+      "ci95_low": -0.0066856075348147815,
+      "ci95_high": 0.0043047731851710005,
+      "n_clusters": 16,
+      "n_bootstrap": 20000
+    },
+    "quadratic_minus_power_law": {
+      "mean_difference": -0.00512318676193272,
+      "ci95_low": -0.011010484454837433,
+      "ci95_high": 0.0013971905819783169,
+      "n_clusters": 16,
+      "n_bootstrap": 20000
+    },
+    "validation_minus_default": {
+      "mean_difference": -0.017504617183231944,
+      "ci95_low": -0.03859128962392175,
+      "ci95_high": -0.00013832547840369336,
+      "n_clusters": 16,
+      "n_bootstrap": 20000
+    }
+  },
+  "n_clusters": 16,
+  "seeds_per_cluster": 3
+}

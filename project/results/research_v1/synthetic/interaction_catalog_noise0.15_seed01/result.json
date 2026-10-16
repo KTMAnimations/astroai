@@ -1,0 +1,81 @@
+{
+  "seed": 20273016,
+  "elapsed_seconds": 8.350344332997338,
+  "models": [
+    {
+      "model": "pysr_default",
+      "expression": "log_color + sqrt(exp(log_age))",
+      "complexity": 5,
+      "truth_grid_rmse": 0.09270105236087255,
+      "validation_rmse": 0.16230774484336397,
+      "trial": "interaction_catalog_noise0.15_seed01",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 1,
+      "recovered": false
+    },
+    {
+      "model": "pysr_validation",
+      "expression": "(log_age + 1.7784277577917729)*(log_color + 0.5217216963544283) + 0.11104164268318795",
+      "complexity": 9,
+      "truth_grid_rmse": 0.03310558085909113,
+      "validation_rmse": 0.15520925471975058,
+      "trial": "interaction_catalog_noise0.15_seed01",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 1,
+      "recovered": false
+    },
+    {
+      "model": "fixed_skumanich",
+      "coefficients": [
+        1.0149559492460996
+      ],
+      "truth_grid_rmse": 0.09182753112580311,
+      "validation_rmse": 0.16057515631800337,
+      "trial": "interaction_catalog_noise0.15_seed01",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 1,
+      "recovered": false
+    },
+    {
+      "model": "power_law",
+      "coefficients": [
+        1.0192162128715863,
+        0.5128935628450988,
+        1.4600738235727337
+      ],
+      "truth_grid_rmse": 0.08008796667154344,
+      "validation_rmse": 0.16475236647216399,
+      "trial": "interaction_catalog_noise0.15_seed01",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 1,
+      "recovered": false
+    },
+    {
+      "model": "quadratic",
+      "coefficients": [
+        1.0466447855622265,
+        0.4765928940823912,
+        1.8581601609141765,
+        -0.0956287752272689,
+        1.2061125678359397,
+        0.6207869360691043
+      ],
+      "truth_grid_rmse": 0.03244877739716888,
+      "validation_rmse": 0.15552479651680076,
+      "trial": "interaction_catalog_noise0.15_seed01",
+      "truth": "interaction",
+      "design": "catalog",
+      "noise_dex": 0.15,
+      "replicate": 1,
+      "recovered": false
+    }
+  ]
+}
