@@ -1,5 +1,13 @@
 # Result provenance
 
+`published_benchmark_v1/` contains the published-model follow-up: reproduction
+with the authors' unchanged ChronoFlow weights, 96 independently trained neural
+fits on the same 48 earlier splits, matched scores and ages, external M67
+comparisons, and a supplementary released-weight comparison on three excluded
+clusters. Its protocol distinguishes numerical reproduction from retraining of
+the published architecture. All weights, learning curves, choices and source
+hashes are saved. See [the benchmark report](../../docs/PUBLISHED_BENCHMARK_RESULTS.md).
+
 `real_stars_v2/` contains the current observational follow-up: six distribution
 families, a validation-selected family, 48 frozen cluster splits, per-star scores,
 age-likelihood profiles, an external M67 check, and a separate application fit.

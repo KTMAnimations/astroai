@@ -2,201 +2,196 @@
 
 ## Working title
 
-**Can a model predict how real stars rotate—and recover a cluster's age?**
+**Reproducing and comparing models of stellar rotation**
 
-Subtitle: Testing rotation distributions on withheld star clusters and additional observations.
+Research question: How does a compact probability model compare with a published
+neural model when both predict stars in completely withheld clusters?
 
 ## Abstract
 
-Stars with similar ages and colors can have different rotation periods. This
-study tested whether predicting that spread improves stellar-rotation models.
-A published catalogue supplied 721 stars in 16 clusters after documented quality,
-membership, age and color cuts. Six model families were evaluated using identical
-splits: one whole cluster for testing, three for validation and twelve for fitting.
-Three splits per test cluster produced 48 comparisons. A two-component Gaussian
-mixture with a quadratic slow-rotation relation improved negative log likelihood
-in 15 of 16 cluster averages and reduced continuous ranked probability score by
-10.3% versus a Gaussian power law. Its 68% and 90% prediction intervals contained
-68.4% and 90.0% of held-out observations on average. Mean-log-period RMSE did not
-improve across the primary sample. In an external check using 25 additional M67
-stars, absent from the original catalogue and never used for fitting or selection,
-the mixture reduced RMSE by 23.6%. Withheld-cluster age estimates also showed a
-lower median fractional error, although the paired interval on mean log-age-error
-improvement included zero. The results support better population probability
-predictions within the tested domain, while showing the need for more independent
-clusters and explicit treatment of age uncertainty.
+Stellar rotation can constrain age, but stars with similar ages and colors can
+have different periods. This project first reproduced numerical examples from
+the published ChronoFlow model using its released code and weights. Four reported
+cluster-age medians agreed within 0.2%; a solar example did not reproduce within
+a prespecified 5% tolerance under the released defaults. For a controlled model
+comparison, 96 neural networks using the published architecture were trained on
+48 fixed discovery, validation and test splits covering 721 stars in 16 clusters.
+Every test cluster was excluded from fitting and selection. A 12-parameter
+quadratic mixture had lower negative log likelihood than the prespecified
+17,733-parameter, equal-cluster flow in 11 of 16 cluster averages. The mean paired
+difference was -0.165 nats, with a descriptive 95% interval of [-0.308, -0.033].
+Other error comparisons were less conclusive, and per-star weighting made the
+flow competitive. Tests on 25 additional M67 stars favored the mixture for
+period error but a flow variant for age recovery. The results support partial
+numerical reproducibility and a useful compact comparator on this restricted
+sample, while showing sensitivity to inputs and training choices.
 
-## Question, hypothesis and variables
+## What the project is
 
-**Question:** Does modeling the distribution of rotation periods improve
-predictions for stars in an unseen cluster, and can that likelihood recover the
-cluster's age from periods and colors?
+This is a **partial numerical reproduction plus a controlled model comparison**.
+It reproduces the actual released ChronoFlow network's tutorial and four cluster
+examples. It also conducts a new experiment with the published architecture on
+identical data splits. It does not reproduce the paper's entire training process,
+full cross-validation benchmark or global uncertainty estimate. It has not
+established a new physical law or broad superiority over ChronoFlow.
 
-**Hypothesis:** A narrow slow-rotation component plus a broader fast component
-will predict the observed distribution better than a single Gaussian around a
-power law. The follow-up protocol fixed the comparison before its new test scores
-were computed. It followed inspection of the initial study, so the shared
-catalogue remains an exploratory development benchmark.
+The earlier work remains useful context: symbolic regression recovered known
+synthetic functions more often with independent validation, but did not establish
+a real-star advantage over a power law. The subsequent mixture study improved
+probability predictions against simple baselines. The latest experiment asks
+whether that comparison survives a stronger published-model benchmark.
 
-| Element | Definition |
-|---|---|
-| Inputs | Cluster age and dereddened Gaia BP-RP for period prediction; periods and colors for age recovery |
-| Model comparison | Six fixed distribution families, plus a family selected on validation data |
-| Primary measurement | Difference in held-out negative log likelihood: quadratic mixture minus power-law Gaussian |
-| Secondary measurements | CRPS, mean-log-period RMSE, median-prediction MAE, interval coverage/width and age error |
-| Controls | Same stars, whole-cluster splits, equal training weight per cluster, fixed parameter grids and optimization starts |
-| Replication unit | Test cluster, after averaging its three split results; 16 cluster units |
-| External check | 25 additional M67 stars; all M67 members excluded from fitting and selection |
+## Explain the astronomy
 
-## Explain the astronomy and the model
+A rotation period is the time a star takes to spin once. Magnetic winds can
+remove angular momentum as a star ages. Color roughly describes temperature and
+mass. A cluster provides stars with an estimated shared age, allowing a model to
+relate age, color and rotation. The reference ages remain uncertain estimates.
 
-Rotation period is the time a star takes to spin once. Magnetic winds can remove
-angular momentum as stars age. Color is a rough indicator of temperature and
-mass. Cluster members have an estimated shared age, providing a way to test
-relations among age, color and rotation period. The reference ages come from
-published isochrone estimates and retain calibration uncertainty.
+A probability model predicts a range of periods rather than one value. Our
+mixture describes a narrow slow-rotation component and a broader fast component;
+these statistical components do not identify physical stellar classes. The
+neural spline flow learns a flexible probability distribution, including color
+uncertainty and the published background-contamination likelihood.
 
-The initial project searched for one equation. The follow-up predicts a
-probability distribution: a narrow component at longer periods and a broader
-component at shorter periods. Their relative weight depends on age and color.
-The slow-component mean is a quadratic in logarithmic age and color. The model
-is a statistical description; assigning a component does not identify a star's
-physical state or prove why it rotates quickly.
+## Keep the two experiments distinct
 
-[ChronoFlow](https://arxiv.org/abs/2412.12244) and
-[gyro-interp](https://arxiv.org/abs/2303.08830) motivate modeling dispersion. This
-project implements a simpler comparison, not a complete replication of either
-published method. The external measurements come from
-[Gruner et al. (2023)](https://arxiv.org/abs/2305.16997).
+| Experiment | Question | Evidence | What it does not show |
+|---|---|---|---|
+| Released-model reproduction | Can we recover the authors' numerical outputs? | Four cluster medians within 0.2%; tutorial likelihood matches | Agreement is not independent proof of true cluster ages |
+| Matched training comparison | How do models perform on the same withheld stars? | 721 stars, 16 clusters, 48 splits, 96 neural fits | This restricted benchmark does not recreate the full published training study |
+| External M67 check | How do the frozen fits predict additional observations? | Same 25 non-overlapping stars for every model | One cluster is not broad field-star validation |
+| Direct released-weight check | How do the actual released weights compare on eligible common test stars? | Same 80 stars in three excluded clusters | Calibration data differ; the check is supplementary |
 
-## Procedure for the display
+## Controls and procedure
 
-1. Verify the original catalogue against its pinned source. Recorded quality,
-   membership, age/color and cluster-size cuts reduce 8,412 entries to 721 stars
-   in 16 clusters. Do not cut by period or model residual.
-2. Reuse the initial study's 48 whole-cluster discovery/validation/test splits.
-   Exclude the entire test cluster from fitting and model selection.
-3. Fit six families with equal discovery-cluster weights. Use only validation
-   clusters to choose regularization and the separate family selector.
-4. Freeze the fits. Save predictions and scores for every test star, including
-   fast rotators and difficult clusters. Average seeds within each cluster.
-5. Compare proper distribution scores, point errors, coverage and width. Use
-   paired cluster resampling for descriptive intervals.
-6. Estimate each withheld cluster's age by maximizing its period likelihood over
-   a fixed age grid. Consult the catalogue age only afterward to score it.
-7. Check external M67 identifiers against the entire original catalogue. Predict
-   all 25 eligible non-overlapping stars using the three frozen M67-excluded
-   fits. Retain published period corrections and the fast-rotation outlier.
-8. Fit a separate application model to all 721 primary stars only after the
-   evaluation. Its in-sample fit does not supply any reported held-out score.
+1. Verify the catalogue and upstream code/weights against pinned hashes. Record
+   all quality cuts and retain the source identifiers.
+2. Reproduce the native tutorial. Compare a vectorized implementation against
+   unmodified scalar calls, then check probability normalization.
+3. Infer ages for the four reported clusters explicitly excluded from the final
+   network. Keep the solar mismatch and the documented prior/input assumptions.
+4. Reuse the earlier 48 cluster splits. One cluster is for testing, three for
+   validation and twelve for fitting. A test cluster never enters fitting or
+   model/checkpoint selection.
+5. Train the released neural architecture for 5,000 steps per fit. Evaluate two
+   fixed weightings: equal total weight per cluster and equal weight per star.
+   Save final and validation-selected checkpoints. Select only on validation NLL.
+6. Score every selected star with all eight reported methods. Average three
+   splits within each cluster, then give all 16 clusters equal weight.
+7. Recover each withheld cluster's age from its periods/colors on a common age
+   grid; use its reference age only afterward for evaluation.
+8. Predict the 25 external M67 stars with models that exclude every M67 member.
+   Preserve all selected observations, including the fast rotator.
+9. Replay a complete neural fit, check finer grids and wider integration bounds,
+   verify score tables, and inspect all figures.
 
-The [protocol](REAL_STAR_PROTOCOL.md) records the fixed choices. The
-[complete results](REAL_STAR_RESULTS.md) include every family and cluster, the
-3.87 Gyr external age sensitivity, and limitations.
+No periods or residuals determine which stars enter the comparison. There are
+no post-hoc removals of difficult clusters. The protocol was fixed before the
+new comparisons, but earlier inspection of the same catalogue means the research
+is exploratory rather than an untouched confirmation.
 
-## What the figures show
+## Results to show together
 
-| Display panel | Figure and claim | Evidence to keep visible |
-|---|---|---|
-| Question and method | Inputs, six model families, discovery → validation → test diagram | 721 stars, 16 clusters, identical splits, no residual exclusions |
-| Main result | `distribution_scores.svg` and `coverage.svg` | NLL improves in 15/16 clusters; CRPS improves 10.3%; mean-log-period RMSE does not improve |
-| Astronomy checks | `age_recovery.svg` and `external_m67.svg` | All 16 ages and all 25 external stars; external RMSE decreases 23.6%; one external cluster |
+| Measurement | Primary retrained flow | Quadratic mixture |
+|---|---:|---:|
+| Mean cluster NLL | -0.3310 | -0.4960 |
+| Mean cluster CRPS, dex | 0.1127 | 0.1080 |
+| Mean-log-period RMSE, dex | 0.2324 | 0.2251 |
+| Nominal 68% interval coverage | 61.3% | 68.4% |
+| Median absolute fractional cluster-age error | 15.1% | 12.5% |
+| External M67 RMSE, dex | 0.1685 | 0.1174 |
 
-Use SVG files from `project/figures/real_stars_v2/` for large printing. The
-[four-page handout](../output/pdf/real_star_research_brief.pdf) is a compact summary.
-Keep the full score table available. The ordinary quadratic Gaussian is
-competitive on external M67 and has lower median-prediction absolute error there.
+The primary NLL interval excludes zero. The corresponding CRPS, point-error and
+age-error intervals include zero. Against the paper-style per-star flow, NLL
+intervals also include zero and CRPS is nearly tied. Show that sensitivity beside
+the main result; do not choose a different headline comparator after seeing the
+scores. The per-star flow's external M67 age is about 4.00 Gyr, versus 3.38 Gyr
+for the mixture and a nominal 4.0 Gyr reference.
 
-**NLL** asks how much probability density the model gives to the observed
-period. Lower is better; a density score can be negative. **CRPS** compares the
-whole predicted cumulative distribution with the observation and penalizes both
-misplaced and overly broad predictions. It also favors the mixture here.
-**RMSE** evaluates the predicted mean of log period and penalizes large misses
-strongly. **MAE** evaluates the predicted median. Coverage alone is insufficient:
-very broad intervals can contain nearly everything, so show widths too.
+**NLL** rewards probability density assigned to the observed period; lower is
+better, and negative values are possible for densities. **CRPS** evaluates the
+whole cumulative distribution and penalizes overly broad as well as misplaced
+predictions. **RMSE** scores the mean of log period and emphasizes large misses.
+**MAE** scores the predicted median. Coverage must be considered with interval
+width: an unnecessarily broad interval can contain nearly everything.
 
-A dex is a base-ten logarithmic unit. A 0.1-dex difference is a factor of about
-1.26 in period. Error averages are not guarantees for individual stars.
+A dex is a base-ten logarithmic unit; 0.1 dex is a factor of about 1.26. An average
+error is not a guarantee for an individual star.
 
-## A one-minute explanation
+## Display and one-minute explanation
 
-“This project tests whether a model can predict how real stars rotate. A single
-curve misses the spread: stars of similar age and color can have very different
-periods. I compared six models while withholding entire star clusters. A model
-with a narrow slow-rotation component and a broader fast component gave better
-probability predictions in 15 of 16 clusters. Its prediction intervals also
-matched the observed spread more closely. I then tested 25 additional published
-M67 stars that were absent from the original catalogue. Rotation-period error
-fell by about 24% compared with a power law. The model can also estimate a
-cluster's age, but some clusters remain difficult and the age improvement is
-uncertain. The result is a reproducible improvement in population predictions,
-with all observations, competing models and failures available for inspection.”
+Use the four SVG figures in `project/figures/published_benchmark_v1/` for printing:
+`reproduction`, `matched_scores`, `matched_ages` and `external_comparison`.
+Put the research question, source data and split diagram on the left, reproduction
+and matched scores in the center, and age/external checks with limitations on the
+right. Keep the complete tables accessible. The older PDFs summarize earlier
+stages and should be labeled that way.
+
+“This project asks how a small probability model compares with a published
+neural model of stellar rotation. First, the released code reproduced four
+published cluster-age estimates very closely, but its solar example differed
+under the default inputs. Then I compared models on the same 721 stars, always
+withholding whole clusters. The small mixture model predicted the observed
+period probabilities better than the prespecified equal-cluster neural model.
+However, changing to the paper-style per-star weighting made the neural model
+competitive. On additional M67 observations, the mixture had lower period error,
+while a neural variant gave a better group-age estimate. The contribution is a
+reproducible comparison that shows where the methods work, and where conclusions
+depend on the data and training choices.”
 
 Adapt first-person statements to the work you personally performed and can
-explain. Do not describe AI-executed experiments as unaided manual work.
+explain. Do not describe AI-executed work as unaided manual experimentation.
 
 ## Questions to prepare for
 
-**Why withhold entire clusters?** Members share a reference age and observational
-context. A random star split could place members of the same cluster in both
-fitting and testing. The test here asks about an unseen cluster.
+**Why not simply use the released network on all test clusters?** It was trained
+on many of them. That would measure performance partly on training data. The
+controlled comparison trains new networks excluding each test cluster.
 
-**Did you just change the score to make the model win?** The follow-up specified
-NLL as its primary score before computing its new comparisons and reported every
-planned metric. CRPS independently supports the distribution improvement. The
-original squared-error result remains: mean-log-period RMSE does not improve
-across the primary sample. The earlier catalogue had already informed the new
-question, so this is openly exploratory.
+**Is the new network exactly the published model?** It uses the released
+architecture, zuko version and likelihood. The original complete training script
+is unavailable, so optimizer, batching and scheduler conventions are explicitly
+specified choices. Actual released weights are used separately for reproduction.
 
-**How strong is the main result?** The mean paired NLL difference is -0.5021 nats,
-with descriptive 95% interval [-0.6694, -0.3346]. All models share training data
-across folds, and the calculation does not include every systematic uncertainty.
-It supports a measured improvement on this benchmark, not a universal guarantee.
+**Did the small model beat ChronoFlow?** It beat the prespecified equal-cluster
+retraining variant on NLL in this restricted benchmark. Other metrics were less
+conclusive, and the paper-style weighting was competitive. A universal or
+state-of-the-art superiority claim would be unsupported.
 
-**Are the 25 external stars independent?** Their Gaia IDs do not occur anywhere
-in the 8,412-entry original catalogue, and all M67 members are withheld from the
-models used to predict them. They still share one cluster and its age/reddening
-uncertainties. They are additional observations, not 25 independent age anchors.
+**Why did the solar reproduction differ?** The paper does not specify its color
+uncertainty. A recorded diagnostic shows the released model's solar age is
+sensitive to that input. This does not prove the authors' exact input or explain
+away the failed reproduction. Both the mismatch and all sensitivity cells remain.
 
-**Are the intervals calibrated everywhere?** No. Average primary-sample coverage
-is close to nominal, but the external, more selectively single-star sample has
-92% coverage for nominal 68% intervals. That overcoverage is reported.
+**What about the age prior?** The released code is uniform in log age; the paper
+describes uniform age. Those priors place different weight on old ages. The
+primary reproduction follows the code and reports the other choice separately.
 
-**How accurate are the ages?** Median absolute fractional cluster-age error is
-18.3% for the power law, 12.5% for the quadratic mixture and 9.9% for validation
-family selection. Some clusters have much larger errors, one selected fit reaches
-the age-grid boundary, and the paired interval on mean log-age-error improvement
-spans zero. These are not 10%-accurate individual-star ages or calibrated age
-confidence intervals.
+**Why are the cluster-age errors still uncertain?** Reference ages have systematic
+uncertainty, some clusters have large discrepancies, and some estimates reach the
+fixed age-grid boundary. Shared training sets also limit a simple bootstrap's
+interpretation. No 10%-accurate individual-star age claim is made.
 
-**Did you discover a new law of stellar aging?** No. Mixture models, validation
-and gyrochronology are established ideas. The contribution is the implemented
-comparison, reproducible diagnosis, external observation check and usable tools.
-A statistical component does not prove a distinct physical population.
+**What is original here?** The controlled comparison and documented reproducibility
+audit are the additional experiments. Mixture models, spline flows, validation and
+gyrochronology are established methods. The result is not a new physical law.
 
-**What happened to the equation search?** The initial 258-search study is retained.
-On controlled synthetic functions, validation selected a recovering equation in
-157/180 main trials versus 76/180 for the default selector; a quadratic baseline
-recovered 164/180. Symbolic regression showed no established real-star advantage.
-That result motivated modeling rotational dispersion. See the
-[initial results](RESULTS.md) and [research log](RESEARCH_LOG.md).
+**What would strengthen the result?** Freeze the analysis before acquiring more
+independent clusters, test the original full training population, resolve missing
+training/input details, and propagate age/color uncertainties. A more flexible
+model may benefit from the larger dataset on which it was developed.
 
-**What would you test next?** Freeze this model before evaluating additional
-clusters, propagate age/color measurement uncertainty, check residuals within
-color and age ranges, and compare against full published gyrochronology methods.
-Field-star validation needs independent age measurements, not ages derived from
-the same rotation relation being tested.
+## Sources and contribution record
 
-## Contribution and reproducibility record
+Read the [complete report](PUBLISHED_BENCHMARK_RESULTS.md),
+[protocol](PUBLISHED_BENCHMARK_PROTOCOL.md) and [research log](RESEARCH_LOG.md).
+[ChronoFlow](https://arxiv.org/abs/2412.12244) supplies the published model and
+catalogue; [Gruner et al. (2023)](https://arxiv.org/abs/2305.16997) supply external
+measurements. The scientific software implements established methods.
 
-Published observations and reference ages belong to their credited sources.
-The scientific Python/Julia libraries implement established numerical methods.
-AI assistance supported source research, design, coding, execution, diagnosis,
-plots and writing. The repository preserves protocols, source hashes, candidate
-fits, raw predictions and tests. Add an accurate record of the student's own
-question development, checks, code changes, interpretation and presentation work.
-
-Before presenting, trace one plotted star to its saved prediction, explain every
-data cut, distinguish fitting from validation, and demonstrate the two command-line
-tools. The handout summarizes a reproducible experiment; it is not external peer
-review or an assurance of a particular competition result.
+AI assistance supported research, design, implementation, execution, checking,
+plots and writing. Record the student's own contributions accurately. Before
+presenting, trace one plotted star to a saved prediction, explain every data cut,
+show how model selection avoids test data, and reproduce one numerical check.
+A repository report is not external peer review or a competition guarantee.

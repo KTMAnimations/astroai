@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "NGC6866",
+      "Praesepe"
+    ],
+    "validation_clusters": [
+      "Hyades",
+      "M34",
+      "NGC2548"
+    ],
+    "test_clusters": [
+      "Ruprecht147"
+    ]
+  },
+  "seed": 1,
+  "scores": [
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "n_test": 18,
+      "nll": 0.19839639661626685,
+      "crps": 0.10934491771718279,
+      "rmse_dex": 0.2005814402166004,
+      "mae_dex": 0.15930662348946345,
+      "coverage68": 0.2777777777777778,
+      "coverage90": 0.8888888888888888,
+      "width68_dex": 0.21674280551403965,
+      "width90_dex": 0.6389966872383118
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 18,
+      "nll": 0.19839639661626685,
+      "crps": 0.10934491771718279,
+      "rmse_dex": 0.2005814402166004,
+      "mae_dex": 0.15930662348946345,
+      "coverage68": 0.2777777777777778,
+      "coverage90": 0.8888888888888888,
+      "width68_dex": 0.21674280551403965,
+      "width90_dex": 0.6389966872383118
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "n_test": 18,
+      "nll": 0.2239170488384035,
+      "crps": 0.1057713218358173,
+      "rmse_dex": 0.20060824927705254,
+      "mae_dex": 0.1434852615321802,
+      "coverage68": 0.2777777777777778,
+      "coverage90": 0.8333333333333334,
+      "width68_dex": 0.17192933529174187,
+      "width90_dex": 0.6451784361572046
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "n_test": 18,
+      "nll": 0.25297141747756136,
+      "crps": 0.10887141043466574,
+      "rmse_dex": 0.2068127195909068,
+      "mae_dex": 0.1411221908007765,
+      "coverage68": 0.2777777777777778,
+      "coverage90": 0.7777777777777778,
+      "width68_dex": 0.14534291383665002,
+      "width90_dex": 0.7344816115580627
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "gaussian_power",
+      "n_test": 18,
+      "nll": -0.16430403367868418,
+      "crps": 0.11499868590106208,
+      "rmse_dex": 0.20190458158679375,
+      "mae_dex": 0.16515995224083543,
+      "coverage68": 0.8333333333333334,
+      "coverage90": 0.9444444444444444,
+      "width68_dex": 0.4596668960908031,
+      "width90_dex": 0.7602984238850922
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "n_test": 18,
+      "nll": -0.23938684536288557,
+      "crps": 0.10184482206957532,
+      "rmse_dex": 0.1842229264306154,
+      "mae_dex": 0.13505290236623643,
+      "coverage68": 0.8333333333333334,
+      "coverage90": 0.9444444444444444,
+      "width68_dex": 0.4449562691140366,
+      "width90_dex": 0.7359667467512495
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "n_test": 18,
+      "nll": -0.28454051161586313,
+      "crps": 0.09482564104787189,
+      "rmse_dex": 0.18317451661850367,
+      "mae_dex": 0.12889022877654183,
+      "coverage68": 0.6111111111111112,
+      "coverage90": 0.8333333333333334,
+      "width68_dex": 0.35217440402951855,
+      "width90_dex": 0.7280614038789885
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "validation_selected",
+      "n_test": 18,
+      "nll": -0.28454051161586313,
+      "crps": 0.09482564104787189,
+      "rmse_dex": 0.18317451661850367,
+      "mae_dex": 0.12889022877654183,
+      "coverage68": 0.6111111111111112,
+      "coverage90": 0.8333333333333334,
+      "width68_dex": 0.35217440402951855,
+      "width90_dex": 0.7280614038789885
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 3238.9377592839833,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 3238.9377592839833,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 3446.2025763815527,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 3410.759541499788,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "gaussian_power",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 3743.3324850188274,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 3446.2025763815527,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 2861.054969510176,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Ruprecht147",
+      "seed": 1,
+      "model": "validation_selected",
+      "reference_age_myr": 2454.0,
+      "inferred_age_myr": 2861.054969510176,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "bb6b0fe6dd3a2bea9d0c495dbb1c0a273b13f29edb247b9047cce836eb515b04",
+    "cf_equal_cluster_selected": "c92f7caae91da3614262baa574932e6ad808b54a3ba11e35597e0278fd17b327",
+    "cf_per_star_final": "028b5955929ebf5f21cc8c69fefba5639752bf39398edcaf2b96365f1e658c35",
+    "cf_per_star_selected": "d348f13a2c082d6c2c49698ade35bb7930b3d8d413b911a6beddb477659584a1"
+  },
+  "reference_result_sha256": "ee661ca2c4316637c2d0e34f478504b99fc9f875397dd569477fb559fdb579a3"
+}

@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M34",
+      "M35",
+      "M67",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC2548",
+      "NGC3532",
+      "NGC6811",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M37",
+      "M50",
+      "NGC6866"
+    ],
+    "test_clusters": [
+      "NGC6819"
+    ]
+  },
+  "seed": 0,
+  "scores": [
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "n_test": 49,
+      "nll": 0.3198309927532563,
+      "crps": 0.17309542544558024,
+      "rmse_dex": 0.27434052598919095,
+      "mae_dex": 0.22609050976980477,
+      "coverage68": 0.7346938775510204,
+      "coverage90": 0.9591836734693877,
+      "width68_dex": 0.7240052336385611,
+      "width90_dex": 1.6596884598011539
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 49,
+      "nll": 0.8719936028427008,
+      "crps": 0.2403359522020722,
+      "rmse_dex": 0.3351312097365635,
+      "mae_dex": 0.3455358205121664,
+      "coverage68": 0.5510204081632653,
+      "coverage90": 0.9795918367346939,
+      "width68_dex": 0.622230955796506,
+      "width90_dex": 1.7864706587583066
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "n_test": 49,
+      "nll": 1.2718087594423975,
+      "crps": 0.22760964932458275,
+      "rmse_dex": 0.3263861083698786,
+      "mae_dex": 0.2960133446764865,
+      "coverage68": 0.3673469387755102,
+      "coverage90": 0.8571428571428571,
+      "width68_dex": 0.49344477821152377,
+      "width90_dex": 1.6860352099279043
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "n_test": 49,
+      "nll": 0.6068476834999663,
+      "crps": 0.18790149823437666,
+      "rmse_dex": 0.2833091193016061,
+      "mae_dex": 0.25407178834340477,
+      "coverage68": 0.5714285714285714,
+      "coverage90": 0.9591836734693877,
+      "width68_dex": 0.5694211699805187,
+      "width90_dex": 1.792845455004923
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "gaussian_power",
+      "n_test": 49,
+      "nll": 0.3449264240921442,
+      "crps": 0.16979781291597515,
+      "rmse_dex": 0.3021611591041906,
+      "mae_dex": 0.23355095491386277,
+      "coverage68": 0.5102040816326531,
+      "coverage90": 0.8367346938775511,
+      "width68_dex": 0.4390961147236889,
+      "width90_dex": 0.7262739318355026
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "n_test": 49,
+      "nll": 0.3886272787058105,
+      "crps": 0.17021852698562076,
+      "rmse_dex": 0.3024745761725703,
+      "mae_dex": 0.22935601295188174,
+      "coverage68": 0.5306122448979592,
+      "coverage90": 0.7551020408163265,
+      "width68_dex": 0.4204269919101263,
+      "width90_dex": 0.6953948218295782
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "n_test": 49,
+      "nll": 0.2843183721675911,
+      "crps": 0.18318806332795434,
+      "rmse_dex": 0.3017475869697411,
+      "mae_dex": 0.2816963888749399,
+      "coverage68": 0.6122448979591837,
+      "coverage90": 0.9183673469387755,
+      "width68_dex": 0.4163739596843857,
+      "width90_dex": 0.8077223348743839
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "validation_selected",
+      "n_test": 49,
+      "nll": 0.2843183721675911,
+      "crps": 0.18318806332795434,
+      "rmse_dex": 0.3017475869697411,
+      "mae_dex": 0.2816963888749399,
+      "coverage68": 0.6122448979591837,
+      "coverage90": 0.9183673469387755,
+      "width68_dex": 0.4163739596843857,
+      "width90_dex": 0.8077223348743839
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1892.0743588963421,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 986.477303295457,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 936.7821294477171,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1151.9472655464615,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "gaussian_power",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1213.056693048574,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1317.6458506470276,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1992.446645303683,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 0,
+      "model": "validation_selected",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1992.446645303683,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "d610d4fa22fb92a692ac321e629ff194d2602449bff862c463023d723a41e0b7",
+    "cf_equal_cluster_selected": "5752f3a65d2f5d7c8b7ab577ad5c701860515d23427f15043ed0066563b0b19a",
+    "cf_per_star_final": "86ebd95cc5e58e6d0382f97d1bafd44f7341b93ad0c87048be1b41d8091c6132",
+    "cf_per_star_selected": "ee7d21f94b3dbff4bedc4bf24cbad6ff2b1513136c4b2a3e995a5a4b2a69d760"
+  },
+  "reference_result_sha256": "38f69de768c7cc7eb541c774f47560ba2aad1fad5ccfbea0dede319c77477be5"
+}

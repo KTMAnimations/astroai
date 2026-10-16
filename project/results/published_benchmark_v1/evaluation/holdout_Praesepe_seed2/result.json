@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M34",
+      "M37",
+      "M50",
+      "NGC1750",
+      "NGC2516",
+      "NGC2548",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "NGC6866",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M35",
+      "M67",
+      "NGC2281"
+    ],
+    "test_clusters": [
+      "Praesepe"
+    ]
+  },
+  "seed": 2,
+  "scores": [
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_equal_cluster_final",
+      "n_test": 68,
+      "nll": -1.0815592244924868,
+      "crps": 0.059050904173123794,
+      "rmse_dex": 0.1401792277446009,
+      "mae_dex": 0.06412947501665558,
+      "coverage68": 0.7794117647058824,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.1573069582186035,
+      "width90_dex": 1.1741269408861064
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 68,
+      "nll": -0.9475886296919164,
+      "crps": 0.0703349001895281,
+      "rmse_dex": 0.1667363541391697,
+      "mae_dex": 0.08004580700775418,
+      "coverage68": 0.7205882352941176,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.2691017095196225,
+      "width90_dex": 1.1886348235514492
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_per_star_final",
+      "n_test": 68,
+      "nll": -1.111053996883771,
+      "crps": 0.058081127404646556,
+      "rmse_dex": 0.13850946796360958,
+      "mae_dex": 0.06330484088904441,
+      "coverage68": 0.7352941176470589,
+      "coverage90": 0.8823529411764706,
+      "width68_dex": 0.124238809986014,
+      "width90_dex": 1.022645230526762
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_per_star_selected",
+      "n_test": 68,
+      "nll": -1.0104432796292446,
+      "crps": 0.06441064307950788,
+      "rmse_dex": 0.15292926499872012,
+      "mae_dex": 0.07193152242231528,
+      "coverage68": 0.7647058823529411,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.19158747783546973,
+      "width90_dex": 1.147824656792806
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "gaussian_power",
+      "n_test": 68,
+      "nll": -0.35300805063173857,
+      "crps": 0.08139248012033627,
+      "rmse_dex": 0.13793640071004723,
+      "mae_dex": 0.08653164527638585,
+      "coverage68": 0.9264705882352942,
+      "coverage90": 0.9705882352941176,
+      "width68_dex": 0.47021867324154387,
+      "width90_dex": 0.77775127856121
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "gaussian_quadratic",
+      "n_test": 68,
+      "nll": -0.3877970537500312,
+      "crps": 0.07872822590902294,
+      "rmse_dex": 0.13488464584494628,
+      "mae_dex": 0.08433431963739356,
+      "coverage68": 0.9264705882352942,
+      "coverage90": 0.9705882352941176,
+      "width68_dex": 0.45115557223977093,
+      "width90_dex": 0.7462205205943652
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "mixture_quadratic",
+      "n_test": 68,
+      "nll": -0.9646734116242512,
+      "crps": 0.06564411395850603,
+      "rmse_dex": 0.14909183689281322,
+      "mae_dex": 0.07637071351546292,
+      "coverage68": 0.8088235294117647,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.28763785680666465,
+      "width90_dex": 0.6871302151199847
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "validation_selected",
+      "n_test": 68,
+      "nll": -0.9646734116242512,
+      "crps": 0.06564411395850603,
+      "rmse_dex": 0.14909183689281322,
+      "mae_dex": 0.07637071351546292,
+      "coverage68": 0.8088235294117647,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.28763785680666465,
+      "width90_dex": 0.6871302151199847
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 679.9201248317462,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 769.7227033675802,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 679.9201248317462,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 723.4293030832479,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "gaussian_power",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 715.9890759186017,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 785.8030254534376,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 769.7227033675802,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 2,
+      "model": "validation_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 769.7227033675802,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "3ef739a0f5bd2acd9c8fca66617fc1da89030aed5e16e9b1274307c1ae591829",
+    "cf_equal_cluster_selected": "34368625c2b70ba4dbfdaba94888d512a2b1e8798583a233a30c9465ca37e271",
+    "cf_per_star_final": "ec6d14b95d9e68106724d2bdf95bba0bf63cc3fd16ab9c24ca4460fe6093caee",
+    "cf_per_star_selected": "b4166788d5338bcce3665a9fa636d7ba4fff7cd19b02f489181726f19088704f"
+  },
+  "reference_result_sha256": "29ab2c845d6a1a24bd6843d788e3260e11404432fd055de41785541ac427f6aa"
+}

@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M34",
+      "M35",
+      "M37",
+      "M67",
+      "NGC2281",
+      "NGC2516",
+      "NGC3532",
+      "NGC6811",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "NGC1750",
+      "NGC2548",
+      "NGC6819"
+    ],
+    "test_clusters": [
+      "M50"
+    ]
+  },
+  "seed": 1,
+  "scores": [
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "n_test": 77,
+      "nll": 0.0981141919052446,
+      "crps": 0.22450850813949916,
+      "rmse_dex": 0.43831000433979367,
+      "mae_dex": 0.2888362057455161,
+      "coverage68": 0.5974025974025974,
+      "coverage90": 0.961038961038961,
+      "width68_dex": 1.058036712174934,
+      "width90_dex": 1.5574458484613252
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 77,
+      "nll": 0.1927275423976508,
+      "crps": 0.1922326462256132,
+      "rmse_dex": 0.3839294839343116,
+      "mae_dex": 0.24902875740296027,
+      "coverage68": 0.5584415584415584,
+      "coverage90": 0.961038961038961,
+      "width68_dex": 0.42125787773159257,
+      "width90_dex": 1.6064345094903103
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "n_test": 77,
+      "nll": -0.11465320656342166,
+      "crps": 0.18942668171795246,
+      "rmse_dex": 0.38963113516345416,
+      "mae_dex": 0.24011726265670624,
+      "coverage68": 0.7792207792207793,
+      "coverage90": 0.961038961038961,
+      "width68_dex": 1.0060793349614803,
+      "width90_dex": 1.56303309510156
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "n_test": 77,
+      "nll": 0.09272231500257146,
+      "crps": 0.19176985858326723,
+      "rmse_dex": 0.3881801205189014,
+      "mae_dex": 0.24252143234970175,
+      "coverage68": 0.6103896103896104,
+      "coverage90": 0.935064935064935,
+      "width68_dex": 0.3463458556175743,
+      "width90_dex": 1.513373702015193
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "gaussian_power",
+      "n_test": 77,
+      "nll": 1.0712828207335992,
+      "crps": 0.22069484501114756,
+      "rmse_dex": 0.38484413105348486,
+      "mae_dex": 0.3009452540182332,
+      "coverage68": 0.38961038961038963,
+      "coverage90": 0.8311688311688312,
+      "width68_dex": 0.41184632686091216,
+      "width90_dex": 0.6812022267824162
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "n_test": 77,
+      "nll": 1.0882306109326343,
+      "crps": 0.20517052054505328,
+      "rmse_dex": 0.3781923761449945,
+      "mae_dex": 0.27295527849375295,
+      "coverage68": 0.5584415584415584,
+      "coverage90": 0.8311688311688312,
+      "width68_dex": 0.39920397856680284,
+      "width90_dex": 0.6602915247850311
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "n_test": 77,
+      "nll": 0.25596175538516747,
+      "crps": 0.21878410971887663,
+      "rmse_dex": 0.43668736641574835,
+      "mae_dex": 0.2491811328572627,
+      "coverage68": 0.4805194805194805,
+      "coverage90": 0.7402597402597403,
+      "width68_dex": 0.12246498899509953,
+      "width90_dex": 0.39233243348727603
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "validation_selected",
+      "n_test": 77,
+      "nll": 0.25596175538516747,
+      "crps": 0.21878410971887663,
+      "rmse_dex": 0.43668736641574835,
+      "mae_dex": 0.2491811328572627,
+      "coverage68": 0.4805194805194805,
+      "coverage90": 0.7402597402597403,
+      "width68_dex": 0.12246498899509953,
+      "width90_dex": 0.39233243348727603
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 200.75819894240271,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 188.68400699854885,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 156.64642571798777,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 177.335992674663,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "gaussian_power",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 153.44088323780952,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 123.49727896235531,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 150.30093754699388,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "M50",
+      "seed": 1,
+      "model": "validation_selected",
+      "reference_age_myr": 135.0,
+      "inferred_age_myr": 150.30093754699388,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "c8dfebf05feec7d4a13e0b01b1b0f2b44d03499a28e3f32ba6d5771de54c86f4",
+    "cf_equal_cluster_selected": "aee11b6701f99f74faa4438cb979a1b8f32a78cd32803f9ca59121326fb86d2b",
+    "cf_per_star_final": "8c3fb2d963901b513b10c739f67511f7d1812aeacd3fc545f0e76f9d053f6d6b",
+    "cf_per_star_selected": "b90567c4bd4762fe5befdc74693ad0c89b47cd488c4990c23f3ae40039bcd117"
+  },
+  "reference_result_sha256": "a945e7eef57bf43e2d32efcd15bb7990a25386987807af0787c7efff2d38752e"
+}

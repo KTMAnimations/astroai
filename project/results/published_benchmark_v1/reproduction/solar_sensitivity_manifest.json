@@ -1,0 +1,10 @@
+{
+  "script_sha256": "95c530bc0cb684a66bb6fe09fb6ab02fb3934092c1ed5fa1f2ab2aa697a90439",
+  "status": "Post-hoc diagnostic after observing the default-input mismatch; primary reproduction unchanged",
+  "fixed_inputs": {
+    "period_days": 26.09,
+    "color": 0.82,
+    "membership": 1,
+    "prior": "uniform log age"
+  }
+}

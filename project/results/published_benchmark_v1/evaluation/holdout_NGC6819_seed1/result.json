@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M34",
+      "M35",
+      "M37",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC3532",
+      "NGC6811",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M50",
+      "M67",
+      "NGC2548"
+    ],
+    "test_clusters": [
+      "NGC6819"
+    ]
+  },
+  "seed": 1,
+  "scores": [
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "n_test": 49,
+      "nll": 0.8817928074573984,
+      "crps": 0.1926375734692111,
+      "rmse_dex": 0.27688342906666563,
+      "mae_dex": 0.2485931228244247,
+      "coverage68": 0.2857142857142857,
+      "coverage90": 0.8571428571428571,
+      "width68_dex": 0.19755294415398317,
+      "width90_dex": 1.3507457536472356
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 49,
+      "nll": 0.859256921830226,
+      "crps": 0.21531369332750072,
+      "rmse_dex": 0.3009260413255298,
+      "mae_dex": 0.28491885260031946,
+      "coverage68": 0.3673469387755102,
+      "coverage90": 0.9183673469387755,
+      "width68_dex": 0.2581298144459392,
+      "width90_dex": 1.417785996633325
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "n_test": 49,
+      "nll": 0.6767670926923046,
+      "crps": 0.1546282561804739,
+      "rmse_dex": 0.2529847216127003,
+      "mae_dex": 0.19955417678699716,
+      "coverage68": 0.3877551020408163,
+      "coverage90": 0.9183673469387755,
+      "width68_dex": 0.30380030484231174,
+      "width90_dex": 1.474760105247834
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "n_test": 49,
+      "nll": 0.6767670926923046,
+      "crps": 0.1546282561804739,
+      "rmse_dex": 0.2529847216127003,
+      "mae_dex": 0.19955417678699716,
+      "coverage68": 0.3877551020408163,
+      "coverage90": 0.9183673469387755,
+      "width68_dex": 0.30380030484231174,
+      "width90_dex": 1.474760105247834
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "gaussian_power",
+      "n_test": 49,
+      "nll": 0.3250665514036222,
+      "crps": 0.1681785270747438,
+      "rmse_dex": 0.30003378403505937,
+      "mae_dex": 0.23178367408019335,
+      "coverage68": 0.5102040816326531,
+      "coverage90": 0.8367346938775511,
+      "width68_dex": 0.44265534656064265,
+      "width90_dex": 0.7321609739063809
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "n_test": 49,
+      "nll": 0.653764527570821,
+      "crps": 0.19765265666225065,
+      "rmse_dex": 0.34038946706393725,
+      "mae_dex": 0.2637528331154782,
+      "coverage68": 0.46938775510204084,
+      "coverage90": 0.6326530612244898,
+      "width68_dex": 0.4224544565635391,
+      "width90_dex": 0.6987482897290116
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "n_test": 49,
+      "nll": 0.8244823526690538,
+      "crps": 0.24330263643452749,
+      "rmse_dex": 0.365451032403826,
+      "mae_dex": 0.3358463600909116,
+      "coverage68": 0.3469387755102041,
+      "coverage90": 0.9183673469387755,
+      "width68_dex": 0.25658908732036223,
+      "width90_dex": 0.7016114048823227
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "validation_selected",
+      "n_test": 49,
+      "nll": 0.5528195417513657,
+      "crps": 0.1674549887843579,
+      "rmse_dex": 0.2688441950473102,
+      "mae_dex": 0.22770361768257472,
+      "coverage68": 0.24489795918367346,
+      "coverage90": 0.8367346938775511,
+      "width68_dex": 0.21440281368702488,
+      "width90_dex": 0.6159713689999875
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1461.1530171322052,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1620.2898058125243,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 889.5904194865835,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 889.5904194865835,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "gaussian_power",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1238.3987314830451,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1251.2675980517467,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 1796.7584667981725,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6819",
+      "seed": 1,
+      "model": "validation_selected",
+      "reference_age_myr": 2310.0,
+      "inferred_age_myr": 2553.5213980568187,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "b3c692914df1c8a57763c5f663b382c458090c3c877312aa66954a9e48a75494",
+    "cf_equal_cluster_selected": "65af5df99cb9dd89ae10fc2ebe12fbeef69d30e8a86a3803303a461905155ae7",
+    "cf_per_star_final": "8e53117601b387eba42b910f8fa6a0d2e80b65a085263d47f21f8b35cd66c428",
+    "cf_per_star_selected": "241d6eebe3076d821cab04174336ec7dfa56394482e62437b33ec3051cda3204"
+  },
+  "reference_result_sha256": "beccb2283211b297d25ac228c9da602a7e32b09b22185523d6354a6f12c03a51"
+}

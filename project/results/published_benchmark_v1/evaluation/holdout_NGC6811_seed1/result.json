@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M34",
+      "M35",
+      "M37",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC2548",
+      "NGC6819",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M50",
+      "M67",
+      "NGC3532"
+    ],
+    "test_clusters": [
+      "NGC6811"
+    ]
+  },
+  "seed": 1,
+  "scores": [
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "n_test": 65,
+      "nll": -1.0131246588551082,
+      "crps": 0.06437147918598439,
+      "rmse_dex": 0.1700066205519349,
+      "mae_dex": 0.07347606411159839,
+      "coverage68": 0.7384615384615385,
+      "coverage90": 0.9846153846153847,
+      "width68_dex": 0.2181463464395839,
+      "width90_dex": 1.2648437664479097
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 65,
+      "nll": -0.7833581060171128,
+      "crps": 0.06726365403348122,
+      "rmse_dex": 0.16791428810679318,
+      "mae_dex": 0.07313166240075727,
+      "coverage68": 0.7692307692307693,
+      "coverage90": 1.0,
+      "width68_dex": 0.2571866450214868,
+      "width90_dex": 1.309231965640726
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "n_test": 65,
+      "nll": -0.7691254906929457,
+      "crps": 0.06459708973557257,
+      "rmse_dex": 0.16477035351845226,
+      "mae_dex": 0.0750494121436732,
+      "coverage68": 0.6461538461538462,
+      "coverage90": 0.9846153846153847,
+      "width68_dex": 0.1803109936543826,
+      "width90_dex": 1.2159098374116848
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "n_test": 65,
+      "nll": -0.9298182990688544,
+      "crps": 0.0660530965698137,
+      "rmse_dex": 0.17078021385882067,
+      "mae_dex": 0.07597795400362457,
+      "coverage68": 0.7230769230769231,
+      "coverage90": 0.9846153846153847,
+      "width68_dex": 0.2123014077340062,
+      "width90_dex": 1.2572744633117467
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "gaussian_power",
+      "n_test": 65,
+      "nll": -0.30223659016337795,
+      "crps": 0.09103672872236236,
+      "rmse_dex": 0.15964188002222415,
+      "mae_dex": 0.1165213476602309,
+      "coverage68": 0.8923076923076924,
+      "coverage90": 0.9692307692307692,
+      "width68_dex": 0.46413384895565324,
+      "width90_dex": 0.7676868550547018
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "n_test": 65,
+      "nll": -0.21438514621574906,
+      "crps": 0.10176179901467403,
+      "rmse_dex": 0.1912066220824265,
+      "mae_dex": 0.1299944844651126,
+      "coverage68": 0.8923076923076924,
+      "coverage90": 0.9384615384615385,
+      "width68_dex": 0.4429701528640681,
+      "width90_dex": 0.73268166995467
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "n_test": 65,
+      "nll": -0.8618853672789657,
+      "crps": 0.08038905915728597,
+      "rmse_dex": 0.19396871886960465,
+      "mae_dex": 0.08330889451361204,
+      "coverage68": 0.7230769230769231,
+      "coverage90": 0.8923076923076924,
+      "width68_dex": 0.3782486765114164,
+      "width90_dex": 0.7517930784084037
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "validation_selected",
+      "n_test": 65,
+      "nll": -0.8618853672789657,
+      "crps": 0.08038905915728597,
+      "rmse_dex": 0.19396871886960465,
+      "mae_dex": 0.08330889451361204,
+      "coverage68": 0.7230769230769231,
+      "coverage90": 0.8923076923076924,
+      "width68_dex": 0.3782486765114164,
+      "width90_dex": 0.7517930784084037
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 917.6122384217792,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 871.3862385322244,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 898.8346314823909,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 917.6122384217792,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "gaussian_power",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 1304.09430606681,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 1331.3382166077631,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 1017.5510286538969,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC6811",
+      "seed": 1,
+      "model": "validation_selected",
+      "reference_age_myr": 1004.0,
+      "inferred_age_myr": 1017.5510286538969,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "3ae78896355096f7f00a7d59d4aa387708f8a3902406db694df869069c6e5ce9",
+    "cf_equal_cluster_selected": "279160b4f5a546d784579acc2b525eb2e39f1379e81e46a15ac183ba44bebc09",
+    "cf_per_star_final": "374ae39aa9b0a9f4cafb45cb64ce90d009be213c0b19bba551924c338fc81bfa",
+    "cf_per_star_selected": "39f50e4a368993af2857e263ac064a3846af358f978e10154ab9ca6336a252dd"
+  },
+  "reference_result_sha256": "f63640b597d7fc347b01f5a183b638a1cc9ff1987b98720d881f296e798109c9"
+}

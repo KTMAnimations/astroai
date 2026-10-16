@@ -1,5 +1,12 @@
 # Figure provenance
 
+`published_benchmark_v1/` contains four figures for published-number reproduction,
+the matched distribution-score comparison, matched cluster ages and external
+M67 predictions. Regenerate them with `scripts/report_published_benchmark.py` in
+the published-model environment. The reproduction figure compares numerical
+outputs, not independently measured true ages. The controlled-comparison figures
+use newly retrained holdout flows, not the released training-set checkpoint.
+
 `real_stars_v2/` contains the current follow-up's four figures: distribution scores,
 coverage, withheld-cluster ages and external M67 observations. Regenerate them
 with `scripts/report_real_stars.py`. All selected external stars and all 16

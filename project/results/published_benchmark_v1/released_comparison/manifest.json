@@ -1,0 +1,23 @@
+{
+  "status": "Matched test observations; different training datasets. Supplementary, not primary.",
+  "clusters": [
+    "M34",
+    "NGC1750",
+    "NGC2516"
+  ],
+  "n_stars": 80,
+  "upstream_weights_sha256": "142a8bcc76d06b35b67b891c9c98559616f3aff0d15665c957c2b1f4aaf07c4a",
+  "script_sha256": "fad7178124c27302a3149e4a24c5e80d8e5b2243cd2cb415d66fb701bff2d3db",
+  "training_exclusion_evidence": "Van-Lane et al. 2025 Section V.1.1",
+  "own_model_hashes": {
+    "holdout_M34_seed2": "c5adff7fddc3cb0eb2d24cb6c2aa263af2f2a2dc23da75436f4ba373336a4d7a",
+    "holdout_M34_seed0": "2aac19cf8f5c673861f0bdcab4fd32bedae151f875a8c7a6ebc57fd1fd8afbd9",
+    "holdout_M34_seed1": "e1368e4b5e4a8cae04ae2f520285d84929bfd3cd14182d9c1d52b056c50ecbfb",
+    "holdout_NGC1750_seed0": "b3f0f1d9425696de088830f34ccedd7ce71f9000ed56dd5ce1c5c9c2acef03c0",
+    "holdout_NGC1750_seed1": "c73a5115b1976019a1ec4af6b05c517aaf2317658287c58280b35b58a450f3fd",
+    "holdout_NGC1750_seed2": "6e69cfddeb5e2817d1111c018947319e4ece3262dcf41132de761ff755f1e2af",
+    "holdout_NGC2516_seed2": "87d30502d4259413672862ba987d14b11eb69bf52daf39572aa90d67b6e54092",
+    "holdout_NGC2516_seed1": "da55a65e11a3634fb228e40e82cc34a39df0eb388316918503c456b55e9ffecc",
+    "holdout_NGC2516_seed0": "f0be83af0433e7036364e42dc50356710c109f31656ffc849ad5aec97e79948d"
+  }
+}

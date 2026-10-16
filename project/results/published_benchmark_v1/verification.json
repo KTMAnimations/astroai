@@ -1,0 +1,81 @@
+{
+  "fold_replayed": "holdout_Hyades_seed0",
+  "epochs": 5000,
+  "selected_epoch": 5000,
+  "maximum_weight_differences": {
+    "final": 0.0,
+    "selected": 0.0
+  },
+  "numeric_convergence": [
+    {
+      "model": "released",
+      "feature_grid_points": 36,
+      "maximum_absolute_differences": {
+        "mean_log_period": 1.4300660211574723e-08,
+        "crps": 2.5556128910864118e-06,
+        "median_log_period": 4.198447938863481e-06,
+        "q05": 9.308745814395891e-06,
+        "q95": 3.1339253940831924e-06
+      }
+    },
+    {
+      "model": "retrained",
+      "feature_grid_points": 36,
+      "maximum_absolute_differences": {
+        "mean_log_period": 3.72603086162826e-08,
+        "crps": 3.9109875999976396e-06,
+        "median_log_period": 8.589420560478622e-06,
+        "q05": 1.5362449660161204e-06,
+        "q95": 2.2742766391470326e-05
+      }
+    }
+  ],
+  "tail_domain_checks": [
+    {
+      "model": "cf_equal_cluster_final",
+      "maximum_narrow_tail_mass": 0.0001039117574919,
+      "maximum_absolute_differences": {
+        "mean_log_period": 4.361850225542696e-05,
+        "crps": 3.106422078680282e-06,
+        "median_log_period": 1.271897941079736e-06,
+        "q05": 7.551818452355974e-06,
+        "q95": 9.952923047951145e-07
+      }
+    },
+    {
+      "model": "cf_equal_cluster_selected",
+      "maximum_narrow_tail_mass": 0.0003020048141024,
+      "maximum_absolute_differences": {
+        "mean_log_period": 7.365501979705869e-05,
+        "crps": 2.4751534999367664e-06,
+        "median_log_period": 7.528096466202783e-07,
+        "q05": 2.7701995747309027e-07,
+        "q95": 5.3818204592825936e-06
+      }
+    },
+    {
+      "model": "cf_per_star_final",
+      "maximum_narrow_tail_mass": 0.0001395344734191,
+      "maximum_absolute_differences": {
+        "mean_log_period": 5.99341590543645e-05,
+        "crps": 7.640020434074302e-07,
+        "median_log_period": 1.4502811044314612e-06,
+        "q05": 5.442678197131734e-06,
+        "q95": 1.21512179207528e-07
+      }
+    },
+    {
+      "model": "cf_per_star_selected",
+      "maximum_narrow_tail_mass": 0.000116606056622,
+      "maximum_absolute_differences": {
+        "mean_log_period": 4.871788953497713e-05,
+        "crps": 6.937411312080144e-07,
+        "median_log_period": 1.0481763843550596e-06,
+        "q05": 1.0358773458896131e-05,
+        "q95": 9.02951724279788e-07
+      }
+    }
+  ],
+  "training_manifest_sha256": "efd4b7a8835f041350eba72b861a0b4a5a767e18642d1ff21c3818374c3e216f",
+  "script_sha256": "60256f5a2223e8faf005d0e0a5e878bfe41cdb5b94e2c811603f1a30f899dab1"
+}

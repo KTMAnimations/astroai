@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC2548",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M34",
+      "NGC6866",
+      "Praesepe"
+    ],
+    "test_clusters": [
+      "Hyades"
+    ]
+  },
+  "seed": 1,
+  "scores": [
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "n_test": 45,
+      "nll": -1.0760059336821237,
+      "crps": 0.08502695576682326,
+      "rmse_dex": 0.2931221215046587,
+      "mae_dex": 0.094120357753017,
+      "coverage68": 0.7111111111111111,
+      "coverage90": 0.9111111111111111,
+      "width68_dex": 0.11574372942763268,
+      "width90_dex": 0.8360017743838224
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 45,
+      "nll": -1.2928933673434788,
+      "crps": 0.08269291265187734,
+      "rmse_dex": 0.2928471727586543,
+      "mae_dex": 0.08958530102478773,
+      "coverage68": 0.7333333333333333,
+      "coverage90": 0.9111111111111111,
+      "width68_dex": 0.11729085709525518,
+      "width90_dex": 0.8191646088744973
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "n_test": 45,
+      "nll": -1.3135730902353921,
+      "crps": 0.08228828657478772,
+      "rmse_dex": 0.29289198807724526,
+      "mae_dex": 0.08863270200917492,
+      "coverage68": 0.7555555555555555,
+      "coverage90": 0.9111111111111111,
+      "width68_dex": 0.12255160786557592,
+      "width90_dex": 0.7478708272578072
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "n_test": 45,
+      "nll": -1.5373906571831968,
+      "crps": 0.08100994149255226,
+      "rmse_dex": 0.2944920491191722,
+      "mae_dex": 0.08611295607633353,
+      "coverage68": 0.7555555555555555,
+      "coverage90": 0.9333333333333333,
+      "width68_dex": 0.11219940038492152,
+      "width90_dex": 0.7633687111613715
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "gaussian_power",
+      "n_test": 45,
+      "nll": 0.20640689496989842,
+      "crps": 0.11282256878158178,
+      "rmse_dex": 0.28507432353102186,
+      "mae_dex": 0.11195055916934912,
+      "coverage68": 0.9555555555555556,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.46754019383615897,
+      "width90_dex": 0.7733210189805417
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "n_test": 45,
+      "nll": 0.22879739693830056,
+      "crps": 0.1139505377390143,
+      "rmse_dex": 0.28555777652848696,
+      "mae_dex": 0.11845737274545651,
+      "coverage68": 0.9555555555555556,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.4503858696525892,
+      "width90_dex": 0.7449474168123191
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "n_test": 45,
+      "nll": -0.9950158609361129,
+      "crps": 0.09384608407789216,
+      "rmse_dex": 0.28544232364225247,
+      "mae_dex": 0.10510969015077162,
+      "coverage68": 0.7111111111111111,
+      "coverage90": 0.9333333333333333,
+      "width68_dex": 0.27933511311003034,
+      "width90_dex": 0.6461316783460899
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "validation_selected",
+      "n_test": 45,
+      "nll": -0.9950158609361129,
+      "crps": 0.09384608407789216,
+      "rmse_dex": 0.28544232364225247,
+      "mae_dex": 0.10510969015077162,
+      "coverage68": 0.7111111111111111,
+      "coverage90": 0.9333333333333333,
+      "width68_dex": 0.27933511311003034,
+      "width90_dex": 0.6461316783460899
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 827.4889380391218,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 827.4889380391218,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 818.9784925138947,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 753.9714418096275,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "gaussian_power",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 694.1243759888407,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 738.542507031931,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 836.0878201761767,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 1,
+      "model": "validation_selected",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 836.0878201761767,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "9e03e4e4a4e61d2b11fa9254ad82f0fb095b1d76330ee3134946b5961cddace1",
+    "cf_equal_cluster_selected": "b0a2f88fd1d938121d5a1676d74ab563db4ebfa933df269d7e9c226c9d8f32e4",
+    "cf_per_star_final": "17f14e8e5d97738d44c3fcc7e1ea914c7434ee0b6c3a2cd83ff48acc3e1c2f32",
+    "cf_per_star_selected": "4cf093c8b8b3acce26160ab0c127b65fa0972e4d70619d3bb46283877acc6351"
+  },
+  "reference_result_sha256": "3b03e55e504bd5e9448413839cc90e1b2f6e4fc185ff543bfcb600dd52dda078"
+}

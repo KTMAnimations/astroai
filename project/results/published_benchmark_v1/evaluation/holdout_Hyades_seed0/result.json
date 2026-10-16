@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "M34",
+      "M35",
+      "M37",
+      "M50",
+      "NGC1750",
+      "NGC2548",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M67",
+      "NGC2281",
+      "NGC2516"
+    ],
+    "test_clusters": [
+      "Hyades"
+    ]
+  },
+  "seed": 0,
+  "scores": [
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "n_test": 45,
+      "nll": -1.5012641516824563,
+      "crps": 0.07957656145196196,
+      "rmse_dex": 0.2898121360172577,
+      "mae_dex": 0.0820569538181494,
+      "coverage68": 0.8,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.12411575108890326,
+      "width90_dex": 0.8735911755227447
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 45,
+      "nll": -1.5012641516824563,
+      "crps": 0.07957656145196196,
+      "rmse_dex": 0.2898121360172577,
+      "mae_dex": 0.0820569538181494,
+      "coverage68": 0.8,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.12411575108890326,
+      "width90_dex": 0.8735911755227447
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "n_test": 45,
+      "nll": -1.6325305779774983,
+      "crps": 0.07774035770925827,
+      "rmse_dex": 0.29019850066751823,
+      "mae_dex": 0.0814118672057498,
+      "coverage68": 0.8,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.09749882169125842,
+      "width90_dex": 0.819695882568634
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "n_test": 45,
+      "nll": -1.6325305779774983,
+      "crps": 0.07774035770925827,
+      "rmse_dex": 0.29019850066751823,
+      "mae_dex": 0.0814118672057498,
+      "coverage68": 0.8,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.09749882169125842,
+      "width90_dex": 0.819695882568634
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "gaussian_power",
+      "n_test": 45,
+      "nll": 0.2234548392088314,
+      "crps": 0.11177672919604098,
+      "rmse_dex": 0.286657245503389,
+      "mae_dex": 0.11068629016540192,
+      "coverage68": 0.9555555555555556,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.4595355368677942,
+      "width90_dex": 0.7600811530503533
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "n_test": 45,
+      "nll": 0.27431826928383435,
+      "crps": 0.11346973148951349,
+      "rmse_dex": 0.2892413472902237,
+      "mae_dex": 0.11816071929441742,
+      "coverage68": 0.9555555555555556,
+      "coverage90": 0.9555555555555556,
+      "width68_dex": 0.4344741788766243,
+      "width90_dex": 0.7186291556514738
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "n_test": 45,
+      "nll": -1.0450042671367206,
+      "crps": 0.0900522843082232,
+      "rmse_dex": 0.2840064963297022,
+      "mae_dex": 0.09939069634723123,
+      "coverage68": 0.7555555555555555,
+      "coverage90": 0.9333333333333333,
+      "width68_dex": 0.2590266286904001,
+      "width90_dex": 0.6273990293452514
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "validation_selected",
+      "n_test": 45,
+      "nll": -1.0450042671367206,
+      "crps": 0.0900522843082232,
+      "rmse_dex": 0.2840064963297022,
+      "mae_dex": 0.09939069634723123,
+      "coverage68": 0.7555555555555555,
+      "coverage90": 0.9333333333333333,
+      "width68_dex": 0.2590266286904001,
+      "width90_dex": 0.6273990293452514
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 746.2170990164743,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 746.2170990164743,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "gaussian_power",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 652.3776827392088,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 701.3373953093511,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 810.5555740596745,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Hyades",
+      "seed": 0,
+      "model": "validation_selected",
+      "reference_age_myr": 775.0,
+      "inferred_age_myr": 810.5555740596745,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "3e2f03f72dc35bc36ea8c9bcd158ebe2016f69fc70231cc670ef2fd1196e1443",
+    "cf_equal_cluster_selected": "241e1096466d597f13e9180df27e5222cc2cdfa124344334844ac9bc7e4da01f",
+    "cf_per_star_final": "b0cb058991c0a3b90bda9f74526984806ac9830fb0931b1f3e483b7ab9863b2e",
+    "cf_per_star_selected": "ece4077e4134015132233b186c992b0df4803f3db9d287860918fea4607db7c5"
+  },
+  "reference_result_sha256": "3af3c0a62c2ac9596fa32f558e41f9be053b2b357b14e21a612836dcb0484715"
+}

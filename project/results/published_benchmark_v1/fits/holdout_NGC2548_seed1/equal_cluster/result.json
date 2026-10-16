@@ -1,0 +1,40 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "M34",
+      "M50",
+      "M67",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "Hyades",
+      "M35",
+      "M37"
+    ],
+    "test_clusters": [
+      "NGC2548"
+    ]
+  },
+  "seed": 20261044,
+  "weighting": "equal_cluster",
+  "n_discovery": 502,
+  "n_validation": 182,
+  "epochs": 5000,
+  "selected_epoch": 1000,
+  "selected_validation_nll": -0.9282040254031584,
+  "final_validation_nll": -0.8095550885898484,
+  "n_parameters": 17733,
+  "weight_sha256": {
+    "final": "fe1a4e008941ebb5847e7634449306e8f28f4968be68aa91ed2cab5a0c707ec9",
+    "selected": "c6233fea341a75a8ea2a4b2264677f90a9349b88ee8994493c7360b1d7220bfd"
+  },
+  "elapsed_seconds": 22.646996167008183
+}

@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M35",
+      "M37",
+      "M50",
+      "NGC1750",
+      "NGC2281",
+      "NGC2548",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "NGC6866",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M34",
+      "M67",
+      "Praesepe"
+    ],
+    "test_clusters": [
+      "NGC2516"
+    ]
+  },
+  "seed": 0,
+  "scores": [
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "n_test": 44,
+      "nll": -0.4878878285261718,
+      "crps": 0.132153883230683,
+      "rmse_dex": 0.2841196077722515,
+      "mae_dex": 0.15684914095361088,
+      "coverage68": 0.6363636363636364,
+      "coverage90": 0.9772727272727273,
+      "width68_dex": 0.16122745281650258,
+      "width90_dex": 1.2193242844304337
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 44,
+      "nll": -0.3766492253000086,
+      "crps": 0.1369034288883906,
+      "rmse_dex": 0.2864616031856901,
+      "mae_dex": 0.16676896945595945,
+      "coverage68": 0.7045454545454546,
+      "coverage90": 0.9772727272727273,
+      "width68_dex": 0.19135743638516933,
+      "width90_dex": 1.243493918836586
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "n_test": 44,
+      "nll": -0.49942882350561296,
+      "crps": 0.13431343948064178,
+      "rmse_dex": 0.28647732575177887,
+      "mae_dex": 0.16362377369916187,
+      "coverage68": 0.7727272727272727,
+      "coverage90": 0.9772727272727273,
+      "width68_dex": 0.20405510486390374,
+      "width90_dex": 1.287624740648254
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "n_test": 44,
+      "nll": -0.49004641361534595,
+      "crps": 0.13491215126456735,
+      "rmse_dex": 0.2865491508329599,
+      "mae_dex": 0.16464100384440192,
+      "coverage68": 0.7727272727272727,
+      "coverage90": 0.9772727272727273,
+      "width68_dex": 0.204177601433,
+      "width90_dex": 1.282065804682162
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "gaussian_power",
+      "n_test": 44,
+      "nll": 0.19731660000262322,
+      "crps": 0.14017490377556918,
+      "rmse_dex": 0.2830978553356585,
+      "mae_dex": 0.1723771479453783,
+      "coverage68": 0.8409090909090909,
+      "coverage90": 0.8863636363636364,
+      "width68_dex": 0.4664383196441731,
+      "width90_dex": 0.771498496587455
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "n_test": 44,
+      "nll": 0.2322629873938051,
+      "crps": 0.14029180130706523,
+      "rmse_dex": 0.2860294910518382,
+      "mae_dex": 0.1674273416879021,
+      "coverage68": 0.8409090909090909,
+      "coverage90": 0.8409090909090909,
+      "width68_dex": 0.4497559245935395,
+      "width90_dex": 0.7439054748330228
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "n_test": 44,
+      "nll": -0.46367229761918777,
+      "crps": 0.13675873953260909,
+      "rmse_dex": 0.29616610966740786,
+      "mae_dex": 0.16170792175585927,
+      "coverage68": 0.6818181818181818,
+      "coverage90": 0.8636363636363636,
+      "width68_dex": 0.2217550937906985,
+      "width90_dex": 0.5786074488449912
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "validation_selected",
+      "n_test": 44,
+      "nll": -0.46367229761918777,
+      "crps": 0.13675873953260909,
+      "rmse_dex": 0.29616610966740786,
+      "mae_dex": 0.16170792175585927,
+      "coverage68": 0.6818181818181818,
+      "coverage90": 0.8636363636363636,
+      "width68_dex": 0.2217550937906985,
+      "width90_dex": 0.5786074488449912
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 239.3305790606125,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 204.95225023678034,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 232.02196015680798,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 224.9365300761397,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "gaussian_power",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 211.40818177638747,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 207.08201918292056,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 200.75819894240271,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC2516",
+      "seed": 0,
+      "model": "validation_selected",
+      "reference_age_myr": 263.0,
+      "inferred_age_myr": 200.75819894240271,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "c331c14fa37928be7072108873cffad7112e47a6f5b8fd6e6a0af0110770d00a",
+    "cf_equal_cluster_selected": "f90a0cd5056b18f4472546e5cb9ee3de32738d1c511c2d6fe641bf8d078d14b7",
+    "cf_per_star_final": "108498f92625e21130da8e0db6eaa48d3c1a240f718060271b1a414a9b58eff4",
+    "cf_per_star_selected": "69ab20ce4bdb5e07de6653701a0e1add9cf580d59f995fbe72f4e9c8adbe8db9"
+  },
+  "reference_result_sha256": "f0be83af0433e7036364e42dc50356710c109f31656ffc849ad5aec97e79948d"
+}

@@ -168,3 +168,107 @@ lead with the real-star follow-up, with both favorable and unfavorable metrics
 visible. The initial study, its report, figures and numerical results remain
 unchanged. New commit messages describe the scientific work; historical commit
 messages are preserved.
+
+## 2026-10-16: Published-model reproduction and matched comparison
+
+The next stage addresses the missing published-model baseline. Initialized the
+already pinned ChronoFlow submodule at
+`f0b766f7d057c4e8f9a64a867414d25c5d985cd6`. The release provides inference code and
+one trained checkpoint, but not individual cross-validation checkpoints or the
+complete training loop. Kept the original environments and results unchanged;
+a separate locked environment uses Python 3.11.8, PyTorch 2.2.2, zuko 1.1.0,
+NumPy 1.26.4 and SciPy 1.13.1. Python/PyTorch differ from the development versions
+listed upstream, so numerical compatibility is checked explicitly.
+
+### Actual released weights
+
+The unmodified tutorial likelihood is -3.4623242, reproducing its printed -3.46.
+The vectorized likelihood agrees with native scalar calls; its monotonic-transform
+CDF and supported uniform background pass normalization checks. The adapter
+restricts the background to the paper's declared log-period support for proper
+whole-distribution scoring; observed-input likelihoods match the release.
+
+The documented quality cuts reproduce 7,615 source rows. With the age-inference
+color cut and each star's measured error/membership, the four numerically reported
+clusters excluded from the final network yield medians of 244.5297, 131.9251,
+86.9893 and 99.0809 Myr, compared with published 245, 132, 87 and 99 Myr for M34,
+NGC2516, NGC1647 and NGC1750. Every median agrees within 0.2%. Saved tables include
+raw intervals, the 0.06-dex intrinsic-scatter convolution, finer-grid checks and
+uniform-linear-age sensitivity. Reproducing a published number is not the same
+as verifying an independently known age.
+
+The Sun, with the published period/color and released default color uncertainty,
+gives 5.988 Gyr rather than 5.1 Gyr. This fails the predeclared 5% numerical-agreement
+target. The paper does not specify that uncertainty. A separately recorded
+post-hoc input grid shows substantial sensitivity; no value replaces the primary
+result or establishes the authors' original input. Another discrepancy is prior
+measure: the code uses uniform log age, whereas Equation 6 describes uniform age.
+The primary reproduction follows the released code and keeps the alternative
+separate. These findings are preserved rather than forced into a successful label.
+
+### Identical discovery, validation and test observations
+
+The protocol fixed 96 flow fits before new held-out scores: the same 48 earlier
+splits, each with equal-cluster and per-star discovery weighting. Each fit uses
+5,000 deterministic full-batch Adam steps, the released 17,733-parameter neural
+spline architecture and membership/background likelihood. Final and validation-
+selected checkpoints are retained; only the 50 prescribed validation checkpoints
+can select epochs. Every primary star and cluster remains. Optimizer, batching
+and exact learning-rate convention are explicit reconstruction choices because
+the original training code is unavailable. This is a matched-data retraining
+comparison, not a claim to reproduce the entire published training experiment.
+
+All 96 fits and all 48 eight-method evaluations completed. The primary paired
+NLL difference (quadratic mixture minus equal-cluster, selected flow) is -0.16503
+nats, with descriptive 95% interval [-0.30768, -0.03271], and the mixture has lower
+NLL in 11/16 cluster averages. Its CRPS difference is -0.00470 dex with interval
+[-0.01280, +0.00230]; RMSE, median-prediction MAE and mean log-age-error intervals
+also include zero. Median absolute fractional cluster-age errors are 12.46%
+for the mixture and 15.13% for the primary flow comparator. All difficult clusters
+and boundary hits remain visible.
+
+The per-star training sensitivity materially qualifies the conclusion. Against
+its selected checkpoint, the mixture's NLL difference is -0.11896 with interval
+[-0.26396, +0.02489]; CRPS is nearly tied (0.10805 versus 0.10812). Against its final
+checkpoint, the flow has slightly lower CRPS. The mixture is a useful compact
+12-parameter comparator, but this study does not demonstrate broad superiority
+over the published model or every reasonable training choice.
+
+### External and unchanged-checkpoint comparisons
+
+All methods predict the existing 25 external M67 stars, with every M67 member
+excluded from discovery and validation. The fixed external color-error assumption
+for the flow is log10(error) = -1.55 because the source table lacks individual
+color errors. The mixture has RMSE 0.11745 versus 0.16850 dex for the primary flow,
+a 30.3% reduction, while the per-star selected flow infers 3.997 Gyr versus
+3.376 Gyr for the mixture. Nominal 68% coverage is 46.7% for the primary flow and
+92.0% for the mixture, showing opposite calibration problems on this population.
+These previously inspected external stars are not described as a new blind test.
+
+A separately specified direct comparison evaluates the unchanged released weights
+against our frozen holdout models on 80 identical stars in M34, NGC1750 and
+NGC2516, the three eligible clusters explicitly excluded from the release. It
+reports every cluster and is labeled matched test inputs with unequal calibration
+data. The released model is stronger on M34; the other clusters and metrics have
+mixed outcomes. This deliberately atypical three-cluster check does not replace
+the controlled comparison or support a general superiority claim.
+
+### Verification and reporting
+
+An independent replay of all 5,000 training steps for one neural fit reproduces
+both final and selected checkpoint tensors exactly. Repeating verification after
+adding integration-domain checks preserves exact replay. Finer-grid score and
+quantile differences are below 0.00003 dex in the tested feature grid. For the
+largest observed omitted tail mass in each flow variant, widening the period
+domain changes the mean prediction by at most 0.000074 dex and CRPS by at most
+0.000004 dex. These numerical effects are small relative to the reported model
+differences. The native adapter, training exclusions, validation choices, model
+hashes, reference-age independence, all score tables and all age-grid maxima have
+explicit tests.
+
+The main environment passes 35 tests, with the optional PyTorch module skipped;
+the published-model environment passes all 11 benchmark tests. All four new
+figures are generated from frozen outputs and visually inspected. The current
+README and science-fair guide distinguish partial reproduction, controlled
+comparison and supplementary checks. Earlier studies remain intact. Published
+observations/methods and AI-assisted contributions remain attributed.

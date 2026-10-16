@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC1750",
+      "NGC2281",
+      "NGC2516",
+      "NGC2548",
+      "NGC6811",
+      "NGC6819",
+      "NGC6866"
+    ],
+    "validation_clusters": [
+      "M34",
+      "NGC3532",
+      "Ruprecht147"
+    ],
+    "test_clusters": [
+      "Praesepe"
+    ]
+  },
+  "seed": 0,
+  "scores": [
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "n_test": 68,
+      "nll": -0.8799982903634801,
+      "crps": 0.06528166491389419,
+      "rmse_dex": 0.14867126918865348,
+      "mae_dex": 0.07103908956845625,
+      "coverage68": 0.7205882352941176,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.13032090085574968,
+      "width90_dex": 1.1929573502316995
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 68,
+      "nll": -0.9259507980416802,
+      "crps": 0.06482881074625778,
+      "rmse_dex": 0.14931591933863406,
+      "mae_dex": 0.0707048198205186,
+      "coverage68": 0.7058823529411765,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.13438186547863865,
+      "width90_dex": 1.191077528014056
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "n_test": 68,
+      "nll": -0.9906639987054993,
+      "crps": 0.06088106726992622,
+      "rmse_dex": 0.14327708304063583,
+      "mae_dex": 0.06760515762729881,
+      "coverage68": 0.6764705882352942,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.11703119096174851,
+      "width90_dex": 1.0099124208770267
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "n_test": 68,
+      "nll": -1.0242417364874308,
+      "crps": 0.06602249734712817,
+      "rmse_dex": 0.1570465493821512,
+      "mae_dex": 0.0744549448080152,
+      "coverage68": 0.7647058823529411,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.1956801341337818,
+      "width90_dex": 1.1728514020409122
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "gaussian_power",
+      "n_test": 68,
+      "nll": -0.33180122850393945,
+      "crps": 0.08347168574026065,
+      "rmse_dex": 0.13965941845746055,
+      "mae_dex": 0.09176307154758827,
+      "coverage68": 0.9411764705882353,
+      "coverage90": 0.9852941176470589,
+      "width68_dex": 0.48243814296939597,
+      "width90_dex": 0.7979625307827817
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "n_test": 68,
+      "nll": -0.36052994899343543,
+      "crps": 0.08062705958062438,
+      "rmse_dex": 0.1359916608503626,
+      "mae_dex": 0.08579696388247947,
+      "coverage68": 0.9264705882352942,
+      "coverage90": 0.9705882352941176,
+      "width68_dex": 0.46828163587893973,
+      "width90_dex": 0.7745473792455992
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "n_test": 68,
+      "nll": -0.9738964859923547,
+      "crps": 0.06709230499245636,
+      "rmse_dex": 0.15463610692933186,
+      "mae_dex": 0.07669441889555212,
+      "coverage68": 0.8235294117647058,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.2979045077347722,
+      "width90_dex": 0.6910983789137356
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "validation_selected",
+      "n_test": 68,
+      "nll": -0.9738964859923547,
+      "crps": 0.06709230499245636,
+      "rmse_dex": 0.15463610692933186,
+      "mae_dex": 0.07669441889555212,
+      "coverage68": 0.8235294117647058,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.2979045077347722,
+      "width90_dex": 0.6910983789137356
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 785.8030254534376,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 708.6253689889329,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 738.542507031931,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "gaussian_power",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 818.9784925138947,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 0,
+      "model": "validation_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "4b14fc2e6dfb92c7c05c926bbe1336829f16b96872d22ea37fb9858080273549",
+    "cf_equal_cluster_selected": "3d4667ddcd775f6fb3c3f8bbec6aa29c8fb2c9fa747c05697b0dc18190c73846",
+    "cf_per_star_final": "056e8f8ce8eb6682b2227cdaafa7e65c3a9388ddf51e0dcfd490dec0ed7df64b",
+    "cf_per_star_selected": "ce21d6fa5a2bb4e640f84bff67d313661e2bd99d39261af1eb81efff3e96e4be"
+  },
+  "reference_result_sha256": "3839df3ec2130aae120c92880c5a48843f90a85ff80c9fb52579bc1a1be7ac35"
+}

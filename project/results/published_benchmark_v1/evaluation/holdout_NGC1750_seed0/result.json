@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "Hyades",
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC2281",
+      "NGC2516",
+      "NGC3532",
+      "NGC6819",
+      "NGC6866",
+      "Praesepe",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "M34",
+      "NGC2548",
+      "NGC6811"
+    ],
+    "test_clusters": [
+      "NGC1750"
+    ]
+  },
+  "seed": 0,
+  "scores": [
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "n_test": 13,
+      "nll": 1.1330978639710407,
+      "crps": 0.17237244062359533,
+      "rmse_dex": 0.27075970384252596,
+      "mae_dex": 0.2256420074496755,
+      "coverage68": 0.23076923076923078,
+      "coverage90": 0.7692307692307693,
+      "width68_dex": 0.15580403262318487,
+      "width90_dex": 0.5599632156540122
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 13,
+      "nll": 1.2736525879456446,
+      "crps": 0.19074897905007815,
+      "rmse_dex": 0.292545231489326,
+      "mae_dex": 0.25021837433812766,
+      "coverage68": 0.07692307692307693,
+      "coverage90": 0.7692307692307693,
+      "width68_dex": 0.15434351360527623,
+      "width90_dex": 0.6595533232751687
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "n_test": 13,
+      "nll": 1.2248952726905162,
+      "crps": 0.17975401952335252,
+      "rmse_dex": 0.2786327290759785,
+      "mae_dex": 0.22788507996713775,
+      "coverage68": 0.15384615384615385,
+      "coverage90": 0.6153846153846154,
+      "width68_dex": 0.14402905156469895,
+      "width90_dex": 0.4239169207289407
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "n_test": 13,
+      "nll": 1.224798931238743,
+      "crps": 0.17975958742552625,
+      "rmse_dex": 0.2786378181371442,
+      "mae_dex": 0.22790166055330016,
+      "coverage68": 0.15384615384615385,
+      "coverage90": 0.6153846153846154,
+      "width68_dex": 0.14404297009134953,
+      "width90_dex": 0.42400827045990813
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "gaussian_power",
+      "n_test": 13,
+      "nll": 0.2746513689169622,
+      "crps": 0.16226143837290094,
+      "rmse_dex": 0.29752935127694446,
+      "mae_dex": 0.20102078865009224,
+      "coverage68": 0.6923076923076923,
+      "coverage90": 0.7692307692307693,
+      "width68_dex": 0.46555750441379273,
+      "width90_dex": 0.7700416102267275
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "n_test": 13,
+      "nll": 0.18434546654370407,
+      "crps": 0.1538493588419113,
+      "rmse_dex": 0.27794724038566987,
+      "mae_dex": 0.19352584644419496,
+      "coverage68": 0.6923076923076923,
+      "coverage90": 0.7692307692307693,
+      "width68_dex": 0.45277273319566874,
+      "width90_dex": 0.7488953378074255
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "n_test": 13,
+      "nll": 0.17743835497625948,
+      "crps": 0.13315515731438232,
+      "rmse_dex": 0.2202372655980794,
+      "mae_dex": 0.21805278472034367,
+      "coverage68": 0.6923076923076923,
+      "coverage90": 1.0,
+      "width68_dex": 0.34397413599786825,
+      "width90_dex": 0.7677407787855137
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "validation_selected",
+      "n_test": 13,
+      "nll": 0.17743835497625948,
+      "crps": 0.13315515731438232,
+      "rmse_dex": 0.2202372655980794,
+      "mae_dex": 0.21805278472034367,
+      "coverage68": 0.6923076923076923,
+      "coverage90": 1.0,
+      "width68_dex": 0.34397413599786825,
+      "width90_dex": 0.7677407787855137
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 144.21249462898706,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 120.97008581328869,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 148.75514293562983,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 148.75514293562983,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "gaussian_power",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 155.0353698941437,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 135.53912860944072,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 139.80856860939016,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "NGC1750",
+      "seed": 0,
+      "model": "validation_selected",
+      "reference_age_myr": 322.0,
+      "inferred_age_myr": 139.80856860939016,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "7df3cf13712fe2689f1426f66dfc35efeebcfcb38e65dc0f582dfc07c0754b21",
+    "cf_equal_cluster_selected": "44c549bb9c5a67f964ac1a206f49ebc491695974f2a7fc7835a862aa7a8f99a7",
+    "cf_per_star_final": "772673601ecb7e55ac469acd4c451fb975c7cad9a5d0a087e55be5c88e672a10",
+    "cf_per_star_selected": "bbc47a687b05738098cf2c099cab6c3ade792afb2a472f9edd104b83231e6243"
+  },
+  "reference_result_sha256": "b3f0f1d9425696de088830f34ccedd7ce71f9000ed56dd5ce1c5c9c2acef03c0"
+}

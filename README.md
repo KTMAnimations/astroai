@@ -1,174 +1,171 @@
-# Predicting stellar rotation and cluster ages
+# Stellar rotation: reproducing and comparing gyrochronology models
 
-This project now has a working probabilistic model tested on **721 real stars
-in 16 withheld clusters**, plus **25 additional M67 stars** absent from the
-original catalogue. It predicts a distribution of rotation periods at a supplied
-age and color and can estimate the age of a coeval stellar population.
+This repository is a **partial numerical reproduction of ChronoFlow plus a
+controlled comparison of stellar-rotation models**. It also includes working
+tools to predict rotation-period distributions and estimate a cluster's age.
 
-The main advance is modeling the narrow slow-rotation sequence and the broader
-fast-rotation tail separately. The slow component remains an explicit quadratic
-in log age and color. Every reported cluster test excludes that entire cluster
-from both fitting and model selection.
+The latest experiment runs the authors' actual released network, then retrains
+its architecture on the same data splits as our simpler mixture model. It
+preserves the original equation-search study and the earlier real-star results.
 
-[Real-star results](docs/REAL_STAR_RESULTS.md) ·
-[Research handout (PDF)](output/pdf/real_star_research_brief.pdf) ·
+[Published-model results](docs/PUBLISHED_BENCHMARK_RESULTS.md) ·
+[Comparison protocol](docs/PUBLISHED_BENCHMARK_PROTOCOL.md) ·
 [Science fair guide](docs/SCIENCE_FAIR_GUIDE.md) ·
-[Protocol](docs/REAL_STAR_PROTOCOL.md) ·
 [Research log](docs/RESEARCH_LOG.md)
 
-## Progress on real observations
+## Reproducing the published implementation
 
-| Test | Power-law Gaussian | Quadratic mixture |
+The released ChronoFlow weights reproduce four reported cluster-age medians:
+
+| Cluster | Published age, Myr | Reproduced age, Myr |
 |---|---:|---:|
-| Held-out distribution score, NLL (lower is better) | 0.0061 | **-0.4960** |
-| Held-out CRPS, dex (lower is better) | 0.1205 | **0.1080** |
-| Observed coverage of 68% prediction intervals | 80.7% | **68.4%** |
-| Observed coverage of 90% prediction intervals | 92.1% | **90.0%** |
-| Held-out median-prediction MAE, dex | 0.1516 | **0.1339** |
-| Held-out mean-prediction RMSE, dex | **0.2195** | 0.2251 |
-| External M67 mean-prediction RMSE, dex | 0.1537 | **0.1174** |
+| M34 | 245 | 244.5 |
+| NGC2516 | 132 | 131.9 |
+| NGC1647 | 87 | 87.0 |
+| NGC1750 | 99 | 99.1 |
 
-The mixture improves NLL in **15 of 16** cluster averages. The predeclared paired
-NLL difference is **-0.5021 nats**, with descriptive 95% interval
-**[-0.6694, -0.3346]**. CRPS improves by about **10.3%**, supporting a better
-predictive distribution under a second proper scoring rule. Mean-prediction RMSE
-does not improve on the primary sample; the result is stronger distribution and
-median prediction, not a win on every metric.
+All four agree within **0.2%**. These clusters were excluded from the final
+network's training according to the paper. The native tutorial also reproduces
+its printed likelihood. This verifies numerical outputs; agreement with a
+paper's output is distinct from accuracy against independently known ages.
 
-![Predictive distribution comparisons on withheld clusters](project/figures/real_stars_v2/distribution_scores.png)
+The solar example **does not reproduce within the specified 5% tolerance**:
+the released defaults give 5.99 Gyr versus the paper's 5.1 Gyr. Its solar color
+uncertainty is unspecified, and the saved sensitivity analysis shows a substantial
+effect. The code also uses a uniform log-age prior where the paper describes a
+uniform age prior. Both issues remain documented; no input was silently changed
+to obtain the quoted result.
 
-Six model families were evaluated in 48 identical discovery/validation/test
-splits. Parameters, regularization and a separate model-family selector use only
-discovery and validation clusters. All seven reported methods, every cluster,
-and all predictions are available in the full results. Bootstrap intervals do
-not include all dependence from overlapping training sets or systematic age errors.
+![Reproduction of published numerical results](project/figures/published_benchmark_v1/reproduction.png)
 
-## Cluster ages and an external check
+## A controlled comparison on real stars
 
-Median absolute fractional error in withheld-cluster age estimates is **18.3%**
-for the power law, **12.5%** for the quadratic mixture, and **9.9%** when the model
-family is chosen by validation data. Some clusters still have large errors, and
-the paired interval on the change in mean log-age error spans zero. These are
-cluster point estimates, not 10%-accurate individual-star ages.
+The released network has already seen many of our ordinary test clusters, so it
+cannot serve as a held-out comparator for all of them. We instead trained **96
+new neural networks**, each for **5,000 steps**, using the published architecture
+and likelihood on our exact **48 discovery/validation/test splits**: **721 stars
+in 16 clusters**, with each test cluster excluded from fitting and selection.
 
-![Age estimates for all withheld clusters](project/figures/real_stars_v2/age_recovery.png)
+The primary flow comparison uses equal discovery-cluster weights, matching our
+earlier protocol, and validation-selected checkpoints. A paper-style per-star
+weighting and fixed-final-epoch fits are also reported.
 
-On 25 separate Gruner et al. (2023) M67 stars, the quadratic mixture reduces
-mean-prediction RMSE by approximately **23.6%** versus the power law. All M67
-stars were excluded from the models used here, and the external observations
-were not used to choose a model. The ordinary quadratic Gaussian is competitive
-at 0.1249 dex RMSE. This is a separate-star check in one old cluster; it does not
-yet establish performance on field stars or every stellar population.
+| Held-out metric | Primary retrained flow | Quadratic mixture |
+|---|---:|---:|
+| NLL, nats (lower is better) | -0.3310 | **-0.4960** |
+| CRPS, dex | 0.1127 | **0.1080** |
+| Mean-log-period RMSE, dex | 0.2324 | **0.2251** |
+| Median-prediction MAE, dex | 0.1402 | **0.1339** |
+| Coverage of nominal 68% intervals | 61.3% | 68.4% |
+| Median absolute fractional cluster-age error | 15.1% | 12.5% |
 
-![External M67 observations and predictions](project/figures/real_stars_v2/external_m67.png)
+The mixture improves NLL in **11 of 16 clusters**. Its primary paired NLL difference
+is **-0.1650 nats**, with descriptive 95% interval **[-0.3077, -0.0327]**. The
+intervals on CRPS, point-error and age-error differences include zero.
 
-The shaded band describes population spread. It is wider than needed for much
-of this externally selected single-star sample: 68% intervals cover 92% of these
-observations. Every selected observation is shown, including the fast outlier.
-See [external data provenance](project/data/external/README.md) and the full
-results for the age-scale sensitivity and all competing models.
+The result depends on training choices: the paper-style per-star flow is
+competitive, with CRPS essentially tied and an NLL-difference interval that
+includes zero. The mixture has **12 fitted parameters**, versus **17,733** in the
+flow, making it a useful compact comparator for this dataset. These experiments
+do not establish broad superiority over ChronoFlow on its larger population.
 
-## Try the fitted model
+![Matched comparison with retrained ChronoFlow architecture](project/figures/published_benchmark_v1/matched_scores.png)
 
-Set up the recorded Python/Julia environment, then predict rotation at a supplied
-age and dereddened Gaia DR3 color:
+This reproduces the published architecture, not the paper's complete training
+process or full cross-validation benchmark. The original training script and
+individual holdout weights are not released. Optimizer, batching and scheduler
+choices are explicitly recorded. Our restricted catalogue had already informed
+earlier development, so the comparison is exploratory.
+
+## Additional observations and direct released-weight checks
+
+On the same **25 external M67 stars**, with all M67 members excluded from fitting
+and selection, the mixture has **30.3% lower log-period RMSE** than the primary
+retrained flow. The per-star flow gives an age estimate closer to the nominal
+4.0 Gyr reference. Interval calibration also differs: nominal 68% coverage is
+46.7% for the primary flow and 92.0% for the mixture on this selected population.
+The complete tables retain every method and every star.
+
+A separate comparison evaluates the unchanged released ChronoFlow weights and
+our frozen models on the same **80 stars in three explicitly excluded clusters**.
+Its training datasets differ, so it is labeled supplementary and is not used to
+claim controlled superiority. See the [full report](docs/PUBLISHED_BENCHMARK_RESULTS.md).
+
+## Reproduce the benchmark
+
+The original study uses `.venv`; the published-model comparison uses an isolated
+`.venv-published` environment. See [environment notes](environment/README.md).
+
+```bash
+bash scripts/setup_published_environment.sh
+PYTHONPATH=src .venv-published/bin/python scripts/reproduce_chronoflow.py
+PYTHONPATH=src OPENBLAS_NUM_THREADS=1 .venv-published/bin/python scripts/train_published_benchmark.py
+PYTHONPATH=src .venv-published/bin/python scripts/evaluate_published_benchmark.py
+PYTHONPATH=src .venv-published/bin/python scripts/evaluate_published_benchmark.py --stage summarize
+PYTHONPATH=src .venv-published/bin/python scripts/summarize_published_sensitivities.py
+PYTHONPATH=src .venv-published/bin/python scripts/evaluate_published_external.py
+PYTHONPATH=src .venv-published/bin/python scripts/compare_released_chronoflow.py
+PYTHONPATH=src .venv-published/bin/python scripts/diagnose_solar_reproduction.py
+PYTHONPATH=src OPENBLAS_NUM_THREADS=1 .venv-published/bin/python scripts/verify_published_benchmark.py
+PYTHONPATH=src .venv-published/bin/python scripts/report_published_benchmark.py
+```
+
+The runner resumes completed fits and checks source, data, configuration and
+environment hashes. All weights, learning curves, validation choices, individual
+predictions and age profiles are saved. A full independent 5,000-step replay
+reproduced the saved neural weights exactly. Native-call comparisons, density
+normalization, grid refinement, wider integration bounds, split separation,
+training-ID exclusions and score reconstruction are checked.
+
+For a fresh run in another environment, use a separate checkout and a new
+`study_id` in `configs/published_benchmark.json`. Reporting defaults to the saved
+reference bundle. Tests:
+
+```bash
+.venv/bin/python -m pytest -q
+PYTHONPATH=src .venv-published/bin/python -m pytest tests/test_published_model.py tests/test_published_results.py -q
+```
+
+## Use the existing prediction tools
+
+The compact application model predicts rotation periods for a supplied age and
+dereddened Gaia DR3 color. It is fitted after evaluation and does not supply the
+held-out scores:
 
 ```bash
 bash scripts/setup_environment.sh
 .venv/bin/python scripts/predict_rotation.py --age-myr 1000 --bp-rp 1.0
-```
-
-The example gives a median period of about **11.1 days** and a 68% population
-interval of **7.5-12.9 days**. The command enforces the observed application domain:
-135-3870 Myr and 0.65 < BP-RP < 1.5. The application model is fitted to all primary
-stars after evaluation; held-out scores use separate frozen models.
-
-Estimate a coeval population's age from a CSV containing `Prot` (days), `BPRP_0`
-and optionally `GaiaDR3_ID`. For the saved external check:
-
-```bash
 .venv/bin/python scripts/infer_cluster_age.py project/results/real_stars_v2/external_stars.csv --holdout-cluster M67
 ```
 
-This uses the three M67-excluded models and returns about **3.38 Gyr**, compared
-with the source's approximate 4.0 Gyr reference. The source also discusses a
-3.6 Gyr isochrone fit. Per-fit variation is not a calibrated age confidence
-interval. For a genuinely new population, omit `--holdout-cluster` to use the
-application model. Known training-ID overlap is rejected when IDs are supplied.
+The first example gives a median period of about 11.1 days and a 68% population
+interval of 7.5–12.9 days. Its domain is 135–3870 Myr and 0.65 < BP-RP < 1.5.
+The second estimates a coeval group's age using M67-excluded fits. These tools
+do not provide calibrated individual-star ages or age confidence intervals.
 
-## Reproduce the real-star study
+## Earlier experiments and attribution
 
-```bash
-OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/run_real_star_study.py
-.venv/bin/python scripts/evaluate_external_m67.py
-.venv/bin/python scripts/fit_rotation_model.py
-.venv/bin/python scripts/report_real_stars.py
-.venv/bin/python scripts/make_real_star_brief.py
-OPENBLAS_NUM_THREADS=1 .venv/bin/python scripts/verify_real_star_reproducibility.py
-.venv/bin/python -m pytest -q
-```
+- [Real-star mixture study](docs/REAL_STAR_RESULTS.md): the original 721-star
+  comparison against simpler baselines and the first external M67 check.
+- [Earlier real-star handout](output/pdf/real_star_research_brief.pdf).
+- [Equation-search study](docs/RESULTS.md): 258 searches, including synthetic
+  controls, cluster holdouts and a fresh-seed follow-up. Validation helped choose
+  useful synthetic equations; symbolic regression showed no established real-star
+  advantage over a power law.
+- [Initial equation-search handout](output/pdf/stellar_rotation_research_brief.pdf).
 
-The runner resumes completed fits and refuses to mix incompatible source, split
-or configuration hashes. To make a fresh run without altering the reference
-bundle, change `study_id` in `configs/real_stars.json` in a separate checkout
-and run the fitting command there. Its output goes to the new study directory;
-the reporting tools continue to read the reference `real_stars_v2` bundle.
-The replay command above refits every candidate and compares parameters and
-selection scores without changing the reference fits. Numerical work uses NumPy/SciPy; it does not
-require rerunning PySR. Exact Python and Julia versions are recorded in
-[environment notes](environment/README.md).
+[ChronoFlow](https://arxiv.org/abs/2412.12244) supplies the main catalogue and
+published model being reproduced. [gyro-interp](https://arxiv.org/abs/2303.08830)
+provides scientific context for modeling dispersion; its full implementation is
+not benchmarked here. [Gruner et al. (2023)](https://arxiv.org/abs/2305.16997)
+supply the external observations, and [PySR](https://arxiv.org/abs/2305.01582)
+powers the initial equation searches. [Data provenance](project/data/README.md)
+records sources, quality cuts and hashes. No result establishes a new physical
+braking law.
 
-The tests verify likelihood gradients, normalized densities, scoring rules,
-complete predictions, split separation, matching baseline scores, external-ID
-non-overlap, frozen model hashes and age-grid maxima. All current figures have
-PNG and SVG versions; use SVG for a large science-fair display.
-
-## Why the project changed its model
-
-The original question was whether symbolic regression could recover a useful
-stellar-rotation equation. The completed initial study ran **258 equation searches**:
-180 controlled main trials, 48 cluster holdouts and 30 fresh follow-up trials.
-Independent validation recovered the known synthetic functions in 157/180 main
-trials versus 76/180 for default selection. A quadratic baseline recovered 164/180.
-On real stars, symbolic regression did not establish an advantage over a power law.
-
-That finding motivated the distributional follow-up: one average curve does not
-capture the observed spread of periods. The new model makes measurable progress
-on real observations while preserving the initial experiment and its conclusions.
-
-- [Initial protocol and complete results](docs/RESULTS.md)
-- [Initial four-page report](output/pdf/stellar_rotation_research_brief.pdf)
-- [Initial search configuration](configs/study.json)
-- [Fresh-seed confirmation configuration](configs/domain_confirmation.json)
-
-To regenerate initial tables and figures, run `scripts/run_study.py --stage
-summarize`, `scripts/summarize_results.py`, `scripts/domain_followup.py`,
-`scripts/make_results_document.py`, `scripts/make_figures.py` and
-`scripts/make_brief.py`. `scripts/verify_reproducibility.py` replays the saved
-nontrivial search that reproduced all 17 candidate equations and losses.
-
-## Data, attribution and research record
-
-The [ChronoFlow catalogue](project/data/README.md) contains 8,412 entries. Recorded
-quality, age/color, membership and cluster-size cuts produce the 721-star primary
-sample. No upper-period or model-residual cut is applied. Ages remain estimates;
-the sample retains rotation scatter and possible contaminants.
-
-[ChronoFlow](https://arxiv.org/abs/2412.12244) and
-[gyro-interp](https://arxiv.org/abs/2303.08830) motivate modeling rotational
-variation. [PySR](https://arxiv.org/abs/2305.01582) powers the initial equation
-searches. [Gruner et al. (2023)](https://arxiv.org/abs/2305.16997) provide the external
-observations. This repository does not reproduce those methods in full or claim
-a new physical braking law. Its contribution is the documented comparison,
-diagnosis, observational checks and usable prediction tools.
-
-`src/astrogyro/` contains active code. `project/results/research_v1/` and
-`domain_confirmation/` retain the equation study; `project/results/real_stars_v2/`
-contains the new frozen fits, predictions, age profiles and application model.
-Other notebooks/results/figures are historical exploration, labeled accordingly.
-
-These revisions used AI assistance for research, design, code, execution, figures
-and writing. Published measurements remain attributed to their sources. A student
-presenter should identify their own contributions and be able to inspect and
-explain the analysis. Past commit wording is preserved in Git history; new commits
-describe the concrete scientific work.
+Active code lives in `src/astrogyro/`. The three named result directories preserve
+the successive studies; other notebooks/results are historical exploration.
+These revisions used AI assistance for research, design, implementation, execution,
+figures and writing. Student presenters should record their own contributions
+and be able to explain and reproduce the analysis. Historical commit messages
+are preserved; new commits describe the concrete scientific work.

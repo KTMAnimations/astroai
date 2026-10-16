@@ -1,0 +1,214 @@
+{
+  "split": {
+    "discovery_clusters": [
+      "M34",
+      "M35",
+      "M37",
+      "M50",
+      "M67",
+      "NGC2281",
+      "NGC2516",
+      "NGC2548",
+      "NGC3532",
+      "NGC6811",
+      "NGC6819",
+      "Ruprecht147"
+    ],
+    "validation_clusters": [
+      "Hyades",
+      "NGC1750",
+      "NGC6866"
+    ],
+    "test_clusters": [
+      "Praesepe"
+    ]
+  },
+  "seed": 1,
+  "scores": [
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "n_test": 68,
+      "nll": -0.643856451353606,
+      "crps": 0.06738266959544474,
+      "rmse_dex": 0.15518078505900695,
+      "mae_dex": 0.0791731747960175,
+      "coverage68": 0.5294117647058824,
+      "coverage90": 0.8823529411764706,
+      "width68_dex": 0.14949402998699524,
+      "width90_dex": 1.0713786869868251
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "n_test": 68,
+      "nll": -0.6769376966335318,
+      "crps": 0.06888428519396284,
+      "rmse_dex": 0.1582426198327986,
+      "mae_dex": 0.08082615455325351,
+      "coverage68": 0.6470588235294118,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.1686667956055244,
+      "width90_dex": 1.110643232939891
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "n_test": 68,
+      "nll": -0.7934434050146271,
+      "crps": 0.06541024163566424,
+      "rmse_dex": 0.15047489353052051,
+      "mae_dex": 0.07324222504880973,
+      "coverage68": 0.6029411764705882,
+      "coverage90": 0.8823529411764706,
+      "width68_dex": 0.12399456636620698,
+      "width90_dex": 1.0267959375407494
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "n_test": 68,
+      "nll": -0.8127509022460264,
+      "crps": 0.06564408257945596,
+      "rmse_dex": 0.1518519950094695,
+      "mae_dex": 0.07371988360384525,
+      "coverage68": 0.6029411764705882,
+      "coverage90": 0.9117647058823529,
+      "width68_dex": 0.12997972992412854,
+      "width90_dex": 1.0650639727378775
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "gaussian_power",
+      "n_test": 68,
+      "nll": -0.36284617375166206,
+      "crps": 0.08135977566081389,
+      "rmse_dex": 0.1385727083269834,
+      "mae_dex": 0.08174768072210967,
+      "coverage68": 0.8823529411764706,
+      "coverage90": 0.9852941176470589,
+      "width68_dex": 0.46203949245247933,
+      "width90_dex": 0.7642227466710905
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "n_test": 68,
+      "nll": -0.40554795831115864,
+      "crps": 0.07708586048018462,
+      "rmse_dex": 0.1301429296442735,
+      "mae_dex": 0.08260403050219327,
+      "coverage68": 0.9264705882352942,
+      "coverage90": 0.9852941176470589,
+      "width68_dex": 0.4474304411617735,
+      "width90_dex": 0.7400590777942568
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "n_test": 68,
+      "nll": -0.9218616676753404,
+      "crps": 0.06650108805410344,
+      "rmse_dex": 0.15106118198814644,
+      "mae_dex": 0.07883461152168157,
+      "coverage68": 0.7941176470588235,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.2907149916766251,
+      "width90_dex": 0.7361188830570771
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "validation_selected",
+      "n_test": 68,
+      "nll": -0.9218616676753404,
+      "crps": 0.06650108805410344,
+      "rmse_dex": 0.15106118198814644,
+      "mae_dex": 0.07883461152168157,
+      "coverage68": 0.7941176470588235,
+      "coverage90": 0.9264705882352942,
+      "width68_dex": 0.2907149916766251,
+      "width90_dex": 0.7361188830570771
+    }
+  ],
+  "ages": [
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_equal_cluster_final",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 844.776057917407,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_equal_cluster_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 862.4243240297376,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_per_star_final",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 802.2192824899652,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "cf_per_star_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 810.5555740596745,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "gaussian_power",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 694.1243759888407,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "gaussian_quadratic",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 769.7227033675802,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "mixture_quadratic",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    },
+    {
+      "cluster": "Praesepe",
+      "seed": 1,
+      "model": "validation_selected",
+      "reference_age_myr": 718.0,
+      "inferred_age_myr": 777.721305524314,
+      "boundary_hit": false
+    }
+  ],
+  "weight_sha256": {
+    "cf_equal_cluster_final": "2316b88353789801d5a799f3afbaaa03f85d923c4bce61cb9d022752106c845c",
+    "cf_equal_cluster_selected": "1f5ae712f935bb50eaf8b9176468a56aba4b40e136da2d7930ccea256b57dc07",
+    "cf_per_star_final": "42aa9654508836e15d494513bba9c2e6474e380d53458c294012e8a9744f9516",
+    "cf_per_star_selected": "b99dfb7fa37db36c4f1fc25d7f6b2f2c93441f30459e3af2e87feb074256daab"
+  },
+  "reference_result_sha256": "2c604b3dddd485caf6ae6037430fced2500f24c8dc586fa5d8dcc580112c6588"
+}

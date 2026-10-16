@@ -1,0 +1,5 @@
+{
+  "training_manifest_sha256": "efd4b7a8835f041350eba72b861a0b4a5a767e18642d1ff21c3818374c3e216f",
+  "evaluation_script_sha256": "fc1afd678e937792f158a57367e17a010d484a2355e522e66b41940c8af4211f",
+  "reference_manifest_sha256": "bf92f37c935f54cc08e4ee94f6ce4ecc107edd190a532e0f8cc60b243e6b3fc4"
+}
